@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Martian+Mono:wght@400;500&family=Noto+Sans+NKo+Unjoined&family=Playfair+Display&display=swap');
+
+body {
+    font-family: Arial, sans-serif; /* quero colocar as mesmas fontes da prototipagem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+.bemvindo{
+    font-family: "Noto Sans NKo Unjoined", serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    color: #84925b;
+  }
+  .bemvindo2{
+    font-family: "Noto Sans NKo Unjoined", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: #84925b;
+     margin-top: -20px; 
+  }
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .input-group input {
+    width: 80%; /* Ajuste a largura conforme sua preferência */
+    max-width: 300px; /* Limita o tamanho máximo */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 0 auto; /* Centraliza os inputs */
+    display: block; /* Garante que o margin auto funcione */
+}
+
+  
+  .login-box {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .logofoto{
+    width: 180px;
+  }
+  
+  .logo h1 {
+    font-size: 24px;
+    color: #84925b;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .checkbox-group input {
+    margin-right: 5px;
+  
+  }
+  
+  .input-group input {
+    width: 80%; /* Ajuste a largura conforme necessário */
+    max-width: 300px; /* Limite de largura */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 0 auto; /* Centraliza os inputs */
+    display: block; /* Garante que o margin auto funcione */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: box-shadow 0.3s ease; /* Efeito suave ao interagir */
+}
+
+.input-group input:focus {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais destacada ao focar */
+    outline: none; /* Remove o contorno padrão */
+    border-color: #84925b; /* Destaca a borda ao focar */
+}
+
+  .checkbox-group label {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  button {
+    background: #84925b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px; /* Bordas mais arredondadas */
+    font-size: 16px;
+    cursor: pointer;
+    width: 80%; /* Ajuste a largura conforme sua preferência */
+    max-width: 300px; /* Limita o tamanho máximo */
+    transition: background 0.3s ease, transform 0.2s ease; /* Transições suaves */
+}
+
+button:hover {
+    background: #6e7a4e;
+    transform: scale(1.02); /* Leve efeito de zoom */
+}
+
+  
+  .links {
+    margin-top: 15px;
+  }
+  
+  .links a {
+    color: #84925b;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .links a:hover {
+    text-decoration: underline;
+  }
+  
+  .textoVerde {
+    margin: 0;
+    color: #84925b;
+  }
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza horizontalmente */
+    margin-bottom: 20px;
+  }
+  
