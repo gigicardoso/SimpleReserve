@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-body {
+#bodyLogin {
     font-family: Arial, sans-serif; 
     display: flex;
     justify-content: center;
@@ -11,7 +11,21 @@ body {
     background-size: 60%;
     background-repeat: no-repeat;
 }
-
+#cadSala {
+    font-family: "Montserrat", serif;
+    font-weight: 700;
+    color: #161616;
+    margin-top: 20px;
+    text-align: center;
+}
+.tituloSala{
+    text-align: center;
+}
+.logoSala{
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 30px;
+}
 .bemvindo {
     font-family: "Montserrat", serif;
     font-weight: 700;
