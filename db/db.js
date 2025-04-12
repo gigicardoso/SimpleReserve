@@ -1,0 +1,1 @@
+//era pra fazer .db mas essa bosta não funciona

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const path = require('path');
+const db = require('../db/db');
 
 /* Rota para Home */
 router.get('/', (req, res) => {
