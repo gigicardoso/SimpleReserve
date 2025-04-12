@@ -1,0 +1,3 @@
+node_modules/
+.env
+# isso aq é um coisa pra ignorar as dependencias e n dar erro no Express.js

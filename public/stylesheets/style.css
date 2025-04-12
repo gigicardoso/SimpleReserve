@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+#bodyLogin {
+    font-family: Arial, sans-serif; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url(../images/circuloVerdeLogin.png);
+    background-position: 45%;
+    background-size: 60%;
+    background-repeat: no-repeat;
+}
+#cadSala {
+    font-family: "Montserrat", serif;
+    font-weight: 700;
+    color: #161616;
+    margin-top: 20px;
+    text-align: center;
+}
+.tituloSala{
+    text-align: center;
+}
+.logoSala{
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.bemvindo {
+    font-family: "Montserrat", serif;
+    font-weight: 700;
+    color: #84925b;
+}
+
+.bemvindo2 {
+    font-family: "Montserrat", serif;
+    font-weight: 400;
+    color: #84925b;
+    margin-top: -20px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.logofoto {
+    width: 180px;
+}
+
+h2 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
+    border-color: #84925b;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-group input {
+    margin-right: 5px;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #666;
+}
+
+button {
+    background: #84925b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 40%;
+    max-width: 300px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #6e7a4e;
+    transform: scale(1.02);
+}
+
+.links {
+    margin-top: 15px;
+}
+
+.links a {
+    color: #84925b;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.textoVerde {
+    margin: 0;
+    color: #84925b;
+}
+
+/* ------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX ------------------- */
+
+input[type="checkbox"] {
+  appearance: none;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #fff;
+  border: 0.125rem solid #ccc;
+  border-radius: 0.25rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center;
+    transition: 0.125s transform ease-in-out;
+    box-shadow: inset 1rem 1rem #fff;
+  }
+
+  &:checked {
+    background-color: #84925b;
+    border-color: #84925b;
+
+    &::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.25;
+  }
+
+  &:focus {
+    border-color: #84925b;
+
+    & + label {
+      color: #84925b;
+    }
+  }
+}
