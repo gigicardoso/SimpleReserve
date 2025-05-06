@@ -5,7 +5,7 @@ const db = require('../db/db');
 
 /* Rota para Home */
 router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'login.html'));
 });
 
 /* Rota para cadastro de sala */

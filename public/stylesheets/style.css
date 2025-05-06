@@ -68,7 +68,22 @@ h2 {
 .input-group {
     margin-bottom: 15px;
 }
-
+.input-group-cadSala  {
+    margin-left: 30px;;
+    margin-bottom: 15px;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+}
+.input-group-cadSala input{
+  width: 200px;
+  height: 5px;
+    max-width: 100px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 20px;
+}
 .input-group input {
     width: 80%;
     max-width: 300px;
@@ -187,3 +202,65 @@ input[type="checkbox"] {
     }
   }
 }
+ /* Media Queries para responsividade */
+ @media (max-width: 768px) {
+    #bodyLogin {
+      background-size: 80%;
+    }
+    
+    .login-box {
+      padding: 25px;
+    }
+    
+    .logofoto {
+      width: 150px;
+    }
+    
+    .bemvindo {
+      font-size: 22px;
+    }
+    
+    .bemvindo2 {
+      font-size: 15px;
+    }
+    
+    .input-group input {
+      width: 90%;
+      padding: 10px 12px;
+    }
+    
+    button {
+      width: 50%;
+      padding: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #bodyLogin {
+      background-size: 100%;
+      background-position: center bottom;
+      padding: 15px;
+    }
+    
+    .login-box {
+      padding: 20px 15px;
+    }
+    
+    .logofoto {
+      width: 130px;
+    }
+    
+    .bemvindo {
+      font-size: 20px;
+    }
+    
+    .input-group input {
+      width: 100%;
+      font-size: 15px;
+    }
+    
+    button {
+      width: 60%;
+      font-size: 15px;
+    }
+  }
