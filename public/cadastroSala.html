@@ -14,12 +14,12 @@
   <h1 class="tituloSala">Cadastro de Salas</h1>  
     <form id="cadastro-sala-form">
         <div class="input-group-cadSala">
-            <label for="nome">Número da Sala:</label>
-            <input type="text" id="nome" name="nome" required>
+            <label for="numero">Número da Sala:</label>
+            <input type="text" id="numero" name="numero" required>
         </div>
         <div class="input-group-cadSala">
-            <label for="tipo">Tipo de Sala:</label>
-            <select id="tipo" name="tipo" required>
+            <label for="tipo_sala">Tipo de Sala:</label>
+            <select id="tipo_sala" name="tipo_sala" required>
                 <option value="aula">Sala de Aula</option>
                 <option value="laboratorio">Laboratório</option>
                 <option value="auditório">Auditório</option>
@@ -53,20 +53,20 @@
         </div>
 
         <div class="input-group-cadSala">
-            <label for="capacidade">Capacidade:</label>
+            <label for="qtdade_lugares">Capacidade:</label>
             <input min="0" type="number" id="capacidade" name="capacidade" required>
         </div>
 
         <div class="input-group-cadSala">
             <label for="mesa">Tipo de Mesa:</label>
-            <select type="tipo" id="mesa" name="mesa">
+            <select type="tipo_mesa" id="mesa" name="mesa">
                 <option value="normal">Normal</option>
                 <option value="universitária">Universitária</option>
             </select>
         </div>
 
         <div class="input-group-cadSala">
-            <label for="mesaCanhoto">Mesas de canhoto:</label>
+            <label for="mesa_canhoto">Mesas de canhoto:</label>
             <input  min="0" type="number" id="mesaCanhoto" name="mesaCanhoto">
          </div>
          
@@ -95,12 +95,12 @@
         </div>
 
         <div class="input-group-cadSala">
-            <label for="computadores">Computadores:</label>
+            <label for="computador">Computadores:</label>
             <input min="0" type="number" id="computadores" name="computadores">
          </div>
 
          <div class="input-group-cadSala">
-            <label for="acess">A sala é acessível?:</label>
+            <label for="acessibilidade">A sala é acessível?:</label>
             <select type="tipo" id="acess" name="acess">
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
@@ -108,7 +108,7 @@
         </div>
 
         <div class="input-group-cadSala">
-            <label for="mesaAcess">Mesas acessíveis</label>
+            <label for="qtdade_mesa_acessivel">Mesas acessíveis:</label>
             <input  min="0" type="number" id="mesaAcess" name="mesaAcess">
          </div>
         <div class="input-group-cadSala">
@@ -121,7 +121,7 @@
         </div>
         
         <div class="input-group-cadSala">
-            <label for="imagem">Imagem da Sala:</label>
+            <label for="imagem_sala">Imagem da Sala:</label>
             <input type="file" id="imagemSala" name="imagemSala" accept="image/*">
         </div>
         
