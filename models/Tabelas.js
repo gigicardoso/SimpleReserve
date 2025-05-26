@@ -1,6 +1,7 @@
 const db = require('./db');
 
 //aqui é onde vamos colocar as tabelas do banco de dados
+//'postagens' é o nome da tabela
 
 const Posts = db.sequelize.define('postagens', {
     titulo: {
