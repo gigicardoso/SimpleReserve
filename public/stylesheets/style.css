@@ -71,9 +71,9 @@ h2 {
 .input-group-cadSala  {
     margin-left: 30px;;
     margin-bottom: 15px;
-    justify-content: left;
-    align-items: left;
-    text-align: left;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .input-group-cadSala input{
   width: 200px;
