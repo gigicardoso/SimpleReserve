@@ -1,162 +1,207 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-#bodyLogin {
-    font-family: Arial, sans-serif; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-image: url(../images/circuloVerdeLogin.png);
-    background-position: 45%;
-    background-size: 60%;
-    background-repeat: no-repeat;
-}
-#cadSala {
-    font-family: "Montserrat", serif;
-    font-weight: 700;
-    color: #161616;
-    margin-top: 20px;
-    text-align: center;
-}
-.tituloSala{
-    text-align: center;
-}
-.logoSala{
-    width: 100px;
-    margin-top: 10px;
-    margin-left: 30px;
-}
-.bemvindo {
-    font-family: "Montserrat", serif;
-    font-weight: 700;
-    color: #84925b;
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
-.bemvindo2 {
-    font-family: "Montserrat", serif;
-    font-weight: 400;
-    color: #84925b;
-    margin-top: -20px;
-}
-
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.login-box {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-}
-
-.logofoto {
-    width: 180px;
-}
+/* --------------------------------- CSS GERAL ------------------------------------------------ */
 
 h2 {
-    color: #444;
-    margin-bottom: 20px;
+  color: #444;
+  margin-bottom: 20px;
 }
 
 .input-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
-.input-group-cadSala  {
-    margin-left: 30px;;
-    margin-bottom: 15px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-.input-group-cadSala input{
-  width: 200px;
-  height: 5px;
-    max-width: 100px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 20px;
-}
+
 .input-group input {
-    width: 80%;
-    max-width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
-    margin: 0 auto;
-    display: block;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+  width: 80%;
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
 .input-group input:focus {
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-    outline: none;
-    border-color: #84925b;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  outline: none;
+  border-color: #84925b;
 }
 
 .checkbox-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .checkbox-group input {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .checkbox-group label {
-    font-size: 14px;
-    color: #666;
+  font-size: 14px;
+  color: #666;
 }
 
 button {
-    background: #84925b;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 40%;
-    max-width: 300px;
-    transition: background 0.3s ease, transform 0.2s ease;
+  background: #84925b;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 40%;
+  max-width: 300px;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background: #6e7a4e;
-    transform: scale(1.02);
+  background: #6e7a4e;
+  transform: scale(1.02);
 }
 
 .links {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .links a {
-    color: #84925b;
-    text-decoration: none;
-    font-size: 14px;
+  color: #84925b;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .links a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.textoVerde {
-    margin: 0;
-    color: #84925b;
+/* -------------------------------------------- TELA DE LOGIN --------------------------------------------*/
+
+#bodyLogin {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url(../images/circuloVerdeLogin.png);
+  background-position: 45%;
+  background-size: 60%;
+  background-repeat: no-repeat;
+}
+.bemvindo {
+  font-family: "Montserrat", serif;
+  font-weight: 700;
+  color: #84925b;
+  font-size: 20px;
 }
 
-/* ------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX ------------------- */
+.bemvindo2 {
+  font-family: "Montserrat", serif;
+  font-weight: 400;
+  color: #84925b;
+  margin-top: -20px;
+}
+
+.textoVerdeLogin {
+  margin: 0;
+  color: #84925b;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.logofoto {
+  width: 180px;
+}
+
+/* ---------------------------------------TELA DE CADASTRO DE SALA--------------------------------*/
+
+.linha-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 32px;
+  padding: 32px 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ffffff;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.222);
+  border-radius: 35px;
+  font-size: 23px;
+}
+
+.basico-sala,
+.infra-sala,
+.acess-sala,
+.extra-sala {
+  flex: 1;
+  min-width: 250px;
+}
+.cadSala-Button {
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Montserrat", serif;
+  border-radius: 15px;
+}
+
+#cadSala {
+  font-family: "Montserrat", serif;
+  font-weight: 700;
+  color: #161616;
+  margin-top: 20px;
+  text-align: center;
+}
+.tituloSala {
+  text-align: center;
+  font-size: 50px;
+  color: #6e7a4e;
+}
+.logoSala {
+  width: 100px;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+.input-group-cadSala {
+  margin-left: 30px;
+  margin-bottom: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+.input-group-cadSala input {
+  width: 200px;
+  height: 1px;
+  max-width: 100px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  font-size: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --------------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX --------------------------- */
 
 input[type="checkbox"] {
   appearance: none;
@@ -202,65 +247,60 @@ input[type="checkbox"] {
     }
   }
 }
- /* Media Queries para responsividade */
- @media (max-width: 768px) {
+/* ------------------------------------------ Media Queries para responsividade ---------------------------------------- */
+@media (max-width: 480px) {
+  #bodyLogin {
+    background-size: 100%;
+    background-position: center bottom;
+    padding: 15px;
+  }
+
+  .login-box {
+    padding: 20px 15px;
+  }
+  @media (max-width: 768px) {
     #bodyLogin {
       background-size: 80%;
     }
-    
+
     .login-box {
       padding: 25px;
     }
-    
+
     .logofoto {
       width: 150px;
     }
-    
+
     .bemvindo {
       font-size: 22px;
     }
-    
+
     .bemvindo2 {
       font-size: 15px;
     }
-    
+
     .input-group input {
       width: 90%;
       padding: 10px 12px;
     }
-    
+
     button {
       width: 50%;
       padding: 10px;
     }
   }
-  
-  @media (max-width: 480px) {
-    #bodyLogin {
-      background-size: 100%;
-      background-position: center bottom;
-      padding: 15px;
-    }
-    
-    .login-box {
-      padding: 20px 15px;
-    }
-    
-    .logofoto {
-      width: 130px;
-    }
-    
-    .bemvindo {
-      font-size: 20px;
-    }
-    
-    .input-group input {
-      width: 100%;
-      font-size: 15px;
-    }
-    
-    button {
-      width: 60%;
-      font-size: 15px;
-    }
+
+  .logofoto {
+    width: 130px;
   }
+
+  .input-group input {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  button {
+    width: 60%;
+    font-size: 15px;
+  }
+}

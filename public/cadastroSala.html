@@ -1,134 +1,166 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro de Sala</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
-    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
-</head>
-<body id="cadSala">
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
+  </head>
+  <body id="cadSala">
     <div class="logoSala">
-        <img src="/images/logoLogin.png" alt="Simple Reserve Logo" class="logofoto">
-      </div>
-  <h1 class="tituloSala">Cadastro de Salas</h1>  
+      <img
+        src="/images/logoLogin.png"
+        alt="Simple Reserve Logo"
+        class="logofoto"
+      />
+    </div>
+    <h1 class="tituloSala">Cadastro de Salas</h1>
+
     <form id="cadastro-sala-form">
-        <div class="input-group-cadSala">
+      <div class="linha-form">
+        <div class="basico-Sala">
+          <div class="input-group-cadSala">
             <label for="numero">Número da Sala:</label>
-            <input type="text" id="numero" name="numero" required>
-        </div>
-        <div class="input-group-cadSala">
+            <input type="text" id="numero" name="numero" required />
+          </div>
+
+          <div class="input-group-cadSala">
             <label for="tipo_sala">Tipo de Sala:</label>
             <select id="tipo_sala" name="tipo_sala" required>
-                <option value="aula">Sala de Aula</option>
-                <option value="laboratorio">Laboratório</option>
-                <option value="auditório">Auditório</option>
-                <option value="reuniao">Sala de Reunião</option>
+              <option value="aula">Sala de Aula</option>
+              <option value="laboratorio">Laboratório</option>
+              <option value="auditório">Auditório</option>
+              <option value="reuniao">Sala de Reunião</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="bloco">Bloco:</label>
             <select type="tipo" id="bloco" name="bloco">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-                <option value="G">G</option>
-                <option value="H">H</option>
-                <option value="I">I</option>
-
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="andar">Andar:</label>
             <select type="tipo" id="andar" name="andar">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
-        </div>
-
-        <div class="input-group-cadSala">
+          </div>
+          <div class="input-group-cadSala">
             <label for="qtdade_lugares">Capacidade:</label>
-            <input min="0" type="number" id="capacidade" name="capacidade" required>
+            <input
+              min="0"
+              type="number"
+              id="capacidade"
+              name="capacidade"
+              required
+            />
+          </div>
         </div>
 
-        <div class="input-group-cadSala">
+        <div class="infra-sala">
+          <div class="input-group-cadSala">
             <label for="mesa">Tipo de Mesa:</label>
             <select type="tipo_mesa" id="mesa" name="mesa">
-                <option value="normal">Normal</option>
-                <option value="universitária">Universitária</option>
+              <option value="normal">Normal</option>
+              <option value="universitária">Universitária</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
-            <label for="mesa_canhoto">Mesas de canhoto:</label>
-            <input  min="0" type="number" id="mesaCanhoto" name="mesaCanhoto">
-         </div>
-         
-         <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="arcondicionado">Ar-condicionado:</label>
             <select type="tipo" id="arCond" name="arCond">
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="projetor">Projetor:</label>
             <select type="tipo" id="projetor" name="projetor">
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="quadro">Quadro Branco:</label>
             <select type="tipo" id="quadro" name="quadro">
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="computador">Computadores:</label>
-            <input min="0" type="number" id="computadores" name="computadores">
-         </div>
+            <input
+              min="0"
+              type="number"
+              id="computadores"
+              name="computadores"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="linha-form">
+        <div class="acess-sala">
+          <div class="input-group-cadSala">
+            <label for="mesa_canhoto">Mesas de canhoto:</label>
+            <input min="0" type="number" id="mesaCanhoto" name="mesaCanhoto" />
+          </div>
 
-         <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="acessibilidade">A sala é acessível?:</label>
             <select type="tipo" id="acess" name="acess">
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
             </select>
-        </div>
+          </div>
 
-        <div class="input-group-cadSala">
+          <div class="input-group-cadSala">
             <label for="qtdade_mesa_acessivel">Mesas acessíveis:</label>
-            <input  min="0" type="number" id="mesaAcess" name="mesaAcess">
-         </div>
-        <div class="input-group-cadSala">
+            <input min="0" type="number" id="mesaAcess" name="mesaAcess" />
+          </div>
+        </div>
+        <div class="extra-sala">
+          <div class="input-group-cadSala">
             <label for="descricao">Descrição:</label>
-            <input type="text" id="descricao" name="descricao">
-        </div>
-        <div class="input-group-cadSala">
+            <input type="textarea" id="descricao" name="descricao" />
+          </div>
+          <div class="input-group-cadSala">
             <label for="recursos">Recursos extras:</label>
-            <input type="text" id="recursos" name="recursos">
-        </div>
-        
-        <div class="input-group-cadSala">
+            <input type="text" id="recursos" name="recursos" />
+          </div>
+
+          <div class="input-group-cadSala">
             <label for="imagem_sala">Imagem da Sala:</label>
-            <input type="file" id="imagemSala" name="imagemSala" accept="image/*">
-        </div>
-        
-        <div class="input-group-cadSala">
+            <input
+              type="file"
+              id="imagemSala"
+              name="imagemSala"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="input-group-cadSala">
             <label for="obs">Observações:</label>
-            <input type="text" id="obs" name="obs">
+            <input type="text" id="obs" name="obs" />
+          </div>
         </div>
-        <button type="submit">Cadastrar</button>
-</body>
+      </div>
+    </form>
+    <button class="cadSala-Button" type="submit">Cadastrar</button>
+  </body>
 </html>
