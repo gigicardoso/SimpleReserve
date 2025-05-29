@@ -3,7 +3,6 @@
 
 
 
-
 .fa-2x {
   font-size: 2em;
 }
@@ -24,8 +23,7 @@
   --sidebar-text: #fff;
   --sidebar-hover: rgba(255,255,255,0.07);
   --sidebar-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  --transition-duration: 0.6s; /* só tempo */
-  --transition: 0.6s ease;     /* tempo + easing */
+  --transition: 0.3s ease;
 }
 
 .sidebar {
@@ -97,17 +95,13 @@
 }
 .sidebar-label {
   opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--transition), visibility 0s linear var(--transition-duration);
+  transition: opacity var(--transition);
   white-space: nowrap;
   pointer-events: none;
 }
-/* Mostra o texto só após a animação */
 .sidebar.expanded .sidebar-label,
 .sidebar:hover:not(.mobile) .sidebar-label {
   opacity: 1;
-  visibility: visible;
-  transition: opacity var(--transition), visibility 0s linear 0s;
   pointer-events: auto;
 }
 
@@ -202,8 +196,8 @@ body {
   left:0;
   width:60px;
   overflow:hidden;
-  -webkit-transition:width var(--transition); /* suaviza a transição */
-  transition:width var(--transition); /* suaviza a transição */
+  -webkit-transition:width .05s linear;
+  transition:width .05s linear;
   -webkit-transform:translateZ(0) scale(1,1);
   z-index:1000;
 }
@@ -247,20 +241,11 @@ body {
 }
 
 .main-menu .nav-text {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--transition), visibility 0s linear var(--transition-duration);
   position:relative;
   display:table-cell;
   vertical-align:middle;
   width:190px;
   font-family: 'Titillium Web', sans-serif;
-}
-.main-menu:hover .nav-text,
-nav.main-menu.expanded .nav-text {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity var(--transition), visibility 0s linear 0s;
 }
 
 .main-menu>ul.logout {
@@ -309,7 +294,7 @@ nav ul,nav li {
 /* Adicione para afastar o conteúdo da sidebar */
 .conteudo-principal {
   margin-left: 60px;
-  transition: margin-left var(--transition); /* suaviza a transição */
+  transition: margin-left .05s linear;
   padding: 0 16px;
 }
 @media (max-width: 768px) {
@@ -346,7 +331,6 @@ nav ul,nav li {
     margin-left: 0;
     margin-bottom: 60px;
     padding: 0 8px;
-    transition: margin-left var(--transition), margin-bottom var(--transition); /* suaviza no mobile */
   }
 }
 @font-face {
