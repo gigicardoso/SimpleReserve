@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sidebar Responsiva Demo</title>
+  <style>
+    :root {
+      --sidebar-collapsed-width: 60px;
+      --sidebar-expanded-width: 250px;
+      --sidebar-bg: #2c3e50;         /* INSIRA SUA COR AQUI */
+      --sidebar-text: #ecf0f1;       /* INSIRA SUA COR AQUI */
+      --sidebar-hover: rgba(255,255,255,0.07); /* Efeito hover */
+      --sidebar-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: #f5f6fa;
+      min-height: 100vh;
+      transition: margin-left var(--transition);
+      /* Ajuste automático do conteúdo */
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: var(--sidebar-collapsed-width);
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      box-shadow: var(--sidebar-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      transition: width var(--transition);
+      overflow-x: hidden;
+    }
+
+    .sidebar.expanded {
+      width: var(--sidebar-expanded-width);
+    }
+
+    .sidebar:hover,
+    .sidebar.expanded {
+      width: var(--sidebar-expanded-width);
+    }
+
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      margin: 24px 0 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: width var(--transition);
+    }
+    .sidebar.expanded .sidebar-logo,
+    .sidebar:hover .sidebar-logo {
+      width: 80px;
+      height: 80px;
+    }
+    .sidebar-logo img {
+      width: 100%;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    nav.sidebar-nav {
+      flex: 1;
+      width: 100%;
+    }
+    .sidebar-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+    .sidebar-item {
+      width: 100%;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      font-size: 1.15rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+      border-radius: 8px;
+      width: 100%;
+    }
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+    .sidebar-icon {
+      min-width: 24px;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sidebar-label {
+      opacity: 0;
+      transition: opacity var(--transition);
+      white-space: nowrap;
+    }
+    .sidebar.expanded .sidebar-label,
+    .sidebar:hover .sidebar-label {
+      opacity: 1;
+    }
+
+    /* Toggle manual */
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      color: var(--sidebar-text);
+      font-size: 1.3em;
+      cursor: pointer;
+      margin: 16px 0 24px 0;
+      align-self: flex-end;
+      transition: color var(--transition), transform var(--transition);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+    .sidebar-toggle:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+      transform: scale(1.1);
+    }
+    .sidebar:not(.expanded):not(:hover) .sidebar-toggle {
+      align-self: center;
+    }
+
+    /* Responsividade: mobile horizontal */
+    @media (max-width: 768px) {
+      .sidebar {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: var(--sidebar-collapsed-width);
+        flex-direction: row;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.08);
+        transition: height var(--transition), width 0s;
+      }
+      .sidebar.expanded,
+      .sidebar:hover {
+        width: 100vw;
+        height: var(--sidebar-expanded-width);
+      }
+      .sidebar-logo {
+        display: none;
+      }
+      nav.sidebar-nav {
+        width: 100%;
+        height: 100%;
+      }
+      .sidebar-list {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .sidebar-item {
+        width: auto;
+      }
+      .sidebar-link {
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 0;
+        font-size: 1em;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+      }
+      .sidebar-label {
+        opacity: 1;
+        font-size: 0.85em;
+      }
+      .sidebar-toggle {
+        display: none;
+      }
+      body {
+        margin-left: 0 !important;
+        margin-bottom: var(--sidebar-collapsed-width);
+      }
+    }
+
+    /* Ajuste do conteúdo ao lado da sidebar */
+    @media (min-width: 769px) {
+      body {
+        transition: margin-left var(--transition);
+      }
+      .sidebar.expanded ~ .main-content,
+      .sidebar:hover ~ .main-content {
+        margin-left: var(--sidebar-expanded-width);
+      }
+      .main-content {
+        margin-left: var(--sidebar-collapsed-width);
+        transition: margin-left var(--transition);
+        padding: 32px;
+      }
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        margin-bottom: var(--sidebar-collapsed-width);
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="/images/logoLogin.png" alt="Logo"/>
+    </div>
+    <nav class="sidebar-nav" aria-label="Menu principal">
+      <ul class="sidebar-list">
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active">
+            <span class="sidebar-icon">
+              <!-- Home SVG -->
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L12 4l9 8"/><path d="M9 21V9h6v12"/></svg>
+            </span>
+            <span class="sidebar-label">Home</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <span class="sidebar-icon">
+              <!-- Perfil SVG -->
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 8-4 8-4s8 0 8 4"/></svg>
+            </span>
+            <span class="sidebar-label">Perfil</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <span class="sidebar-icon">
+              <!-- Configurações SVG -->
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </span>
+            <span class="sidebar-label">Configurações</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <button class="sidebar-toggle" id="sidebarToggle" title="Expandir/recolher barra lateral">
+      <span id="toggleIcon">▶</span>
+    </button>
+  </aside>
+  <div class="main-content">
+    <h1>Conteúdo Principal</h1>
+    <p>Exemplo de barra lateral responsiva, recolhida por padrão, com expansão ao hover ou toggle manual.</p>
+    <p>Redimensione a janela para ver o comportamento mobile.</p>
+  </div>
+  <script>
+    // Toggle manual
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const toggleIcon = document.getElementById('toggleIcon');
+    let expanded = false;
+
+    toggleBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      sidebar.classList.toggle('expanded', expanded);
+      toggleIcon.textContent = expanded ? '◀' : '▶';
+    });
+
+    // Ajuste do conteúdo ao lado da sidebar (desktop)
+    function adjustContentMargin() {
+      if (window.innerWidth > 768) {
+        document.body.style.marginLeft = (sidebar.classList.contains('expanded') || sidebar.matches(':hover'))
+          ? '250px' : '60px';
+      } else {
+        document.body.style.marginLeft = '0';
+      }
+    }
+    // Atualiza ao expandir/recolher e ao redimensionar
+    sidebar.addEventListener('mouseenter', adjustContentMargin);
+    sidebar.addEventListener('mouseleave', adjustContentMargin);
+    toggleBtn.addEventListener('click', adjustContentMargin);
+    window.addEventListener('resize', adjustContentMargin);
+    adjustContentMargin();
+  </script>
+</body>
+</html>
