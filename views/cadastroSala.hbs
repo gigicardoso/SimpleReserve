@@ -6,8 +6,14 @@
     <title>Cadastro de Sala</title>
     <link rel="stylesheet" href="./stylesheets/style.css" />
     <link rel="stylesheet" href="./stylesheets/sidebar.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
     <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
   </head>
   <body id="cadSala">
@@ -29,6 +35,11 @@
           <i class="bi bi-plus-circle"></i>
           <span>Nova Reserva</span>
         </li>
+        <li data-section="pesquisar">
+          <i class="bi bi-search"></i>
+          <span>Pesquisar</span>
+        </li>
+        
         <li data-section="historico">
           <i class="bi bi-file-earmark-text"></i>
           <span>Emitir Histórico</span>
@@ -37,10 +48,7 @@
           <i class="bi bi-person-circle"></i>
           <span>Minha Conta</span>
         </li>
-        <li data-section="pesquisar">
-          <i class="bi bi-search"></i>
-          <span>Pesquisar</span>
-        </li>
+        
         <li data-section="sair">
           <i class="bi bi-box-arrow-right"></i>
           <span>Sair</span>
@@ -48,15 +56,10 @@
       </ul>
     </div>
     <!-- Conteúdo da página cadastro de sala -->
-    <div class="area"><!-- apenas para manter o layout do exemplo, pode ser removido se não quiser --></div>
+    <div class="area">
+      <!-- apenas para manter o layout do exemplo, pode ser removido se não quiser -->
+    </div>
     <div class="conteudo-principal">
-      <div class="logoSala">
-        <img
-          src="/images/logoLogin.png"
-          alt="Simple Reserve Logo"
-          class="logofoto"
-        />
-      </div>
       <h1 class="tituloSala">Cadastro de Salas</h1>
       <form id="cadastro-sala-form">
         <div class="linha-form">
@@ -151,7 +154,12 @@
           <div class="acess-sala">
             <div class="input-group-cadSala">
               <label for="mesa_canhoto">Mesas de canhoto:</label>
-              <input min="0" type="number" id="mesaCanhoto" name="mesaCanhoto" />
+              <input
+                min="0"
+                type="number"
+                id="mesaCanhoto"
+                name="mesaCanhoto"
+              />
             </div>
             <div class="input-group-cadSala">
               <label for="acessibilidade">A sala é acessível?:</label>
@@ -189,9 +197,10 @@
             </div>
           </div>
         </div>
-      </form>
-      <button class="cadSala-Button" type="submit">Cadastrar</button>
+        <button class="cadSala-Button" type="submit">Cadastrar</button>
     </div>
+      </form>
+      
     <script src="sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>

@@ -5,14 +5,14 @@ const db = require("../db/db");
 
 /* Rota para Home */
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "login.html"));
+  res.render(path.join(__dirname, "..", "views", "index.hbs"));
 });
 
 /* Rota para cadastro de sala */
 router.get("/cadastrosala", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "cadastroSala.html"));
+  res.render(path.join(__dirname, "..", "views", "cadastroSala.hbs"));
 });
 router.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "login.html"));
+  res.render(path.join(__dirname, "..", "views", "login.hbs"));
 });
 module.exports = router;

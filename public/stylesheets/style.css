@@ -175,6 +175,7 @@ button:hover {
   text-align: center;
   font-size: 50px;
   color: #6e7a4e;
+  font-weight: bold;
 }
 .logoSala {
   width: 100px;
@@ -190,15 +191,30 @@ button:hover {
   width: 100%;
 }
 .input-group-cadSala input {
-  width: 200px;
+  width: auto;
   height: 1px;
   max-width: 100px;
   padding: 15px;
   border: 1px solid #ccc;
   font-size: 20px;
-  background: #fff;
   border-radius: 10px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+label[for="obs"]{
+
+  width: auto;
+  text-align: center;
+}
+.input-group-cadSala select {
+  width: auto;
+  height: auto;
+  /*max-width: 150px;*/
+  padding: 15px;
+  border: 1px solid #ccc;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* --------------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX --------------------------- */
