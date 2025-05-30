@@ -141,13 +141,13 @@ button:hover {
   gap: 32px;
   margin-bottom: 32px;
   padding: 32px 0;
-  max-width: 900px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   background-color: #ffffff;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.222);
   border-radius: 35px;
-  font-size: 23px;
+  font-size: 18px;
 }
 
 .basico-sala,
@@ -190,32 +190,60 @@ button:hover {
   text-align: center;
   width: 100%;
 }
-.input-group-cadSala input {
-  width: auto;
-  height: 1px;
-  max-width: 100px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  font-size: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-label[for="obs"]{
 
-  width: auto;
+/* Padronização de fontes e campos do formulário de cadastro de sala */
+.input-group-cadSala label,
+.input-group-cadSala input,
+.input-group-cadSala select,
+.input-group-cadSala textarea {
+  font-size: 18px;
   text-align: center;
+  font-family: "Montserrat", Arial, sans-serif;
 }
+
+.input-group-cadSala input,
 .input-group-cadSala select {
-  width: auto;
-  height: auto;
-  /*max-width: 150px;*/
-  padding: 15px;
+  width: 180px;
+  max-width: 100%;
+  min-width: 80px;
+  padding: 10px;
   border: 1px solid #ccc;
-  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.input-grande,
+.input-grande[type="text"],
+.input-grande[type="file"],
+.input-grande textarea {
+  width: 100%;
+  max-width: 320px;
+  min-width: 120px;
+  min-height: 40px;
+  font-size: 18px;
+  padding: 10px;
+  /*resize: vertical;*/
+  border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.input-grande textarea,
+textarea.input-grande {
+  min-height: 80px;
+  height: 100px;
+  width: 100%;
+  max-width: 380px;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  resize: vertical;
+}
+
 
 /* --------------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX --------------------------- */
 

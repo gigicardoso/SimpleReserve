@@ -20,7 +20,7 @@
     <!-- Sidebar interativa substituindo a antiga -->
     <div class="sidebar">
       <div class="sidebar-header">
-        <h4>Minha Agenda</h4>
+        <h4>Simple Reserve</h4>
       </div>
       <ul class="sidebar-menu">
         <li class="active" data-section="agenda">
@@ -172,28 +172,29 @@
               <label for="qtdade_mesa_acessivel">Mesas acessíveis:</label>
               <input min="0" type="number" id="mesaAcess" name="mesaAcess" />
             </div>
-          </div>
-          <div class="extra-sala">
             <div class="input-group-cadSala">
-              <label for="descricao">Descrição:</label>
-              <input type="textarea" id="descricao" name="descricao" />
-            </div>
-            <div class="input-group-cadSala">
-              <label for="recursos">Recursos extras:</label>
-              <input type="text" id="recursos" name="recursos" />
-            </div>
-            <div class="input-group-cadSala">
-              <label for="imagem_sala">Imagem da Sala:</label>
+              <label for="imagem_sala">Imagem da Sala:</label> <br>
               <input
                 type="file"
                 id="imagemSala"
                 name="imagemSala"
                 accept="image/*"
+                class="input-grande"
               />
             </div>
+          </div>
+          <div class="extra-sala">
             <div class="input-group-cadSala">
-              <label for="obs">Observações:</label>
-              <input type="text" id="obs" name="obs" />
+              <label for="descricao">Descrição:</label> <br>
+                <textarea id="descricao" name="descricao" class="input-grande"></textarea>            </div>
+            <div class="input-group-cadSala">
+              <label for="recursos">Recursos extras:</label> <br>
+              <input type="text" id="recursos" name="recursos" class="input-grande" />
+            </div>
+            
+            <div class="input-group-cadSala">
+              <label for="obs">Observações:</label> <br>
+              <textarea id="obs" name="obs" class="input-grande"></textarea>
             </div>
           </div>
         </div>
