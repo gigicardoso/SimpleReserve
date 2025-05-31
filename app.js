@@ -4,10 +4,12 @@ var logger = require("morgan");
 const hbs = require('hbs');
 const express = require('express');
 const path = require('path');
+const { sequelize } = require('./db/db');
 
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+const salasRouter = require('./routes/salasRouter');
 
 const app = express();
 
@@ -23,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use('/', salasRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -39,5 +42,12 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+sequelize.authenticate()
+  .then(() => console.log('Conexão com o banco de dados estabelecida!'))
+  .catch(err => console.error('Erro ao conectar ao banco:', err));
+
+// Para criar as tabelas automaticamente (apenas em desenvolvimento!)
+// sequelize.sync({ alter: true });
 
 module.exports = app;

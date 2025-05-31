@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 
-const sequelize = new Sequelize('cursoNODE', 'root', '', {
+const sequelize = new Sequelize('SimpleReserve', 'root', '', {
         host: 'localhost',
         dialect: 'mysql'
 });

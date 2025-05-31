@@ -61,7 +61,7 @@
     </div>
     <div class="conteudo-principal">
       <h1 class="tituloSala">Cadastro de Salas</h1>
-      <form id="cadastro-sala-form">
+      <form id="cadastro-sala-form" method="POST" action="/cadastrosala">
         <div class="linha-form">
           <div class="basico-Sala">
             <div class="input-group-cadSala">
@@ -79,7 +79,7 @@
             </div>
             <div class="input-group-cadSala">
               <label for="bloco">Bloco:</label>
-              <select type="tipo" id="bloco" name="bloco">
+              <select id="bloco" name="bloco">
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
@@ -93,7 +93,7 @@
             </div>
             <div class="input-group-cadSala">
               <label for="andar">Andar:</label>
-              <select type="tipo" id="andar" name="andar">
+              <select id="andar" name="andar">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -104,37 +104,37 @@
               <input
                 min="0"
                 type="number"
-                id="capacidade"
-                name="capacidade"
+                id="qtdade_lugares"
+                name="qtdade_lugares"
                 required
               />
             </div>
           </div>
           <div class="infra-sala">
             <div class="input-group-cadSala">
-              <label for="mesa">Tipo de Mesa:</label>
-              <select type="tipo_mesa" id="mesa" name="mesa">
+              <label for="tipo_mesa">Tipo de Mesa:</label>
+              <select id="tipo_mesa" name="tipo_mesa">
                 <option value="normal">Normal</option>
                 <option value="universitária">Universitária</option>
               </select>
             </div>
             <div class="input-group-cadSala">
               <label for="arcondicionado">Ar-condicionado:</label>
-              <select type="tipo" id="arCond" name="arCond">
+              <select id="arcondicionado" name="arcondicionado">
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
               </select>
             </div>
             <div class="input-group-cadSala">
               <label for="projetor">Projetor:</label>
-              <select type="tipo" id="projetor" name="projetor">
+              <select id="projetor" name="projetor">
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
               </select>
             </div>
             <div class="input-group-cadSala">
               <label for="quadro">Quadro Branco:</label>
-              <select type="tipo" id="quadro" name="quadro">
+              <select id="quadro" name="quadro">
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
               </select>
@@ -144,8 +144,8 @@
               <input
                 min="0"
                 type="number"
-                id="computadores"
-                name="computadores"
+                id="computador"
+                name="computador"
               />
             </div>
           </div>
@@ -157,27 +157,32 @@
               <input
                 min="0"
                 type="number"
-                id="mesaCanhoto"
-                name="mesaCanhoto"
+                id="mesa_canhoto"
+                name="mesa_canhoto"
               />
             </div>
             <div class="input-group-cadSala">
-              <label for="acessibilidade">A sala é acessível?:</label>
-              <select type="tipo" id="acess" name="acess">
+              <label for="acessebilidade">A sala é acessível?:</label>
+              <select id="acessebilidade" name="acessebilidade">
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
               </select>
             </div>
             <div class="input-group-cadSala">
               <label for="qtdade_mesa_acessivel">Mesas acessíveis:</label>
-              <input min="0" type="number" id="mesaAcess" name="mesaAcess" />
+              <input
+                min="0"
+                type="number"
+                id="qtdade_mesa_acessivel"
+                name="qtdade_mesa_acessivel"
+              />
             </div>
             <div class="input-group-cadSala">
               <label for="imagem_sala">Imagem da Sala:</label> <br>
               <input
                 type="file"
-                id="imagemSala"
-                name="imagemSala"
+                id="imagem_sala"
+                name="imagem_sala"
                 accept="image/*"
                 class="input-grande"
               />

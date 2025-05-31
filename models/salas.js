@@ -3,6 +3,11 @@ const { sequelize } = require('../db/db');
 
 // Definição do modelo Sala
 const Sala = sequelize.define('Sala', {
+  cod: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   descricao: DataTypes.STRING,
   ocupado: DataTypes.BOOLEAN,
   qtdade_lugares: DataTypes.INTEGER,
@@ -18,7 +23,13 @@ const Sala = sequelize.define('Sala', {
   recursos: DataTypes.STRING,
   imagem_sala: DataTypes.STRING,
   tipo_sala: DataTypes.STRING,
-  localizacao: DataTypes.INTEGER // FK para tabela localizacao
+  localizacao: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'localizacao', // Nome da tabela referenciada
+      key: 'id' // Chave primária da tabela referenciada
+    }
+  }
 }, {
   tableName: 'salas',
   timestamps: false
