@@ -36,7 +36,7 @@ quadro boolean default 1,
 computador integer,
 acessebilidade boolean default 0,
 qtdade_mesa_acessivel integer,
-orientacao blob,
+orientacao blob, //tem que dropar isso aqui
 obs varchar(100),
 recursos varchar(150),
 imagem_sala blob,
