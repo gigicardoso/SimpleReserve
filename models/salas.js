@@ -17,7 +17,7 @@ const Sala = sequelize.define('Sala', {
   arcondicionado: DataTypes.BOOLEAN,
   quadro: DataTypes.BOOLEAN,
   computador: DataTypes.INTEGER,
-  acessebilidade: DataTypes.BOOLEAN,
+  acessibilidade: DataTypes.BOOLEAN,
   qtdade_mesa_acessivel: DataTypes.INTEGER,
   obs: DataTypes.STRING,
   recursos: DataTypes.STRING,

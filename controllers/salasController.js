@@ -1,5 +1,5 @@
-const Sala = require('../models/salas');
-const Localizacao = require('../models/localizacao');
+const Sala = require("../models/salas");
+const Localizacao = require("../models/localizacao");
 
 exports.criarSala = async (req, res) => {
   try {
@@ -7,16 +7,17 @@ exports.criarSala = async (req, res) => {
     const localizacao = await Localizacao.create({
       bloco: req.body.bloco,
       andar: req.body.andar,
-      numero: req.body.numero
+      numero: req.body.numero,
     });
 
     // 2. Cria a sala usando o cod da localização
     const sala = await Sala.create({
       ...req.body,
-      localizacao: localizacao.cod // FK correta
+      localizacao: localizacao.cod, // FK correta
     });
 
-    res.status(201).json(sala);
+    
+    res.redirect('/cadastrosala');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -25,7 +26,7 @@ exports.criarSala = async (req, res) => {
 exports.listarSalas = async (req, res) => {
   try {
     const salas = await Sala.findAll();
-    res.json(salas);
+    res.redirect("/cadastrosala");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
