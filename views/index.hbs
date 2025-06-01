@@ -16,7 +16,6 @@
       :root {
         --primary-color: #7b9a00;
         --light-color: #f8f9fa;
-        --dark-color: #343a40;
         --sidebar-width: 250px;
         --content-bg: #f5f5f5;
         --card-bg: #ffffff;
@@ -32,50 +31,7 @@
         transition: all 0.3s;
       }
 
-      /* Sidebar */
-      .sidebar {
-        width: var(--sidebar-width);
-        background-color: var(--dark-color);
-        color: white;
-        height: 100vh;
-        position: fixed;
-        transition: all 0.3s;
-        z-index: 1000;
-      }
-
-      .sidebar-header {
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.2);
-        text-align: center;
-      }
-
-      .sidebar-menu {
-        padding: 0;
-        list-style: none;
-      }
-
-      .sidebar-menu li {
-        padding: 12px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-      }
-
-      .sidebar-menu li i {
-        margin-right: 10px;
-        font-size: 1.2rem;
-      }
-
-      .sidebar-menu li:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .sidebar-menu li.active {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-left: 4px solid var(--primary-color);
-      }
+      
 
       /* Main Content */
       .main-content {
@@ -224,42 +180,7 @@
     </style>
   </head>
   <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4>Minha Agenda</h4>
-      </div>
-      <ul class="sidebar-menu">
-        <li class="active" data-section="agenda">
-          <i class="bi bi-calendar-check"></i>
-          <span>Minha Agenda</span>
-        </li>
-        <li data-section="reservas">
-          <i class="bi bi-list-check"></i>
-          <span>Reservas do Dia</span>
-        </li>
-        <li data-section="nova-reserva">
-          <i class="bi bi-plus-circle"></i>
-          <span>Nova Reserva</span>
-        </li>
-        <li data-section="historico">
-          <i class="bi bi-file-earmark-text"></i>
-          <span>Emitir Histórico</span>
-        </li>
-        <li data-section="conta">
-          <i class="bi bi-person-circle"></i>
-          <span>Minha Conta</span>
-        </li>
-        <li data-section="pesquisar">
-          <i class="bi bi-search"></i>
-          <span>Pesquisar</span>
-        </li>
-        <li data-section="sair">
-          <i class="bi bi-box-arrow-right"></i>
-          <span>Sair</span>
-        </li>
-      </ul>
-    </div>
+    
 
     <!-- Main Content -->
     <div class="main-content">
