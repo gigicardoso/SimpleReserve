@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "index.hbs"), {
     layout: "layout",
     showSidebar: true,
+    showLogo: true,
   });
 });
 
@@ -16,6 +17,7 @@ router.get("/cadastrosala", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "cadastroSala.hbs"), {
     layout: "layout",
     showSidebar: true,
+    showLogo: true,
   });
 });
 // Para login
@@ -23,6 +25,7 @@ router.get("/login", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "login.hbs"), {
     layout: "layout",
     showSidebar: false,
+    showLogo: false,
   });
 });
 
@@ -31,6 +34,7 @@ router.get("/login", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "cadastro.hbs"), {
     layout: "layout",
     showSidebar: false,
+    showLogo: false,
   });
 });*/
 

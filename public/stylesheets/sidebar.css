@@ -1,5 +1,7 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 
 /*Variáveis para mudar a cor*/
 :root {
@@ -35,6 +37,10 @@ body {
   border-bottom-left-radius: 0;
   margin: 0;
   padding: 0;
+  font-weight: bold;
+  font-family: "Montserrat", serif;
+
+
 }
 
 .sidebar:hover {
