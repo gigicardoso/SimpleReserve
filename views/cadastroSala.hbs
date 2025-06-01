@@ -1,217 +1,195 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro de Sala</title>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
-    <link rel="stylesheet" href="./stylesheets/sidebar.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
-    />
-    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
-  </head>
-  <body id="cadSala">
-    <!-- Sidebar interativa substituindo a antiga -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4>Simple Reserve</h4>
-      </div>
-      <ul class="sidebar-menu">
-        <li class="active" data-section="agenda">
-          <i class="bi bi-calendar-check"></i>
-          <span>Minha Agenda</span>
-        </li>
-        <li data-section="reservas">
-          <i class="bi bi-list-check"></i>
-          <span>Reservas do Dia</span>
-        </li>
-        <li data-section="nova-reserva">
-          <i class="bi bi-plus-circle"></i>
-          <span>Nova Reserva</span>
-        </li>
-        <li data-section="pesquisar">
-          <i class="bi bi-search"></i>
-          <span>Pesquisar</span>
-        </li>
-        
-        <li data-section="historico">
-          <i class="bi bi-file-earmark-text"></i>
-          <span>Emitir Histórico</span>
-        </li>
-        <li data-section="conta">
-          <i class="bi bi-person-circle"></i>
-          <span>Minha Conta</span>
-        </li>
-        
-        <li data-section="sair">
-          <i class="bi bi-box-arrow-right"></i>
-          <span>Sair</span>
-        </li>
-      </ul>
-    </div>
-    <!-- Conteúdo da página cadastro de sala -->
-    <div class="area">
-      <!-- apenas para manter o layout do exemplo, pode ser removido se não quiser -->
-    </div>
-    <div class="conteudo-principal">
-      <h1 class="tituloSala">Cadastro de Salas</h1>
-      <form id="cadastro-sala-form" method="POST" action="/cadastrosala">
-        <div class="linha-form">
-          <div class="basico-Sala">
-            <div class="input-group-cadSala">
-              <label for="numero">*Número da Sala:</label>
-              <input type="text" id="numero" name="numero" required />
-            </div>
-            <div class="input-group-cadSala">
-              <label for="tipo_sala">*Tipo de Sala:</label>
-              <select id="tipo_sala" name="tipo_sala" required>
-                <option value="aula">Sala de Aula</option>
-                <option value="laboratorio">Laboratório</option>
-                <option value="auditório">Auditório</option>
-                <option value="reuniao">Sala de Reunião</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="bloco">*Bloco:</label>
-              <select id="bloco" name="bloco" required>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-                <option value="G">G</option>
-                <option value="H">H</option>
-                <option value="I">I</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="andar">*Andar:</label>
-              <select id="andar" name="andar" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="qtdade_lugares">*Capacidade:</label>
-              <input
-                min="0"
-                type="number"
-                id="qtdade_lugares"
-                name="qtdade_lugares"
-                required
-              />
-            </div>
-          </div>
-          <div class="infra-sala">
-            <div class="input-group-cadSala">
-              <label for="tipo_mesa">*Tipo de Mesa:</label>
-              <select id="tipo_mesa" name="tipo_mesa" required>
-                <option value="normal">Normal</option>
-                <option value="universitária">Universitária</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="arcondicionado">*Ar-condicionado:</label>
-              <select id="arcondicionado" name="arcondicionado" required>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="projetor">*Projetor:</label>
-              <select id="projetor" name="projetor" required>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="quadro">*Quadro Branco:</label>
-              <select id="quadro" name="quadro" required>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="computador">*Computadores:</label>
-              <input
-                min="0"
-                type="number"
-                id="computador"
-                name="computador"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div class="linha-form">
-          <div class="acess-sala">
-            <div class="input-group-cadSala">
-              <label for="mesa_canhoto">*Mesas de canhoto:</label>
-              <input
-                min="0"
-                type="number"
-                id="mesa_canhoto"
-                name="mesa_canhoto"
-                required
-              />
-            </div>
-            <div class="input-group-cadSala">
-              <label for="acessibilidade">*A sala é acessível?:</label>
-              <select id="acessibilidade" name="acessibilidade" required>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-            <div class="input-group-cadSala">
-              <label for="qtdade_mesa_acessivel">*Mesas acessíveis:</label>
-              <input
-                min="0"
-                type="number"
-                id="qtdade_mesa_acessivel"
-                name="qtdade_mesa_acessivel"
-                required
-              />
-            </div>
-            <div class="input-group-cadSala">
-              <label for="imagem_sala">Imagem da Sala:</label> <br>
-              <input
-                type="file"
-                id="imagem_sala"
-                name="imagem_sala"
-                accept="image/*"
-                class="input-grande"
-              />
-            </div>
-          </div>
-          <div class="extra-sala">
-            <div class="input-group-cadSala">
-              <label for="descricao">Descrição:</label> <br>
-                <textarea id="descricao" name="descricao" class="input-grande"></textarea>            </div>
-            <div class="input-group-cadSala">
-              <label for="recursos">Recursos extras:</label> <br>
-              <input type="text" id="recursos" name="recursos" class="input-grande" />
-            </div>
-            
-            <div class="input-group-cadSala">
-              <label for="obs">Observações:</label> <br>
-              <textarea id="obs" name="obs" class="input-grande"></textarea>
-            </div>
-          </div>
-        </div>
-        <button class="cadSala-Button" type="submit">Cadastrar</button>
-    </div>
-      </form>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Sala</title>
+  <link rel="stylesheet" href="./stylesheets/style.css" />
+  <link rel="stylesheet" href="./stylesheets/sidebar.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+  <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
+</head>
+
+<body id="cadSala">
+  <!-- Sidebar interativa substituindo a antiga -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h4>Simple Reserve</h4>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="active" data-section="agenda">
+        <i class="bi bi-calendar-check"></i>
+        <span>Minha Agenda</span>
+      </li>
+      <li data-section="reservas">
+        <i class="bi bi-list-check"></i>
+        <span>Reservas do Dia</span>
+      </li>
+      <li data-section="nova-reserva">
+        <i class="bi bi-plus-circle"></i>
+        <span>Nova Reserva</span>
+      </li>
+      <li data-section="pesquisar">
+        <i class="bi bi-search"></i>
+        <span>Pesquisar</span>
+      </li>
+
+      <li data-section="historico">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Emitir Histórico</span>
+      </li>
+      <li data-section="conta">
+        <i class="bi bi-person-circle"></i>
+        <span>Minha Conta</span>
+      </li>
+      <li data-section="sair">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Sair</span>
+      </li>
+      <div class="sidebar-divider"></div>
+      <!--<span class="sidebar-title">Administração</span>-->
+      <li data-section="cadastro-sala">
+        <i class="bi bi-folder-plus"></i>
+        <span>Cadastrar Sala</span>
+      </li>
+      <li data-section="gerenciar-usuarios">
+        <i class="bi bi-person-fill-gear"></i> 
+        <span>Gerenciar Usuários</span>
+      </li>
       
-    <script src="sidebar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    </ul>
+  </div>
+  <!-- Conteúdo da página cadastro de sala -->
+  <div class="area">
+    <!-- apenas para manter o layout do exemplo, pode ser removido se não quiser -->
+  </div>
+  <div class="conteudo-principal">
+    <h1 class="tituloSala">Cadastro de Salas</h1>
+    <form id="cadastro-sala-form" method="POST" action="/cadastrosala">
+      <div class="linha-form">
+        <div class="basico-Sala">
+          <div class="input-group-cadSala">
+            <label for="numero">*Número da Sala:</label>
+            <input type="text" id="numero" name="numero" required />
+          </div>
+          <div class="input-group-cadSala">
+            <label for="tipo_sala">*Tipo de Sala:</label>
+            <select id="tipo_sala" name="tipo_sala" required>
+              <option value="aula">Sala de Aula</option>
+              <option value="laboratorio">Laboratório</option>
+              <option value="auditório">Auditório</option>
+              <option value="reuniao">Sala de Reunião</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="bloco">*Bloco:</label>
+            <select id="bloco" name="bloco" required>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="andar">*Andar:</label>
+            <select id="andar" name="andar" required>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="qtdade_lugares">*Capacidade:</label>
+            <input min="0" type="number" id="qtdade_lugares" name="qtdade_lugares" required />
+          </div>
+        </div>
+        <div class="infra-sala">
+          <div class="input-group-cadSala">
+            <label for="tipo_mesa">*Tipo de Mesa:</label>
+            <select id="tipo_mesa" name="tipo_mesa" required>
+              <option value="normal">Normal</option>
+              <option value="universitária">Universitária</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="arcondicionado">*Ar-condicionado:</label>
+            <select id="arcondicionado" name="arcondicionado" required>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="projetor">*Projetor:</label>
+            <select id="projetor" name="projetor" required>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="quadro">*Quadro Branco:</label>
+            <select id="quadro" name="quadro" required>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="computador">*Computadores:</label>
+            <input min="0" type="number" id="computador" name="computador" required />
+          </div>
+        </div>
+      </div>
+      <div class="linha-form">
+        <div class="acess-sala">
+          <div class="input-group-cadSala">
+            <label for="mesa_canhoto">*Mesas de canhoto:</label>
+            <input min="0" type="number" id="mesa_canhoto" name="mesa_canhoto" required />
+          </div>
+          <div class="input-group-cadSala">
+            <label for="acessibilidade">*A sala é acessível?:</label>
+            <select id="acessibilidade" name="acessibilidade" required>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="qtdade_mesa_acessivel">*Mesas acessíveis:</label>
+            <input min="0" type="number" id="qtdade_mesa_acessivel" name="qtdade_mesa_acessivel" required />
+          </div>
+          <div class="input-group-cadSala">
+            <label for="imagem_sala">Imagem da Sala:</label> <br>
+            <input type="file" id="imagem_sala" name="imagem_sala" accept="image/*" class="input-grande" />
+          </div>
+        </div>
+        <div class="extra-sala">
+          <div class="input-group-cadSala">
+            <label for="descricao">Descrição:</label> <br>
+            <textarea id="descricao" name="descricao" class="input-grande"></textarea>
+          </div>
+          <div class="input-group-cadSala">
+            <label for="recursos">Recursos extras:</label> <br>
+            <input type="text" id="recursos" name="recursos" class="input-grande" />
+          </div>
+
+          <div class="input-group-cadSala">
+            <label for="obs">Observações:</label> <br>
+            <textarea id="obs" name="obs" class="input-grande"></textarea>
+          </div>
+        </div>
+      </div>
+      <button class="cadSala-Button" type="submit">Cadastrar</button>
+  </div>
+  </form>
+
+
+  <script src="sidebar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
