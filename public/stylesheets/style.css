@@ -244,7 +244,174 @@ textarea.input-grande {
   resize: vertical;
 }
 
+/* ---------------------------------------TELA DE RESERVA DE SALA--------------------------------*/
+/* Estilo base */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
 
+/* Container do formulário */
+.formulario-reserva-sala {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Título */
+.formulario-reserva-sala h1 {
+    color: #6e7a4e;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Grupos de formulário */
+.formulario-ask {
+    margin-bottom: 20px;
+}
+
+.formulario-ask label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Campos de entrada */
+.formulario-ask input[type="text"],
+.formulario-ask input[type="date"],
+.formulario-ask input[type="time"],
+.formulario-ask textarea,
+.formulario-ask select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.formulario-ask textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+/* Divisor */
+.divider {
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+
+
+.availability-info h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Grupo de botões */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+/* Botões */
+.button-group button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 48%;
+}
+
+.clear-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .formulario-reserva-sala {
+        padding: 15px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button-group button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* ------------------------------------------ Media Queries para responsividade ---------------------------------------- */
+@media (max-width: 480px) {
+  #bodyLogin {
+    background-size: 100%;
+    background-position: center bottom;
+    padding: 15px;
+  }
+
+  .login-box {
+    padding: 20px 15px;
+  }
+
+  .logofoto {
+    width: 130px;
+  }
+
+  .input-group input {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  button {
+    width: 60%;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #bodyLogin {
+    background-size: 80%;
+  }
+
+  .login-box {
+    padding: 25px;
+  }
+
+  .logofoto {
+    width: 150px;
+  }
+
+  .bemvindo {
+    font-size: 22px;
+  }
+
+  .bemvindo2 {
+    font-size: 15px;
+  }
+
+  .input-group input {
+    width: 90%;
+    padding: 10px 12px;
+  }
+
+  button {
+    width: 50%;
+    padding: 10px;
+  }
+}
 /* --------------------------- CSS DE PERSONALIZAÇÃO DO CHECKBOX --------------------------- */
 
 input[type="checkbox"] {
@@ -289,62 +456,5 @@ input[type="checkbox"] {
     & + label {
       color: #84925b;
     }
-  }
-}
-/* ------------------------------------------ Media Queries para responsividade ---------------------------------------- */
-@media (max-width: 480px) {
-  #bodyLogin {
-    background-size: 100%;
-    background-position: center bottom;
-    padding: 15px;
-  }
-
-  .login-box {
-    padding: 20px 15px;
-  }
-  @media (max-width: 768px) {
-    #bodyLogin {
-      background-size: 80%;
-    }
-
-    .login-box {
-      padding: 25px;
-    }
-
-    .logofoto {
-      width: 150px;
-    }
-
-    .bemvindo {
-      font-size: 22px;
-    }
-
-    .bemvindo2 {
-      font-size: 15px;
-    }
-
-    .input-group input {
-      width: 90%;
-      padding: 10px 12px;
-    }
-
-    button {
-      width: 50%;
-      padding: 10px;
-    }
-  }
-
-  .logofoto {
-    width: 130px;
-  }
-
-  .input-group input {
-    width: 100%;
-    font-size: 15px;
-  }
-
-  button {
-    width: 60%;
-    font-size: 15px;
   }
 }
