@@ -17,32 +17,11 @@
         <h1 class="tituloSala">Cadastre uma Reserva</h1>
         <form id="formReserva" method="POST" action="#">
             <div class="formulario-ask">
-                <label for="eventName">Nome do evento*</label>
+                <label for="eventName">*Nome do evento:</label>
                 <input type="text" id="eventName" name="nome_evento" placeholder="Digite o nome do evento">
             </div>
-            
             <div class="formulario-ask">
-                <label for="eventDate">Data do evento*</label>
-                <input type="date" id="eventDate" name="date">
-            </div>
-            
-            <div class="formulario-ask">
-                <label for="eventTimeStart">Hora início*</label>
-                <input type="time" id="eventTimeStart" name="hora_inicio">
-            </div>
-
-            <div class="formulario-ask">
-                <label for="eventTimeEnd">Hora fina*</label>
-                <input type="time" id="eventTimeEnd" name="hora_final">
-            </div>
-            
-            <div class="formulario-ask">
-                <label for="observations">Observações</label>
-                <textarea id="observations" name="obs" placeholder="Digite observações adicionais"></textarea>
-            </div>
-
-            <div class="formulario-ask">
-                <label for="campusSala">Sala do campus*</label>
+                <label for="campusSala">*Sala do campus:</label>
                 <select id="campusSala" name="cod_salas">
                     <option value="">Selecione uma sala</option>
                     <option value="sala01">Sala 01 | Bloco A</option>
@@ -52,6 +31,27 @@
                     <option value="sala05">Sala 05 | Bloco C</option>
                 </select>
             </div>
+            <div class="formulario-ask">
+                <label for="eventDate">*Data do evento:</label>
+                <input type="date" id="eventDate" name="date">
+            </div>
+            
+            <div class="formulario-ask">
+                <label for="eventTimeStart">*Hora início:</label>
+                <input type="time" id="eventTimeStart" name="hora_inicio">
+            </div>
+
+            <div class="formulario-ask">
+                <label for="eventTimeEnd">*Hora final:</label>
+                <input type="time" id="eventTimeEnd" name="hora_final">
+            </div>
+            
+            <div class="formulario-ask">
+                <label for="observations">Observações</label>
+                <textarea id="observations" name="obs" placeholder="Digite observações adicionais"></textarea>
+            </div>
+
+            
 
             <div class="divider"></div>
             
