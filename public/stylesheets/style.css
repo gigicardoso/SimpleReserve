@@ -328,19 +328,24 @@ body {
 .button-group button {
     padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
     font-weight: bold;
     width: 48%;
 }
 
 .clear-btn {
-    background-color: #f44336;
+    background-color: #BA4545;
     color: white;
 }
 
+.clear-btn:hover {
+  background-color: #922e2e;
+  transform: scale(1.02);
+}
+
 .save-btn {
-    background-color: #4CAF50;
+    background-color: #899752;
     color: white;
 }
 
