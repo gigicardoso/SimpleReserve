@@ -9,6 +9,7 @@ router.get("/", (req, res) => {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
+    isAgenda: true,
   });
 });
 
@@ -18,6 +19,7 @@ router.get("/cadastrosala", (req, res) => {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
+    isCadastroSala: true,
   });
 });
 // Para login
@@ -35,6 +37,7 @@ router.get("/novareserva", (req, res) => {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
+    isNovaReserva: true,
   });
 });
 

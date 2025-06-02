@@ -118,6 +118,17 @@ body {
   margin: 28px 0;
 }
 
+.sidebar-menu a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu li.active > a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     width: var(--sidebar-collapsed-width);
