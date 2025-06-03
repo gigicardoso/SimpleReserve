@@ -17,6 +17,11 @@
     />
     <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
     <title>Gerenciar Salas</title>
+    <style>
+      body{
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <h2 class="teste">Gerenciar Salas</h2>
@@ -46,5 +51,10 @@
         </tr>
       {{/each}}
     </table>
+    <hr>
+    <p>Debug abaixo:</p>
+    {{#each salas}}
+      <p>{{cod}} Sala {{numero}}</p>
+    {{/each}}
   </body>
 </html>

@@ -32,16 +32,6 @@ router.get("/login", (req, res) => {
   });
 });
 
-// Rota para novaReserva.hbs
-router.get("/novareserva", (req, res) => {
-  res.render("novaReserva", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isNovaReserva: true,
-  });
-});
-
 // Para cadastro de usuário (futura tela)
 /*router.get("/cadastro", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "cadastro.hbs"), {

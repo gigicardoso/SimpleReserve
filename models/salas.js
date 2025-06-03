@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../db/db');
+const Localizacao = require('./localizacao');
 
 // Definição do modelo Sala
 const Sala = sequelize.define('Sala', {
@@ -27,13 +28,16 @@ const Sala = sequelize.define('Sala', {
     type: DataTypes.INTEGER,
     references: {
       model: 'localizacao', // Nome da tabela referenciada
-      key: 'id' // Chave primária da tabela referenciada
+      key: 'cod' // Corrigido de 'id' para 'cod'
     }
   }
 }, {
   tableName: 'salas',
   timestamps: false
 });
+
+// Associação correta
+Sala.belongsTo(Localizacao, { foreignKey: 'localizacao', as: 'localizacaoSala' });
 
 module.exports = Sala;
 
