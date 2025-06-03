@@ -1,0 +1,25 @@
+{{!-- filepath: c:\Users\giova\OneDrive\Área de Trabalho\SimpleReserve\views\gerenciarSalas.hbs --}}
+<h1>Gerenciar Salas</h1>
+<table border="1">
+  <tr>
+    <th>Código</th>
+    <th>Descrição</th>
+    <th>Número</th>
+    <th>Bloco</th>
+    <th>Andar</th>
+    <th>Ações</th>
+  </tr>
+  {{#each salas}}
+    <tr>
+      <td>{{cod}}</td>
+      <td>{{descricao}}</td>
+      <td>{{numero}}</td>
+      <td>{{bloco}}</td>
+      <td>{{andar}}</td>
+      <td>
+        <a href="/salas/editar/{{cod}}">Editar</a>
+        <a href="/salas/excluir/{{cod}}" onclick="return confirm('Tem certeza?')">Excluir</a>
+      </td>
+    </tr>
+  {{/each}}
+</table>

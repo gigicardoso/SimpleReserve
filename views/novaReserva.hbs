@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,20 +15,18 @@
 
    <div class="formulario-reserva-sala">
         <h1 class="tituloSala">Cadastre uma Reserva</h1>
-        <form id="formReserva" method="POST" action="#">
+        <form id="formReserva" method="POST" action="/novareserva">
             <div class="formulario-ask">
                 <label for="eventName">*Nome do evento:</label>
                 <input type="text" id="eventName" name="nome_evento" placeholder="Digite o nome do evento">
             </div>
             <div class="formulario-ask">
                 <label for="campusSala">*Sala do campus:</label>
-                <select id="campusSala" name="cod_salas">
-                    <option value="">Selecione uma sala</option>
-                    <option value="sala01">Sala 01 | Bloco A</option>
-                    <option value="sala02">Sala 02 | Bloco A</option>
-                    <option value="sala03">Sala 03 | Bloco B</option>
-                    <option value="sala04">Sala 04 | Bloco B</option>
-                    <option value="sala05">Sala 05 | Bloco C</option>
+                <select id="campusSala" name="cod_salas" required>
+                  <option value="">Selecione uma sala</option>
+                  {{#each salas}}
+                    <option value="{{cod}}">Sala {{descricao}}</option>
+                  {{/each}}
                 </select>
             </div>
             <div class="formulario-ask">
@@ -47,7 +45,7 @@
             </div>
             
             <div class="formulario-ask">
-                <label for="observations">Observações</label>
+                <label for="observations">Observações:</label>
                 <textarea id="observations" name="obs" placeholder="Digite observações adicionais"></textarea>
             </div>
 

@@ -1,0 +1,8 @@
+{{!-- filepath: c:\Users\giova\OneDrive\Área de Trabalho\SimpleReserve\views\editarSala.hbs --}}
+<h1>Editar Sala</h1>
+<form method="POST" action="/salas/editar/{{sala.cod}}">
+  <label>Descrição:</label>
+  <input type="text" name="descricao" value="{{sala.descricao}}" required>
+  <!-- Adicione outros campos conforme necessário -->
+  <button type="submit">Salvar</button>
+</form>
