@@ -365,6 +365,21 @@ body {
     }
 }
 
+/* ------------------------------------------ TELA DE GERENCIAR SALAS ------------------------------------ */
+.table-teste {
+  margin-top: 20px;
+  border-collapse: collapse;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+}
+.teste{
+  padding-left: 700px;
+  margin-bottom: 20px;
+}
+
+
 /* ------------------------------------------ Media Queries para responsividade ---------------------------------------- */
 @media (max-width: 480px) {
   #bodyLogin {

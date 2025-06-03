@@ -34,7 +34,7 @@ exports.listarSalas = async (req, res) => {
     const loc = localizacoes.find(l => l.cod === sala.localizacao);
     return {
       ...sala,
-      numero: loc ? loc.numero : 'Sem número',
+      numero: loc ? loc.numero : '',
       bloco: loc ? loc.bloco : '',
       andar: loc ? loc.andar : ''
     };
@@ -45,7 +45,7 @@ exports.listarSalas = async (req, res) => {
 
 exports.excluirSala = async (req, res) => {
   await Sala.destroy({ where: { cod: req.params.cod } });
-  res.redirect('/gerenciar-salas');
+  res.redirect('/gerenciarsalas');
 };
 
 exports.editarSalaForm = async (req, res) => {
@@ -55,5 +55,5 @@ exports.editarSalaForm = async (req, res) => {
 
 exports.editarSala = async (req, res) => {
   await Sala.update(req.body, { where: { cod: req.params.cod } });
-  res.redirect('/gerenciar-salas');
+  res.redirect('/gerenciarsalas');
 };
