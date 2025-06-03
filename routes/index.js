@@ -32,14 +32,15 @@ router.get("/login", (req, res) => {
   });
 });
 
-// Para cadastro de usuário (futura tela)
-/*router.get("/cadastro", (req, res) => {
-  res.render(path.join(__dirname, "..", "views", "cadastro.hbs"), {
+// Rota para cadastro de usuário
+router.get("/cadastrousuario", (req, res) => {
+  res.render("cadastroUsuarios", {
     layout: "layout",
-    showSidebar: false,
-    showLogo: false,
+    showSidebar: false, // não mostrar sidebar
+    showLogo: false,    // não mostrar logo
+    isCadastroUsuario: true,
   });
-});*/
+});
 
 // Exemplo no router ou controller
 router.get('/gerenciarsalas', async (req, res) => {
