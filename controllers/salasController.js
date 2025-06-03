@@ -40,7 +40,13 @@ exports.listarSalas = async (req, res) => {
     };
   });
 
-  res.render('gerenciarSalas', { salas: salasComLocal });
+  res.render('gerenciarSalas', {
+    salas: salasComLocal, // ou como você chama o array de salas
+    layout: 'layout',
+    showLogo: true,
+    showSidebar: true,
+    isGerenciarSalas: true
+  });
 };
 
 exports.excluirSala = async (req, res) => {

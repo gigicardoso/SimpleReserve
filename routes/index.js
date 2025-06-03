@@ -51,16 +51,7 @@ router.get("/cadastrousuario", (req, res) => {
 });
 
 // Exemplo no router ou controller
-router.get('/gerenciarsalas', async (req, res) => {
-  const salas = await Sala.findAll({ raw: true });
-  res.render('gerenciarSalas', {
-    salas,
-    layout: 'layout',
-    showLogo: true,
-    isGerenciarSalas: true,
-    showSidebar: true
-  });
-});
+router.get('/gerenciarsalas', salasController.listarSalas);
 
 
 router.get("/reservas", agendaController.listar);
