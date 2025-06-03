@@ -23,6 +23,7 @@ exports.formNova = (req, res) => {
 
 // Criar nova reserva
 exports.criar = (req, res) => {
+    console.log('req.body:', req.body); // Mantenha esse log para ver o que chega
     const novaAgenda = {
         nome_evento: req.body.nome_evento,
         obs: req.body.obs,
@@ -34,7 +35,7 @@ exports.criar = (req, res) => {
     };
     Agenda.create(novaAgenda, (err, insertId) => {
         if (err) return res.status(500).send('Erro ao criar reserva');
-        res.redirect('/reservas');
+        res.redirect('/'); // Redireciona para a home após criar a reserva
     });
 };
 

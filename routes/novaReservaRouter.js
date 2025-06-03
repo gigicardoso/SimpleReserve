@@ -5,7 +5,7 @@ const Sala = require('../models/salas');
 const Localizacao = require('../models/localizacao');
 
 // Rota GET para exibir o formulário de nova reserva
-router.get('/novareserva', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const salas = await Sala.findAll({
       include: [{ model: Localizacao, as: 'localizacaoSala' }],
@@ -34,6 +34,6 @@ router.get('/novareserva', async (req, res) => {
 });
 
 // POST continua igual
-router.post('/novareserva', agendaController.criar);
+router.post('/', agendaController.criar);
 
 module.exports = router;

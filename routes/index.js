@@ -3,6 +3,11 @@ var router = express.Router();
 const path = require("path");
 const db = require("../db/db");
 const Sala = require('../models/salas');
+const agendaController = require('../controllers/agendaController');
+const salasController = require('../controllers/salasController');
+
+
+
 
 /* Rota para Home */
 router.get("/", (req, res) => {
@@ -23,9 +28,12 @@ router.get("/cadastrosala", (req, res) => {
     isCadastroSala: true,
   });
 });
+
+router.post("/cadastrosala", salasController.criarSala);
+
 // Para login
 router.get("/login", (req, res) => {
-  res.render(path.join(__dirname, "..", "views", "login.hbs"), {
+  res.render("login", {
     layout: "layout",
     showSidebar: false,
     showLogo: false,
@@ -53,5 +61,8 @@ router.get('/gerenciarsalas', async (req, res) => {
     showSidebar: true
   });
 });
+
+
+router.get("/reservas", agendaController.listar);
 
 module.exports = router;

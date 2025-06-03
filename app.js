@@ -26,8 +26,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use('/', salasRouter);
-app.use('/', novaReservaRouter);
+app.use("/salas", salasRouter);
+app.use("/novareserva", novaReservaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

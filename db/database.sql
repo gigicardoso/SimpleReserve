@@ -53,11 +53,11 @@ obs varchar(30),
 date date not null,
 hora_inicio time not null,
 hora_final time not null,
-cod_usuarios integer not null auto_increment,
-cod_salas integer not null auto_increment,
+cod_usuarios integer not null,
+cod_salas integer not null,
 primary key (cod),
 foreign key (cod_usuarios) references usuario(cod),
-foreign key (cod_salas) references salas(cod)
+foreign key (cod_salas) references salas(cod)
 
 );
 
