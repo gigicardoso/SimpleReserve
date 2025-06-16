@@ -3,11 +3,6 @@ var router = express.Router();
 const path = require("path");
 const db = require("../db/db");
 const Sala = require('../models/salas');
-const agendaController = require('../controllers/agendaController');
-const salasController = require('../controllers/salasController');
-
-
-
 
 /* Rota para Home */
 router.get("/", (req, res) => {
@@ -28,15 +23,22 @@ router.get("/cadastrosala", (req, res) => {
     isCadastroSala: true,
   });
 });
-
-router.post("/cadastrosala", salasController.criarSala);
-
 // Para login
 router.get("/login", (req, res) => {
-  res.render("login", {
+  res.render(path.join(__dirname, "..", "views", "login.hbs"), {
     layout: "layout",
     showSidebar: false,
     showLogo: false,
+  });
+});
+
+// Rota para novaReserva.hbs
+router.get("/novareserva", (req, res) => {
+  res.render("novaReserva", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isNovaReserva: true,
   });
 });
 
@@ -51,9 +53,24 @@ router.get("/cadastrousuario", (req, res) => {
 });
 
 // Exemplo no router ou controller
-router.get('/gerenciarsalas', salasController.listarSalas);
+router.get('/gerenciarsalas', async (req, res) => {
+  const salas = await Sala.findAll({ raw: true });
+  res.render('gerenciarSalas', {
+    salas,
+    layout: 'layout',
+    showLogo: true,
+    isGerenciarSalas: true,
+    showSidebar: true
+  });
+});
 
-
-router.get("/reservas", agendaController.listar);
+router.get("/gerenciador", (req, res) => {
+  res.render("gerenciadorAdm", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
 
 module.exports = router;

@@ -51,7 +51,7 @@ button {
   color: #fff;
   border: none;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 10px; /* borda bem arredondada */
   font-size: 16px;
   cursor: pointer;
   width: 40%;
@@ -535,4 +535,74 @@ input[type="checkbox"] {
 .textoVerdeLogin {
   margin: 0;
   color: #84925b;
+}
+
+.btn-cadastrar {
+  border-radius: 10px !important;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* ----------- Painel de Controle (gerenciadorAdm) ----------- */
+.dashboard {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px 10px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.icon-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    background-color: #f1f8ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #0d6efd;
+}
+
+.icon-label {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #212529;
+}
+
+@media (max-width: 600px) {
+    .icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    .icon-label {
+        font-size: 14px;
+    }
+    .icon-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

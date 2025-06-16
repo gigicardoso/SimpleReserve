@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 
-const sequelize = new Sequelize('SimpleReserve', 'root', '', {
+const sequelize = new Sequelize('sr', 'root', '1234', {
         host: 'localhost',
         dialect: 'mysql'
 });
