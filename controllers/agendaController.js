@@ -1,73 +1,52 @@
-const Agenda = require('../models/agenda');
+const Agenda = require("../models/agendaModel");
+const Sala = require("../models/salasModel");
+const Usuario = require("../models/usuariosModel");
 
-// Listar todas as reservas
-exports.listar = (req, res) => {
-    Agenda.getAll((err, reservas) => {
-        if (err) return res.status(500).send('Erro ao buscar reservas');
-        res.render('listaReservas', { reservas });
+//CONSULTA
+exports.listarAgendas = async (req, res) => {
+  try {
+    const agendas = await Agenda.findAll({
+      include: [
+        { model: Sala, as: "sala" },
+        { model: Usuario, as: "usuario" },
+      ],
     });
+    res.json(agendas);
+  } catch (error) {
+    res.status(500).send("Erro ao buscar agendas");
+  }
 };
 
-// Exibir formulário de nova reserva
-exports.formNova = (req, res) => {
-    const db = require('../db/db');
-    db.query(`
-        SELECT salas.cod, salas.descricao, localizacao.numero
-        FROM salas
-        JOIN localizacao ON salas.localizacao = localizacao.cod
-    `, (err, salas) => {
-        if (err) return res.status(500).send('Erro ao buscar salas');
-        res.render('novaReserva', { salas });
-    });
+//CRIAÇÃO
+exports.criarAgenda = async (req, res) => {
+  try {
+    const novaAgenda = await Agenda.create(req.body);
+    res.status(201).json(novaAgenda);
+  } catch (error) {
+    res.status(500).send("Erro ao criar agenda");
+  }
 };
 
-// Criar nova reserva
-exports.criar = (req, res) => {
-    console.log('req.body:', req.body); // Mantenha esse log para ver o que chega
-    const novaAgenda = {
-        nome_evento: req.body.nome_evento,
-        obs: req.body.obs,
-        date: req.body.date,
-        hora_inicio: req.body.hora_inicio,
-        hora_final: req.body.hora_final,
-        cod_usuarios: req.body.cod_usuarios,
-        cod_salas: req.body.cod_salas
-    };
-    Agenda.create(novaAgenda, (err, insertId) => {
-        if (err) return res.status(500).send('Erro ao criar reserva');
-        res.redirect('/'); // Redireciona para a home após criar a reserva
-    });
+//UPDATE
+exports.atualizarAgenda = async (req, res) => {
+  try {
+    const agenda = await Agenda.findByPk(req.params.id);
+    if (!agenda) return res.status(404).send("Agenda não encontrada");
+    await agenda.update(req.body);
+    res.json(agenda);
+  } catch (error) {
+    res.status(500).send("Erro ao atualizar agenda");
+  }
 };
 
-// Exibir detalhes de uma reserva
-exports.detalhar = (req, res) => {
-    Agenda.findById(req.params.cod, (err, reserva) => {
-        if (err || !reserva) return res.status(404).send('Reserva não encontrada');
-        res.render('detalheReserva', { reserva });
-    });
-};
-
-// Excluir reserva
-exports.excluir = (req, res) => {
-    Agenda.delete(req.params.cod, (err) => {
-        if (err) return res.status(500).send('Erro ao excluir reserva');
-        res.redirect('/reservas');
-    });
-};
-
-// Atualizar reserva
-exports.atualizar = (req, res) => {
-    const agendaAtualizada = {
-        nome_evento: req.body.nome_evento,
-        obs: req.body.obs,
-        date: req.body.date,
-        hora_inicio: req.body.hora_inicio,
-        hora_final: req.body.hora_final,
-        cod_usuarios: req.body.cod_usuarios,
-        cod_salas: req.body.cod_salas
-    };
-    Agenda.update(req.params.cod, agendaAtualizada, (err) => {
-        if (err) return res.status(500).send('Erro ao atualizar reserva');
-        res.redirect('/reservas');
-    });
+//DELETE
+exports.deletarAgenda = async (req, res) => {
+  try {
+    const agenda = await Agenda.findByPk(req.params.id);
+    if (!agenda) return res.status(404).send("Agenda não encontrada");
+    await agenda.destroy();
+    res.send("Agenda deletada com sucesso");
+  } catch (error) {
+    res.status(500).send("Erro ao deletar agenda");
+  }
 };

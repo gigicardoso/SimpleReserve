@@ -1,65 +1,54 @@
-const Sala = require("../models/salas");
-const Localizacao = require("../models/localizacao");
+const Sala = require('../models/salasModel');
+const Andar = require('../models/andarBlocoModel');
+const Mesa = require('../models/tipoMesaModel');
+const SalaTipo = require('../models/tipoSalaModel');
 
-exports.criarSala = async (req, res) => {
+// CONSULTA
+exports.listarSalas = async (req, res) => {
   try {
-    console.log('req.body:', req.body); // <-- Adicione esta linha
-
-    // 1. Cria a localização
-    const localizacao = await Localizacao.create({
-      bloco: req.body.bloco,
-      andar: req.body.andar,
-      numero: req.body.numero,
+    const salas = await Sala.findAll({
+      include: [
+        { model: Andar, as: 'andarSala' },
+        { model: Mesa, as: 'mesaSala' },
+        { model: SalaTipo, as: 'tipoSala' }
+      ]
     });
-
-    // 2. Cria a sala usando o cod da localização
-    const sala = await Sala.create({
-      ...req.body,
-      localizacao: localizacao.cod, // FK correta
-    });
-
-    res.redirect('/cadastrosala');
+    res.render('gerenciarSalas', { salas });
   } catch (error) {
-    console.error(error); // <-- Adicione esta linha para ver o erro detalhado
-    res.status(500).json({ error: error.message });
+    res.status(500).send('Erro ao buscar salas');
   }
 };
 
-exports.listarSalas = async (req, res) => {
-  const salas = await Sala.findAll({ raw: true });
-  const localizacoes = await Localizacao.findAll({ raw: true });
-
-  // Junta as informações de localização em cada sala
-  const salasComLocal = salas.map(sala => {
-    const loc = localizacoes.find(l => l.cod === sala.localizacao);
-    return {
-      ...sala,
-      numero: loc ? loc.numero : '',
-      bloco: loc ? loc.bloco : '',
-      andar: loc ? loc.andar : ''
-    };
-  });
-
-  res.render('gerenciarSalas', {
-    salas: salasComLocal, // ou como você chama o array de salas
-    layout: 'layout',
-    showLogo: true,
-    showSidebar: true,
-    isGerenciarSalas: true
-  });
+// CRIAÇÃO
+exports.criarSala = async (req, res) => {
+  try {
+    await Sala.create(req.body);
+    res.redirect('/gerenciarsalas');
+  } catch (error) {
+    res.status(500).send('Erro ao criar sala');
+  }
 };
 
-exports.excluirSala = async (req, res) => {
-  await Sala.destroy({ where: { cod: req.params.cod } });
-  res.redirect('/gerenciarsalas');
+//UPDATE
+exports.atualizarSala = async (req, res) => {
+  try {
+    const sala = await Sala.findByPk(req.params.id);
+    if (!sala) return res.status(404).send('Sala não encontrada');
+    await sala.update(req.body);
+    res.json(sala);
+  } catch (error) {
+    res.status(500).send('Erro ao atualizar sala');
+  }
 };
 
-exports.editarSalaForm = async (req, res) => {
-  const sala = await Sala.findByPk(req.params.cod);
-  res.render('editarSala', { sala });
-};
-
-exports.editarSala = async (req, res) => {
-  await Sala.update(req.body, { where: { cod: req.params.cod } });
-  res.redirect('/gerenciarsalas');
+//DELETE
+exports.deletarSala = async (req, res) => {
+  try {
+    const sala = await Sala.findByPk(req.params.id);
+    if (!sala) return res.status(404).send('Sala não encontrada');
+    await sala.destroy();
+    res.send('Sala deletada com sucesso');
+  } catch (error) {
+    res.status(500).send('Erro ao deletar sala');
+  }
 };
