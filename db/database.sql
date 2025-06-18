@@ -84,7 +84,7 @@ foreign key (id_salas) references salas (id_salas)
 
 -- TABELA USUARIO --
 use sr;
-create table usuario(
+create table usuarios(
 id_user integer not null auto_increment,
 senha char(8) not null,
 nome varchar(50) not null,
