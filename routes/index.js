@@ -65,7 +65,16 @@ router.get('/gerenciarsalas', async (req, res) => {
 });
 
 router.get("/gerenciador", (req, res) => {
-  res.render("gerenciadorAdm", {
+  res.render("adm/gerenciadorAdm", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
+router.get("/tipoMesa", (req, res) => {
+  res.render("adm/tipoMesa", {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
