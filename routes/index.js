@@ -82,4 +82,13 @@ router.get("/tipoMesa", (req, res) => {
   });
 });
 
+router.get("/tipoSala", (req, res) => {
+  res.render("adm/tipoSala", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
 module.exports = router;
