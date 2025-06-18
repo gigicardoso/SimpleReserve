@@ -1,75 +1,95 @@
-create database if not exists simplereserve;
+create database if not exists sr;
 
-use simplereserve;
+use sr;
 -- TABELA PERMISSAO --
 create table permissao(
-cod integer not null auto_increment,
+id_permissao integer not null auto_increment,
 descricao varchar (25),
-cadastrarSala boolean not null default 0,
-cadastrarUsuario boolean not null default 0,
-editarUsuario boolean not null default 0,
-arquivarUsuario boolean not null default 0,
-editarSalas boolean not null default 0,
-primary key (cod));
+cadSala boolean not null default 0,
+cadUser boolean not null default 0,
+edUser boolean not null default 0,
+arqUser boolean not null default 0,
+edSalas boolean not null default 0,
+primary key (id_permissao));
 
--- TABELA LOCALIZACAO --
-create table localizacao(
-cod integer not null auto_increment,
-bloco varchar(14) not null,
-andar integer not null ,
-numero integer not null unique,
-primary key (cod)
+-- TABELA BLOCOS --
+create table blocos(
+id_bloco integer not null auto_increment,
+descricao varchar(15),
+primary key (id_bloco)
+);
+
+-- TABELA BLOCOS --
+create table andar_bloco(
+id_andar integer not null auto_increment,
+id_bloco integer,
+descricao varchar(15),
+primary key (id_andar),
+foreign key (id_bloco) references blocos (id_bloco)
+);
+
+-- TABELA TIPO SALA --
+create table tipo_sala(
+id_tipo integer not null auto_increment,
+descricao varchar(50),
+primary key (id_tipo)
+);
+
+-- TABELA TIPO MESA --
+create table tipo_mesa(
+id_mesa integer not null auto_increment,
+descricao varchar(75),
+primary key (id_mesa)
 );
 
 -- TABELA SALAS --
-use simplereserve;
+use sr;
 create table salas(
-cod integer not null auto_increment,
-descricao varchar(30),
-ocupado boolean,
-qtdade_lugares integer not null,
+id_salas integer not null auto_increment,
+nome_salas varchar(65),
+descricao varchar(100),
+capacidade integer not null,
 tipo_mesa varchar(15) not null,
 mesa_canhoto integer not null,
 projetor boolean default 1 not null,
-arcondicionado boolean default 1 not null,
+ar_cond boolean default 1 not null,
 quadro boolean default 1 not null,
 computador integer not null,
-acessibilidade boolean default 0 not null,
-qtdade_mesa_acessivel integer not null,
-obs varchar(100),
-recursos varchar(150),
-imagem_sala blob,
-tipo_sala varchar(12) not null,
-localizacao integer not null,
-primary key (cod),
-foreign key (localizacao) references localizacao (cod)
+acess boolean default 0 not null,
+mesa_acess integer not null,
+id_tipo integer not null,
+id_andar integer not null,
+id_mesa integer not null,
+imagem_sala varchar(150),
+primary key (id_salas),
+foreign key (id_tipo) references tipo_mesa (id_tipo),
+foreign key (id_andar) references andar_bloco (id_andar),
+foreign key (id_mesa) references tipo_mesa (id_mesa)
 );
 
 -- TABELA AGENDA --
 create table agenda(
-cod integer not null auto_increment,
-nome_evento varchar(85) not null,
-obs varchar(30),
-date date not null,
+id_agenda integer not null auto_increment,
+nome_evento varchar(35) not null,
+descricao varchar(60),
+data date not null,
 hora_inicio time not null,
 hora_final time not null,
-cod_usuarios integer not null,
-cod_salas integer not null,
+id_user integer not null,
+id_salas integer not null,
 primary key (cod),
-foreign key (cod_usuarios) references usuario(cod),
-foreign key (cod_salas) references salas(cod)
-
+foreign key (id_user) references usuario (id_user),
+foreign key (id_salas) references salas (id_salas)
 );
 
 -- TABELA USUARIO --
-use simplereserve;
+use sr;
 create table usuario(
-cod integer not null auto_increment,
-login integer not null,
+id_user integer not null auto_increment,
 senha char(8) not null,
 nome varchar(50) not null,
-email varchar(40),
-permissao integer not null,
-primary key (cod),
-foreign key (permissao) references permissao (cod)
+email varchar(50),
+id_permissao integer not null,
+primary key (id_user),
+foreign key (id_permissao) references permissao (id_permissao)
 );
