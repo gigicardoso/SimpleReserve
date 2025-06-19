@@ -561,7 +561,7 @@ input[type="checkbox"] {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 20px 10px;
+    padding: 32px 18px;
     border-radius: 12px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -574,33 +574,39 @@ input[type="checkbox"] {
 }
 
 .icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     margin-bottom: 15px;
     background-color: #f1f8ff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 38px;
     color: #84925b; /* alterado para cor do sistema */
 }
 
 .icon-label {
     text-align: center;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
     color: #212529;
 }
 
+/* Remove sublinhado dos links dentro do grid de ícones */
+.icon-grid a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
 @media (max-width: 600px) {
     .icon {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
     }
     .icon-label {
-        font-size: 14px;
+        font-size: 15px;
     }
     .icon-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -608,32 +614,3 @@ input[type="checkbox"] {
 }
 
 /* ----------- TELA DE TIPO DE MESA (gerenciadorAdm) ----------- */
-
-.btn-voltar {
-  position: absolute;
-  top: 18px;
-  right: 24px;
-  background: #84925b;
-  color: #fff;
-  padding: 8px 18px 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: background 0.2s, box-shadow 0.2s;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-voltar:hover {
-  background: #6e7a4e;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-}
-.icon-voltar {
-  font-size: 18px;
-  margin-right: 4px;
-  display: flex;
-  align-items: center;
-}
