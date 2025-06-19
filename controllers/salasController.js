@@ -25,6 +25,7 @@ exports.listarSalas = async (req, res) => {
   }
 };
 
+
 // CRIAÇÃO
 exports.criarSala = async (req, res) => {
   try {
