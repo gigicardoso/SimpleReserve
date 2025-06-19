@@ -64,4 +64,12 @@ router.get("/tipoSala", (req, res) => {
   });
 });
 
+router.get("/bloco", (req, res) => {
+  res.render("adm/bloco", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
 module.exports = router;
