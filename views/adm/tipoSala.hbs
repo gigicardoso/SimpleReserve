@@ -1,6 +1,6 @@
 <div class="formulario-reserva-sala">
   <h1 class="tituloSala">Cadastro de tipo de Sala</h1>
-  <form id="tipoMesaForm" action="/tipo-Sala/cadastrar" method="POST">
+  <form id="tipoSalaForm" action="/tipoSala" method="POST">
     <div class="formulario-ask">
       <label for="descricao">*Tipo de sala:</label>
       <input 
@@ -16,4 +16,9 @@
 
     </div>
   </form>
+  <ul>
+    {{#each tipoSala}}
+      <li>{{descricao}}</li>
+    {{/each}}
+  </ul>
 </div>

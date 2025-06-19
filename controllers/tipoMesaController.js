@@ -4,7 +4,7 @@ const Mesa = require("../models/tipoMesaModel");
 exports.listarMesas = async (req, res) => {
   try {
     const mesa = await Mesa.findAll();
-    res.render("mesa", { mesa });
+    res.render("adm/tipoMesa", { mesa, layout: "layout", showSidebar: true, showLogo: true, isGerenciarMesas: true });
   } catch (error) {
     res.status(500).send("Erro ao buscar mesa");
   }
@@ -14,7 +14,7 @@ exports.listarMesas = async (req, res) => {
 exports.criarMesa = async (req, res) => {
   try {
     await Mesa.create(req.body);
-    res.redirect("/mesa");
+    res.redirect("/tipoMesa");
   } catch (error) {
     res.status(500).send("Erro ao criar mesa");
   }

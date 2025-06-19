@@ -1,6 +1,6 @@
 <div class="formulario-reserva-sala">
   <h1 class="tituloSala">Cadastro de Bloco</h1>
-  <form id="tipoMesaForm" action="/tipo-mesa/cadastrar" method="POST">
+  <form id="tipoMesaForm" action="/bloco" method="POST">
     <div class="formulario-ask">
       <label for="descricao">*Nome do bloco:</label>
       <input 
@@ -15,6 +15,8 @@
       <button class="save-btn" type="submit">Salvar Bloco</button>
     </div>
   </form>
-  
+  {{#each bloco}}
+      <li>{{descricao}}</li>
+  {{/each}}
 </div>
 

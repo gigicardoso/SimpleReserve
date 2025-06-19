@@ -4,7 +4,7 @@ const Bloco = require("../models/blocosModel");
 exports.listarBlocos = async (req, res) => {
   try {
     const blocos = await Bloco.findAll();
-    res.render("blocos", { blocos });
+    res.render("adm/bloco", { blocos, layout: "layout", showSidebar: true, showLogo: true, isGerenciarBlocos: true });
   } catch (error) {
     res.status(500).send("Erro ao buscar blocos");
   }
@@ -14,7 +14,7 @@ exports.listarBlocos = async (req, res) => {
 exports.criarBloco = async (req, res) => {
   try {
     await Bloco.create(req.body);
-    res.redirect("/blocos");
+    res.redirect("/bloco");
   } catch (error) {
     res.status(500).send("Erro ao criar bloco");
   }

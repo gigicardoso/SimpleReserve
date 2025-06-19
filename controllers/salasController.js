@@ -2,6 +2,7 @@ const Sala = require("../models/salasModel");
 const Andar = require("../models/andarBlocoModel");
 const Mesa = require("../models/tipoMesaModel");
 const SalaTipo = require("../models/tipoSalaModel");
+const Bloco = require("../models/blocosModel");
 
 // CONSULTA
 exports.listarSalas = async (req, res) => {
@@ -30,7 +31,7 @@ exports.listarSalas = async (req, res) => {
 exports.criarSala = async (req, res) => {
   try {
     await Sala.create(req.body);
-    res.redirect("/gerenciarsalas");
+    res.redirect("/salas/gerenciarsalas");
   } catch (error) {
     res.status(500).send("Erro ao criar sala");
   }
@@ -57,5 +58,31 @@ exports.deletarSala = async (req, res) => {
     res.send("Sala deletada com sucesso");
   } catch (error) {
     res.status(500).send("Erro ao deletar sala");
+  }
+};
+
+// Exibir formulário de cadastro de sala
+exports.formCadastroSala = async (req, res) => {
+  try {
+    const tiposSala = await SalaTipo.findAll();
+    const tiposMesa = await Mesa.findAll();
+    const blocos = await Bloco.findAll();
+    let andares = [];
+    if (blocos.length > 0) {
+      const Andar = require("../models/andarBlocoModel");
+      andares = await Andar.findAll({ where: { id_bloco: blocos[0].id_bloco } });
+    }
+    res.render("cadastroSala", {
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isCadastroSala: true,
+      tiposSala,
+      tiposMesa,
+      blocos,
+      andares
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao carregar formulário de cadastro de sala");
   }
 };

@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 const path = require("path");
 const db = require("../db/db");
+const tipoSalaController = require("../controllers/tipoSalaController");
+const tipoMesaController = require("../controllers/tipoMesaController");
+const blocosController = require("../controllers/blocosController");
 
 /* Rota para Home */
 router.get("/", (req, res) => {
@@ -13,7 +16,6 @@ router.get("/", (req, res) => {
   });
 });
 
-
 // Para login
 router.get("/login", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "login.hbs"), {
@@ -22,8 +24,6 @@ router.get("/login", (req, res) => {
     showLogo: false,
   });
 });
-
-
 
 // Rota para cadastro de usuário
 router.get("/cadastrousuario", (req, res) => {
@@ -34,8 +34,6 @@ router.get("/cadastrousuario", (req, res) => {
     isCadastroUsuario: true,
   });
 });
-
-
 
 router.get("/gerenciador", (req, res) => {
   res.render("adm/gerenciadorAdm", {
@@ -72,4 +70,10 @@ router.get("/bloco", (req, res) => {
     isGerenciador: true,
   });
 });
+
+// ...rotas POST para criação de tipoSala, tipoMesa e bloco...
+router.post("/tipoSala", tipoSalaController.criarTipoSala);
+router.post("/tipoMesa", tipoMesaController.criarMesa);
+router.post("/bloco", blocosController.criarBloco);
+
 module.exports = router;
