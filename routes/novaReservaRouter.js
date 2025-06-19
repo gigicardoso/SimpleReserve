@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const agendaController = require('../controllers/agendaController');
-const Sala = require('../models/salas');
-const Localizacao = require('../models/localizacao');
+const Sala = require('../models/salasModel');
 
 // Rota GET para exibir o formulário de nova reserva
 router.get('/', async (req, res) => {
@@ -34,6 +33,6 @@ router.get('/', async (req, res) => {
 });
 
 // POST continua igual
-router.post('/', agendaController.criar);
+router.post('/', agendaController.criarAgenda);
 
 module.exports = router;

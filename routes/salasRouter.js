@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const salasController = require('../controllers/salasController');
 
+// Listar todas as salas (tela de gerenciamento)
 router.get('/gerenciarsalas', salasController.listarSalas);
-router.get('/salas/excluir/:cod', salasController.excluirSala);
-router.get('/salas/editar/:cod', salasController.editarSalaForm);
-router.post('/salas/editar/:cod', salasController.editarSala);
+
+// Criar nova sala
+router.post('/cadastrosala', salasController.criarSala);
+
+// Atualizar sala
+router.post('/editar/:id', salasController.atualizarSala);
+
+// Deletar sala
+router.post('/excluir/:id', salasController.deletarSala);
 
 module.exports = router;
