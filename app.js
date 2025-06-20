@@ -5,7 +5,7 @@ const hbs = require('hbs');
 const express = require('express');
 const path = require('path');
 const { sequelize } = require('./db/db');
-
+require('./models/relacionamento.js'); 
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -28,6 +28,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
 app.use("/novareserva", agendaRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

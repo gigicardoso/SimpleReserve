@@ -13,10 +13,10 @@
     </div>
     <div class="formulario-ask">
       <label for="bloco">*Selecione o bloco:</label>
-      <select id="bloco" name="cod_bloco" required>
+      <select id="bloco" name="id_bloco" required>
         <option value="">Selecione um bloco</option>
         {{#each blocos}}
-          <option value="{{cod_bloco}}">{{descricao}}</option>
+          <option value="{{id_bloco}}">{{descricao}}</option>
         {{/each}}
       </select>
     </div>

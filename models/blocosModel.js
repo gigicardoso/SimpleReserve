@@ -19,4 +19,5 @@ const Bloco = sequelize.define(
   }
 );
 
+
 module.exports = Bloco;

@@ -5,6 +5,7 @@ const db = require("../db/db");
 const tipoSalaController = require("../controllers/tipoSalaController");
 const tipoMesaController = require("../controllers/tipoMesaController");
 const blocosController = require("../controllers/blocosController");
+const andarBlocoController = require("../controllers/andarBlocoController");
 
 /* Rota para Home */
 router.get("/", (req, res) => {
@@ -71,14 +72,9 @@ router.get("/bloco", (req, res) => {
   });
 });
 
-router.get("/andar", (req, res) => {
-  res.render("adm/andar", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isGerenciador: true,
-  });
-});
+router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
+router.get("/andar", andarBlocoController.formCadastroAndar);
+router.post("/andar", andarBlocoController.criarAndar);
 
 router.get("/usuariosadm", (req, res) => {
   res.render("adm/usuariosAdm", {

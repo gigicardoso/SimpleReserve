@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../db/db");
-const Bloco = require("./blocosModel");
 
 const AndarBloco = sequelize.define(
   "Andar",
@@ -29,6 +28,5 @@ const AndarBloco = sequelize.define(
   }
 );
 
-AndarBloco.belongsTo(Bloco, { foreignKey: "id_bloco", as: "blocoAndar" });
 
 module.exports = AndarBloco;
