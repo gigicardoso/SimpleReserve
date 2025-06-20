@@ -1,0 +1,27 @@
+<div class="formulario-reserva-sala">
+  <h1 class="tituloSala">Cadastro de andar</h1>
+  <form id="tipoMesaForm" action="/andar" method="POST">
+    <div class="formulario-ask">
+      <label for="descricao">*Nome do Andar:</label>
+      <input 
+        type="text" 
+        id="descricao" 
+        name="descricao" 
+        required
+        placeholder="Ex: Andar 1, 2, 3..."
+      />
+    </div>
+    <div class="formulario-ask">
+      <label for="bloco">*Selecione o bloco:</label>
+      <select id="bloco" name="cod_bloco" required>
+        <option value="">Selecione um bloco</option>
+        {{#each blocos}}
+          <option value="{{cod_bloco}}">{{descricao}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="button-group">
+      <button class="save-btn" type="submit" style="text-align: center;">Salvar andar</button>
+    </div>
+  </form>
+</div>

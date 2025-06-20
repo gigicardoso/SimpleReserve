@@ -1,37 +1,50 @@
-<div id="bodyCadastroUsuarios">
-  <div class="login-container cadastro-container">
-    <div class="login-box">
-      <div class="logo">
-        <img src="./images/logoLogin.png" alt="Simple Reserve Logo" class="logofoto">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Reserve - Criar Conta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="min-h-screen flex">
+  <!-- Lado esquerdo -->
+  <div class="w-1/2 flex flex-col justify-center items-center bg-white px-10">
+    <!-- Título -->
+    <h2 class="text-4xl font-bold text-[#6a8642]">Crie sua conta</h2>
+    <p class="mt-2 text-sm text-gray-600">
+      Já possui uma conta? <a href="#" class="text-[#6a8642] underline">Faça login</a>
+    </p>
+
+    <!-- Formulário -->
+    <form class="w-full max-w-sm mt-6 space-y-4">
+      <div class="relative">
+        <i class="bi bi-person-fill absolute left-3 top-3.5 text-[#6a8642]"></i>
+        <input type="text" placeholder="Nome completo" class="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6a8642]" />
       </div>
-      <br>
-      <h2 class="bemvindo">Cadastre-se</h2>
 
-      <form id="cadastro-form">
-        <div class="input-group">
-          <input type="text" placeholder="Digite seu nome completo" required>
-        </div>
+      <div class="relative">
+        <i class="bi bi-envelope-fill absolute left-3 top-3.5 text-[#6a8642]"></i>
+        <input type="email" placeholder="E-mail" class="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6a8642]" />
+      </div>
 
-        <div class="input-group">
-          <input type="email" placeholder="Digite seu e-mail" required>
-        </div>
+      <div class="relative">
+        <i class="bi bi-lock-fill absolute left-3 top-3.5 text-[#6a8642]"></i>
+        <input type="password" placeholder="Senha" class="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6a8642]" />
+      </div>
 
-        <div class="input-group">
-          <input type="password" placeholder="Digite sua senha" required>
-        </div>
+      <div class="relative">
+        <i class="bi bi-lock-fill absolute left-3 top-3.5 text-[#6a8642]"></i>
+        <input type="password" placeholder="Confirme sua senha" class="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6a8642]" />
+      </div>
 
-        <div class="input-group">
-          <input type="password" placeholder="Confirme sua senha" required>
-        </div>
-
-        <button type="submit" class="btn-cadastrar">Cadastrar</button>
-
-        <div class="links">
-          <p class="textoVerdeLogin">ou</p>
-          <a href="/login">Já tem conta? Faça login</a>
-        </div>
-      </form>
-    </div>
+      <button class="w-full py-2 mt-2 rounded-full bg-[#6a8642] text-white font-semibold hover:bg-[#5b7635] transition">
+        Criar conta
+      </button>
+    </form>
   </div>
-</div>
-<script src="script.js"></script>
+
+  <!-- Lado direito com gradiente mais forte -->
+  <div class="w-1/2 bg-gradient-to-l from-white to-[#6a8642]/40"></div>
+</body>
+</html>

@@ -35,7 +35,7 @@ router.get("/cadastrousuario", (req, res) => {
   });
 });
 
-router.get("/gerenciador", (req, res) => {
+router.get("/adm", (req, res) => {
   res.render("adm/gerenciadorAdm", {
     layout: "layout",
     showSidebar: true,
@@ -64,6 +64,15 @@ router.get("/tipoSala", (req, res) => {
 
 router.get("/bloco", (req, res) => {
   res.render("adm/bloco", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
+router.get("/andar", (req, res) => {
+  res.render("adm/andar", {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
