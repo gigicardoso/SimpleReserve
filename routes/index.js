@@ -80,6 +80,35 @@ router.get("/andar", (req, res) => {
   });
 });
 
+router.get("/usuariosadm", (req, res) => {
+  res.render("adm/usuariosAdm", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
+router.get("/reservasadm", (req, res) => {
+  res.render("adm/reservas", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
+router.get("/salas", (req, res) => {
+  res.render("adm/salas", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+});
+
+
+
 // ...rotas POST para criação de tipoSala, tipoMesa e bloco...
 router.post("/tipoSala", tipoSalaController.criarTipoSala);
 router.post("/tipoMesa", tipoMesaController.criarMesa);
