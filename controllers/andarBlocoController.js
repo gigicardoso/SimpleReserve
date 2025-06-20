@@ -1,6 +1,28 @@
 const Bloco = require("../models/blocosModel");
 const Andar = require("../models/andarBlocoModel");
 
+
+
+exports.formCadastroAndar = async (req, res) => {
+  const blocos = await Bloco.findAll();
+  res.render("adm/andar", {
+    blocos,
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+  });
+};
+
+
+//Exibe os andares de um bloco específico
+exports.getAndaresPorBloco = async (req, res) => {
+  const { id_bloco } = req.params;
+  const Andar = require("../models/andarBlocoModel");
+  const andares = await Andar.findAll({ where: { id_bloco } });
+  res.json(andares);
+};
+
 //CONSULTA
 exports.listarAndar = async (req, res) => {
   try {
@@ -22,8 +44,11 @@ exports.listarAndar = async (req, res) => {
 // CRIAÇÃO
 exports.criarAndar = async (req, res) => {
   try {
-    const novoAndar = await Andar.create(req.body);
-    res.status(201).json(novoAndar);
+    await Andar.create({
+      descricao: req.body.descricao,
+      id_bloco: req.body.id_bloco,
+    });
+    res.redirect("/andar");
   } catch (error) {
     res.status(500).send("Erro ao criar andar");
   }
