@@ -7,9 +7,9 @@
       <br>
       <h2 class="bemvindo">Cadastre-se</h2>
 
-      <form id="cadastro-form">
+      <form id="cadastro-form" method="POST" action="/cadastrousuario">
         <div class="input-group">
-          <input type="text" placeholder="Digite seu nome completo" name="nome_user" required>
+          <input type="text" placeholder="Digite seu nome completo" name="nome" required>
         </div>
 
         <div class="input-group">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="input-group">
-          <input type="password" placeholder="Confirme sua senha" name="senha" required>
+          <input type="password" placeholder="Confirme sua senha" name="senha2" required>
         </div>
 
         <button type="submit" class="btn-cadastrar">Cadastrar</button>

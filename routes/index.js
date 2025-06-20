@@ -6,6 +6,7 @@ const tipoSalaController = require("../controllers/tipoSalaController");
 const tipoMesaController = require("../controllers/tipoMesaController");
 const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
+const usuariosController = require("../controllers/usuariosController");
 
 /* Rota para Home */
 router.get("/", (req, res) => {
@@ -35,6 +36,8 @@ router.get("/cadastrousuario", (req, res) => {
     isCadastroUsuario: true,
   });
 });
+
+router.post("/cadastrousuario", usuariosController.criarUsuario);
 
 router.get("/adm", (req, res) => {
   res.render("adm/gerenciadorAdm", {

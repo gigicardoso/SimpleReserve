@@ -16,9 +16,19 @@ exports.listarUsuarios = async (req, res) => {
 // Criar usuário
 exports.criarUsuario = async (req, res) => {
   try {
-    await Usuario.create(req.body);
-    res.redirect('/usuarios');
+    if (req.body.senha !== req.body.senha2){
+      return res.status(400).send('As senhas não coincidem');
+    }
+    await Usuario.create(
+      {
+        nome: req.body.nome,
+        email: req.body.email,
+        senha: req.body.senha,
+      }
+    );
+    res.redirect('/');
   } catch (error) {
+    console.error('Erro ao criar usuário:', error);
     res.status(500).send('Erro ao criar usuário');
   }
 };
