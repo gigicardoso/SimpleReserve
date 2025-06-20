@@ -1,5 +1,5 @@
 const Sala = require("../models/salasModel");
-const Andar = require("../models/andarBlocoModel");
+const AndarBloco = require("../models/andarBlocoModel");
 const Mesa = require("../models/tipoMesaModel");
 const SalaTipo = require("../models/tipoSalaModel");
 const Bloco = require("../models/blocosModel");
@@ -9,7 +9,11 @@ exports.listarSalas = async (req, res) => {
   try {
     const salas = await Sala.findAll({
       include: [
-        { model: Andar, as: "andarSala" },
+        { model: AndarBloco, as: "andarSala",
+          include: [
+            { model: Bloco, as: "blocoAndar" }
+          ]
+         },
         { model: Mesa, as: "mesaSala" },
         { model: SalaTipo, as: "tipoSala" },
       ],
@@ -22,6 +26,7 @@ exports.listarSalas = async (req, res) => {
       isGerenciarSalas: true,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send("Erro ao buscar salas");
   }
 };
@@ -69,8 +74,8 @@ exports.formCadastroSala = async (req, res) => {
     const blocos = await Bloco.findAll();
     let andares = [];
     if (blocos.length > 0) {
-      const Andar = require("../models/andarBlocoModel");
-      andares = await Andar.findAll({ where: { id_bloco: blocos[0].id_bloco } });
+      const AndarBloco = require("../models/andarBlocoModel");
+      andares = await AndarBloco.findAll({ where: { id_bloco: blocos[0].id_bloco } });
     }
     res.render("cadastroSala", {
       layout: "layout",

@@ -1,91 +1,245 @@
-{{! filepath: c:\Users\giova\OneDrive\Área de Trabalho\SimpleReserve\views\gerenciarSalas.hbs }}
-
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro de Sala</title>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
-    <link rel="stylesheet" href="./stylesheets/sidebar.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
-    />
-    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Salas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+    <link rel="stylesheet" href="./stylesheets/sidebar.css">
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
     <style>
-      body{
-        /*text-align: center;
-        align-items: center;*/
-        
-      }
-      table {
-        margin: 0 auto;
-        width: 90%;
-        border-collapse: collapse;
+        :root {
+            --primary-color: #84925b;
+            --primary-dark: #6a774a;
+            --primary-light: #a3af7b;
+            --secondary-color: #f5f7f0;
+            --text-color: #333333;
+            --text-light: #5a5a5a;
+            --white: #ffffff;
+            --gray-light: #f0f2eb;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
         }
-      th, td {
-        border: 1px solid #ddd;
-      }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 16px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: var(--primary-dark);
+            margin: 0;
+            font-weight: 600;
+            font-size: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .table-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-yes {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+        
+        .badge-no {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+        
+        .btn-edit {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+        
+        .btn-edit:hover {
+            background-color: rgba(255, 152, 0, 0.2);
+        }
+        
+        .btn-delete {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .btn-delete:hover {
+            background-color: rgba(244, 67, 54, 0.2);
+        }
+        
+        @media (max-width: 1200px) {
+            .table-container {
+                border-radius: 0;
+            }
+            
+            th, td {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
+            
+            .btn-action span {
+                display: none;
+            }
+            
+            .btn-action i {
+                margin-right: 0;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h2 class="teste">Gerenciar Salas</h2>
-    <table border="1" class="table-teste">
-      <tr >
-        <th>Código</th>
-        <th>Descrição</th>
-        <th>Número</th>
-        <th>Bloco</th>
-        <th>Andar</th>
-        <th>Capacidade</th>
-        <th>Tipo de Mesa</th>
-        <th>Mesa Canhoto</th>
-        <th>Projetor</th>
-        <th>Ar Condicionado</th>
-        <th>Quadro</th>
-        <th>Computador</th>
-        <th>Acessibilidade</th>
-        <th>Quantidade de Mesa Acessível</th>
-        <th>Observações</th>
-        <th>Recursos</th>
-        <th>Ações</th>
-      </tr>
-      {{#each salas}}
-        <tr>
-          <td>{{cod}}</td>
-          <td>{{descricao}}</td>
-          <td>{{numero}}</td>
-          <td>{{bloco}}</td>
-          <td>{{andar}}</td>
-          <td>{{qtdade_lugares}}</td>
-          <td>{{tipo_mesa}}</td>
-          <td>{{mesa_canhoto}}</td>
-          <td>{{projetor}}</td>
-          <td>{{arcondicionado}}</td>
-          <td>{{quadro}}</td>
-          <td>{{computador}}</td>
-          <td>{{acessibilidade}}</td>
-          <td>{{qtdade_mesa_acessivel}}</td>
-          <td>{{obs}}</td>  
-          <td>{{recursos}}</td>
-
-                         
-          <td>
-            <a href="/salas/editar/{{cod}}">Editar</a>
-            <a
-              href="/salas/excluir/{{cod}}"
-              onclick="return confirm('Tem certeza?')"
-            >Excluir</a>
-          </td>
-        </tr>
-      {{/each}}
-      
-    </table>
+</head>
+<body>
+    <div class="header">
+        <h2><i class="fas fa-door-open"></i> Gerenciar Salas</h2>
+    </div>
     
-  </body>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cod</th>
+                    <th>Nome</th>
+                    <th>Bloco</th>
+                    <th>Andar</th>
+                    <th>Tipo</th>
+                    <th>Capacidade</th>
+                    <th>Mesa</th>
+                    <th>Canhoto</th>
+                    <th>Projetor</th>
+                    <th>Ar Cond.</th>
+                    <th>Quadro</th>
+                    <th>Computador</th>
+                    <th>Acessível</th>
+                    <th>Mesas Acess.</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each salas}}
+                <tr>
+                    <td>{{id_salas}}</td>
+                    <td><strong>{{nome_salas}}</strong></td>
+                    <td>{{andarSala.blocoAndar.descricao}}</td>
+                    <td>{{andarSala.descricao}}</td>
+                    <td>{{tipoSala.descricao}}</td>
+                    <td>{{capacidade}}</td>
+                    <td>{{mesaSala.descricao}}</td>
+                    <td><span class="badge {{#if mesa_canhoto}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if mesa_canhoto}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td><span class="badge {{#if projetor}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if projetor}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td><span class="badge {{#if ar_cond}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if ar_cond}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td><span class="badge {{#if quadro}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if quadro}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td><span class="badge {{#if computador}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if computador}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td><span class="badge {{#if acess}}badge-yes{{else}}badge-no{{/if}}">
+                        {{#if acess}}Sim{{else}}Não{{/if}}
+                    </span></td>
+                    <td>{{mesa_acess}}</td>
+                    <td>{{descricao}}</td>
+                    <td class="actions">
+                        <a href="/salas/editar/{{id_salas}}" class="btn-action btn-edit">
+                            <i class="fas fa-edit"></i>
+                            <span>Editar</span>
+                        </a>
+                        <a href="/salas/excluir/{{id_salas}}" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja excluir esta sala?')">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Excluir</span>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Confirmação antes de excluir
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!confirm('Tem certeza que deseja excluir esta sala?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
 </html>

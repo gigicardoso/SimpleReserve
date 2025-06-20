@@ -103,6 +103,14 @@ router.get("/salas", (req, res) => {
   });
 });
 
+router.get("/reservasDoDia", (req, res) => {
+  res.render("reservasDoDia", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isReservasDia: true,
+  });
+});
 
 
 // ...rotas POST para criação de tipoSala, tipoMesa e bloco...

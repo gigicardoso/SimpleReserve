@@ -52,8 +52,6 @@ const Sala = sequelize.define(
   }
 );
 
-Sala.belongsTo(Andar, { foreignKey: "id_andar", as: "andarSala" });
-Sala.belongsTo(Mesa, { foreignKey: "id_mesa", as: "mesaSala" });
-Sala.belongsTo(SalaTipo, { foreignKey: "id_tipo", as: "tipoSala" });
+
 
 module.exports = Sala;
