@@ -14,24 +14,39 @@
           <th>Nome</th>
           <th>E-mail</th>
           <th>Perfil</th>
+          <th>Senha</th>
           <th>Ações</th>
         </tr>
       </thead>
      
       <tbody>
-         {{#each usuarios}}
-        <tr>
-          <td>{{this.nome}}</td>
-          <td>{{this.email}}</td>
-          <td>{{this.senha}}</td>
-        <tr class="empty-message-row">
-          <td colspan="4" class="empty-message">
-            Nenhum usuário cadastrado. Clique no botão
-            <i class="fas fa-plus"></i>
-            para adicionar.
-          </td>
-        </tr>
-         {{/each}}
+        {{#if usuarios.length}}
+          {{#each usuarios}}
+            <tr>
+              <td>{{this.nome}}</td>
+              <td>{{this.email}}</td>
+              <td>
+                {{#if this.permissaoUsuario}}
+                  {{this.permissaoUsuario.descricao}}
+                {{else}}
+                  -
+                {{/if}}
+              </td>
+              <td>{{this.senha}}</td>
+              <td class="actions">
+                <!-- Botões de editar/excluir aqui -->
+              </td>
+            </tr>
+          {{/each}}
+        {{else}}
+          <tr class="empty-message-row">
+            <td colspan="5" class="empty-message">
+              Nenhum usuário cadastrado. Clique no botão
+              <i class="fas fa-plus"></i>
+              para adicionar.
+            </td>
+          </tr>
+        {{/if}}
       </tbody>
          
 
@@ -83,11 +98,6 @@
   </div>
 </div>
 
-<<<<<<< HEAD
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
-=======
 <link
   href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
   rel="stylesheet"
@@ -164,7 +174,6 @@
   justify-content: center; } .btn-action { padding: 6px 8px; font-size: 12px; }
   .btn-action i { display: none; } }
 </style>
->>>>>>> 2857e8dce0e0e2560f78beead7ee6ed9add2f28c
 <script>
   // Abrir modal ao clicar no botão +
   document.addEventListener('DOMContentLoaded', function() {

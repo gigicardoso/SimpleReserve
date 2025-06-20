@@ -79,14 +79,7 @@ router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
 router.get("/andar", andarBlocoController.formCadastroAndar);
 router.post("/andar", andarBlocoController.criarAndar);
 
-router.get("/usuariosadm", (req, res) => {
-  res.render("adm/usuariosAdm", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isGerenciador: true,
-  });
-});
+router.get("/usuariosadm", usuariosController.listarUsuarios);
 
 router.get("/reservasadm", (req, res) => {
   res.render("adm/reservas", {
