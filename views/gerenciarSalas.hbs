@@ -38,10 +38,10 @@
     <table border="1" class="table-teste">
       <tr >
         <th>Código</th>
-        <th>Descrição</th>
-        <th>Número</th>
+        <th>Nome da Sala</th>
         <th>Bloco</th>
         <th>Andar</th>
+        <th>Tipo de Sala</th>
         <th>Capacidade</th>
         <th>Tipo de Mesa</th>
         <th>Mesa Canhoto</th>
@@ -50,35 +50,34 @@
         <th>Quadro</th>
         <th>Computador</th>
         <th>Acessibilidade</th>
-        <th>Quantidade de Mesa Acessível</th>
-        <th>Observações</th>
-        <th>Recursos</th>
+        <th>Quantidade de Mesas Acessiveis</th>
+        <th>Descrição</th>
+
         <th>Ações</th>
       </tr>
       {{#each salas}}
         <tr>
-          <td>{{cod}}</td>
-          <td>{{descricao}}</td>
-          <td>{{numero}}</td>
-          <td>{{bloco}}</td>
-          <td>{{andar}}</td>
-          <td>{{qtdade_lugares}}</td>
-          <td>{{tipo_mesa}}</td>
+          <td>{{id_salas}}</td>
+          <td>{{nome_salas}}</td>
+          <td>{{andarSala.blocoAndar.descricao}}</td>
+          <td>{{andarSala.descricao}}</td>
+          <td>{{tipoSala.descricao}}</td>
+          <td>{{capacidade}}</td>
+          <td>{{mesaSala.descricao}}</td>
           <td>{{mesa_canhoto}}</td>
           <td>{{projetor}}</td>
-          <td>{{arcondicionado}}</td>
+          <td>{{ar_cond}}</td>
           <td>{{quadro}}</td>
           <td>{{computador}}</td>
-          <td>{{acessibilidade}}</td>
-          <td>{{qtdade_mesa_acessivel}}</td>
-          <td>{{obs}}</td>  
-          <td>{{recursos}}</td>
+          <td>{{acess}}</td>
+          <td>{{mesa_acess}}</td>
+          <td>{{descricao}}</td>
 
                          
           <td>
-            <a href="/salas/editar/{{cod}}">Editar</a>
+            <a href="/salas/editar/{{id_salas}}">Editar</a>
             <a
-              href="/salas/excluir/{{cod}}"
+              href="/salas/excluir/{{id_salas}}"
               onclick="return confirm('Tem certeza?')"
             >Excluir</a>
           </td>
