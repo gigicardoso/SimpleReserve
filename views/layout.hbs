@@ -18,39 +18,90 @@
           <h4>Simple Reserve</h4>
         </div>
         <ul class="sidebar-menu">
+
+
+          <a href="/">
+          <div>
           <li class="{{#if isAgenda}}active{{/if}}">
-            <a href="/"><i class="bi bi-calendar-check"></i> <span>Minha Agenda</span></a>
+            <i class="bi bi-calendar-check"></i> <span>Minha Agenda</span>            
           </li>
+          </a>
+          </div>
+
+
+        <a href="/reservasDoDia"></a>
+        <div>
           <li class="{{#if isReservasDia}}active{{/if}}">
-            <a href="/reservasDoDia"><i class="bi bi-list-check"></i> <span>Reservas do Dia</span></a>
+            <i class="bi bi-list-check"></i> <span>Reservas do Dia</span>
           </li>
+          </a>
+        </div>
+
+          <a href="/novareserva">
+          <div>
           <li class="{{#if isNovaReserva}}active{{/if}}">
-            <a href="/novareserva"><i class="bi bi-plus-circle"></i> <span>Nova Reserva</span></a>
+            <i class="bi bi-plus-circle"></i> <span>Nova Reserva</span>
           </li>
+          </a>
+        </div>
+
+           <a href="#">
+          <div>
           <li class="{{#if isPesquisar}}active{{/if}}">
-            <a href="#"><i class="bi bi-search"></i> <span>Pesquisar</span></a>
+           <i class="bi bi-search"></i> <span>Pesquisar</span>
           </li>
+          </a>
+        </div>
+
+        <a href="#">
+          <div>
           <li class="{{#if isHistorico}}active{{/if}}">
-            <a href="#"><i class="bi bi-file-earmark-text"></i> <span>Emitir Histórico</span></a>
+            <i class="bi bi-file-earmark-text"></i> <span>Emitir Histórico</span>
           </li>
+          </a>
+        </div>
+
+          <a href="#">
+          <div>
           <li class="{{#if isConta}}active{{/if}}">
-            <a href="#"><i class="bi bi-person-circle"></i> <span>Minha Conta</span></a>
+            <i class="bi bi-person-circle"></i> <span>Minha Conta</span>
           </li>
+          </a>
+          </div>
+
+
+
           <li class="{{#if isSair}}active{{/if}}">
             <a href="#"><i class="bi bi-box-arrow-right"></i> <span>Sair</span></a>
           </li>
+
+
           <div class="sidebar-divider"></div>
           <!--<span class="sidebar-title">Administração</span>-->
+
+          <a href="/salas/gerenciarsalas">
+          <div>
           <li class="{{#if isGerenciarSalas}}active{{/if}}">
-            <a href="/salas/gerenciarsalas"><i class="bi bi-folder-plus"></i> <span>Gerenciar Salas</span></a>
+            <i class="bi bi-folder-plus"></i> <span>Gerenciar Salas</span>
           </li>
+          </a>
+          </div>
+
+          <a href="/salas/cadastrosala">
+          <div>
           <li class="{{#if isCadastroSala}}active{{/if}}">
-            <a href="/salas/cadastrosala"><i class="bi bi-folder-plus"></i> <span>Cadastrar Sala</span></a>
+            <i class="bi bi-folder-plus"></i> <span>Cadastrar Sala</span>
           </li>
-        
+          </a>
+          </div>
+
+
+           <a href="/adm">
+          <div>
           <li class="{{#if isGerenciador}}active{{/if}}">
-            <a href="/adm"><i class="bi bi-gear"></i> <span>Gerenciador</span></a>
-          </li>
+           <i class="bi bi-gear"></i> <span>Gerenciador</span>
+          </li></a>
+          </div>
         </ul>
       </div>
     {{/if}}
