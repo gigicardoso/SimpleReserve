@@ -54,9 +54,20 @@ router.get("/tipoSala", tipoSalaController.listarTipoSalas);
 
 router.get("/bloco", blocosController.listarBlocos);
 
-router.get("/andar", andarBlocoController.listarAndar);
+//Listagem de andares
+router.get("/andares", andarBlocoController.listarAndar);
 
+//Exclusão de andar
+router.get("/excluirAndar/:id", andarBlocoController.deletarAndar);
+
+//Edição de andar
+router.get("/editarAndar/:id", andarBlocoController.formEditarAndar);
+router.post("/editarAndar/:id", andarBlocoController.atualizarAndar);
+
+// Listar andares por bloco
 router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
+
+//Cadastro de andar
 router.get("/andar", andarBlocoController.formCadastroAndar);
 router.post("/andar", andarBlocoController.criarAndar);
 
