@@ -26,8 +26,14 @@
               <td>{{this.email}}</td>
               <td>{{this.senha}}</td>
               <td class="actions">
-                <button class="btn-action btn-edit"><i class="fas fa-edit"></i> Editar</button>
-                <button class="btn-action btn-delete"><i class="fas fa-trash-alt"></i> Excluir</button>
+                <a href="editarUsuario/{{id_user}}" class="btn-action btn-edit">
+                            <i class="fas fa-edit"></i>
+                            <span>Editar</span>
+                        </a>
+                        <a href="excluirUsuario/{{id_user}}" class="btn-action btn-delete" >
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Excluir</span>
+                        </a>
               </td>
             </tr>
           {{/each}}

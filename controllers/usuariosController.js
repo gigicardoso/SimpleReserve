@@ -43,9 +43,25 @@ exports.atualizarUsuario = async (req, res) => {
     const usuario = await Usuario.findByPk(req.params.id);
     if (!usuario) return res.status(404).send('Usuario não encontrada');
     await usuario.update(req.body);
-    res.json(usuario);
+    res.redirect('/usuariosadm');
   } catch (error) {
     res.status(500).send('Erro ao atualizar usuario');
+  }
+};
+
+exports.formEditarUsuario = async (req, res) => {
+  try {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).send('Usuario não encontrada');
+    res.render('adm/editarUsuario', {
+      usuario,
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isEditarUsuario: true
+    });
+  } catch (error) {
+    res.status(500).send('Erro ao buscar usuario para edição');
   }
 };
 
@@ -55,7 +71,7 @@ exports.deletarUsuario = async (req, res) => {
     const usuario = await Usuario.findByPk(req.params.id);
     if (!usuario) return res.status(404).send('Usuario não encontrada');
     await usuario.destroy();
-    res.send('Usuario deletada com sucesso');
+    res.redirect('/usuariosadm');
   } catch (error) {
     res.status(500).send('Erro ao deletar usuario');
   }

@@ -98,7 +98,15 @@ router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
 router.get("/andar", andarBlocoController.formCadastroAndar);
 router.post("/andar", andarBlocoController.criarAndar);
 
+// Listar usuários 
 router.get("/usuariosadm", usuariosController.listarUsuarios);
+
+// Excluir usuário
+router.get("/excluirUsuario/:id", usuariosController.deletarUsuario);
+
+// Edição de usuário
+router.get("/editarUsuario/:id", usuariosController.formEditarUsuario);
+router.post("/editarUsuario/:id", usuariosController.atualizarUsuario);
 
 router.get("/reservasadm", (req, res) => {
   res.render("adm/reservas", {
