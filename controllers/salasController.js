@@ -48,11 +48,46 @@ exports.atualizarSala = async (req, res) => {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
     await sala.update(req.body);
-    res.json(sala);
+    res.redirect("/salas/gerenciarsalas");
   } catch (error) {
     res.status(500).send("Erro ao atualizar sala");
   }
 };
+
+exports.formEditarSala = async (req, res) => {
+  try {
+    const sala = await Sala.findByPk(req.params.id, {
+      include: [
+        { model: AndarBloco, as: "andarSala" },
+        { model: Mesa, as: "mesaSala" },
+        { model: SalaTipo, as: "tipoSala" },
+      ],
+    });
+    if (!sala) return res.status(404).send("Sala não encontrada");
+
+    const tiposSala = await SalaTipo.findAll();
+    const tiposMesa = await Mesa.findAll();
+    const blocos = await Bloco.findAll();
+    let andares = [];
+    if (blocos.length > 0) {
+      andares = await AndarBloco.findAll({ where: { id_bloco: blocos[0].id_bloco } });
+    }
+
+    res.render("cadastroSala", {
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isAtualizarSala: true,
+      sala,
+      tiposSala,
+      tiposMesa,
+      blocos,
+      andares
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao carregar formulário de atualização de sala");
+  }
+}
 
 //DELETE
 exports.deletarSala = async (req, res) => {
@@ -60,7 +95,7 @@ exports.deletarSala = async (req, res) => {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
     await sala.destroy();
-    res.send("Sala deletada com sucesso");
+    res.redirect("/salas/gerenciarsalas");
   } catch (error) {
     res.status(500).send("Erro ao deletar sala");
   }

@@ -10,9 +10,10 @@ router.get("/cadastrosala", salasController.formCadastroSala);
 router.post("/cadastrosala", salasController.criarSala);
 
 // Atualizar sala
+router.get("/editar/:id", salasController.formEditarSala);
 router.post("/editar/:id", salasController.atualizarSala);
 
 // Deletar sala
-router.post("/excluir/:id", salasController.deletarSala);
+router.get("/excluir/:id", salasController.deletarSala);
 
 module.exports = router;

@@ -14,6 +14,11 @@ const salasRouter = require('./routes/salasRouter');
 
 const app = express();
 
+
+hbs.registerHelper('ifeq', function(a, b, options) {
+  return (a == b) ? options.fn(this) : options.inverse(this);
+});
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
