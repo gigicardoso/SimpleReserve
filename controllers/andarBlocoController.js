@@ -5,12 +5,8 @@ const Andar = require("../models/andarBlocoModel");
 
 exports.formCadastroAndar = async (req, res) => {
   const blocos = await Bloco.findAll();
-  const andares = await Andar.findAll({
-    include: [{ model: Bloco, as: "bloco" }]
-  });
   res.render("adm/andar", {
     blocos,
-    andares,
     layout: "layout",
     showSidebar: true,
     showLogo: true,

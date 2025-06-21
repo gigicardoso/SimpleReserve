@@ -50,14 +50,7 @@ router.get("/adm", (req, res) => {
 
 router.get("/tipoMesa", tipoMesaController.listarMesas);
 
-router.get("/tipoSala", (req, res) => {
-  res.render("adm/tipoSala", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isGerenciador: true,
-  });
-});
+router.get("/tipoSala", tipoSalaController.listarTipoSalas);
 
 router.get("/bloco", blocosController.listarBlocos);
 
