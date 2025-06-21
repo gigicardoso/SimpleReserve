@@ -30,11 +30,12 @@ exports.listarAndar = async (req, res) => {
       include: [
         {
           model: Bloco,
-          as: "andarBloco",
+          as: "blocoAndar",
         },
       ],
     });
-  res.render("/adm/andar", {
+
+  res.render("adm/andar", {
       layout: "layout",
       showSidebar: true,
       showLogo: true,
@@ -42,6 +43,7 @@ exports.listarAndar = async (req, res) => {
       andares: andar,
     });
   } catch (error) {
+    console.error("Erro ao buscar andares:", error);
     res.status(500).send("Erro ao buscar andares");
   }
 };
