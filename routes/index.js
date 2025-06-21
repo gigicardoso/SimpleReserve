@@ -48,9 +48,27 @@ router.get("/adm", (req, res) => {
   });
 });
 
+// Listagem de tipos de mesa
 router.get("/tipoMesa", tipoMesaController.listarMesas);
 
+// Exclusão de tipo de mesa
+router.get("/excluirMesa/:id", tipoMesaController.deletarMesa);
+
+// Edição de tipo de mesa
+router.get("/editarMesa/:id", tipoMesaController.formEditarMesa);
+router.post("/editarMesa/:id", tipoMesaController.atualizarMesa);
+
+// Listagem de tipos de sala
 router.get("/tipoSala", tipoSalaController.listarTipoSalas);
+
+// Exclusão de tipo de sala
+router.get("/excluirTipoSala/:id", tipoSalaController.deletarTipoSala);
+
+// Edição de tipo de sala
+router.get("/editarTipoSala/:id", tipoSalaController.formEditarTipoSala);
+router.post("/editarTipoSala/:id", tipoSalaController.atualizarTipoSala);
+
+
 
 //Listagem de blocos
 router.get("/bloco", blocosController.listarBlocos);

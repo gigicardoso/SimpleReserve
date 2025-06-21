@@ -4,7 +4,13 @@ const Mesa = require("../models/tipoMesaModel");
 exports.listarMesas = async (req, res) => {
   try {
     const mesas = await Mesa.findAll();
-    res.render("adm/tipoMesa", { mesas, layout: "layout", showSidebar: true, showLogo: true, isGerenciarMesas: true });
+    res.render("adm/tipoMesa", {
+      mesas,
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isGerenciarMesas: true,
+    });
   } catch (error) {
     res.status(500).send("Erro ao buscar mesa");
   }
@@ -24,11 +30,27 @@ exports.criarMesa = async (req, res) => {
 exports.atualizarMesa = async (req, res) => {
   try {
     const mesa = await Mesa.findByPk(req.params.id);
-    if (!mesa) return res.status(404).send('Mesa não encontrada');
+    if (!mesa) return res.status(404).send("Mesa não encontrada");
     await mesa.update(req.body);
-    res.json(mesa);
+    res.redirect("/tipoMesa");
   } catch (error) {
-    res.status(500).send('Erro ao atualizar mesa');
+    res.status(500).send("Erro ao atualizar mesa");
+  }
+};
+
+exports.formEditarMesa = async (req, res) => {
+  try {
+    const mesa = await Mesa.findByPk(req.params.id);
+    if (!mesa) return res.status(404).send("Mesa não encontrada");
+    res.render("adm/editarMesa", {
+      mesa,
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isEditarMesa: true,
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao buscar mesa para edição");
   }
 };
 
@@ -36,10 +58,10 @@ exports.atualizarMesa = async (req, res) => {
 exports.deletarMesa = async (req, res) => {
   try {
     const mesa = await Mesa.findByPk(req.params.id);
-    if (!mesa) return res.status(404).send('Mesa não encontrada');
+    if (!mesa) return res.status(404).send("Mesa não encontrada");
     await mesa.destroy();
-    res.send('Mesa deletada com sucesso');
+    res.redirect("/tipoMesa");
   } catch (error) {
-    res.status(500).send('Erro ao deletar mesa');
+    res.status(500).send("Erro ao deletar mesa");
   }
 };

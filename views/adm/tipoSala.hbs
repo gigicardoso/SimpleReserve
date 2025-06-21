@@ -21,8 +21,14 @@
             <tr>
               <td>{{this.descricao}}</td>
               <td class="actions">
-                <button class="btn-action btn-edit"><i class="fas fa-edit"></i> Editar</button>
-                <button class="btn-action btn-delete" data-id="{{this.id_tipo_sala}}"><i class="fas fa-trash-alt"></i> Excluir</button>
+                <a href="editarTipoSala/{{id_tipo}}" class="btn-action btn-edit">
+                            <i class="fas fa-edit"></i>
+                            <span>Editar</span>
+                        </a>
+                        <a href="excluirTipoSala/{{id_tipo}}" class="btn-action btn-delete" >
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Excluir</span>
+                        </a>
               </td>
             </tr>
           {{/each}}

@@ -32,11 +32,27 @@ exports.atualizarTipoSala = async (req, res) => {
     const tipoSala = await TipoSala.findByPk(req.params.id);
     if (!tipoSala) return res.status(404).send("Tipo de Sala não encontrada");
     await tipoSala.update(req.body);
-    res.json(tipoSala);
+    res.redirect("/tipoSala");
   } catch (error) {
     res.status(500).send("Erro ao atualizar tipo de Sala");
   }
 };
+
+exports.formEditarTipoSala = async (req, res) => {
+  try {
+    const tipoSala = await TipoSala.findByPk(req.params.id);
+    if (!tipoSala) return res.status(404).send("Tipo de Sala não encontrada");
+    res.render("adm/editarTipoSala", {
+      tipoSala,
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isEditarTipoSala: true,
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao buscar tipo de Sala");
+  }
+}
 
 //DELETE
 exports.deletarTipoSala = async (req, res) => {
@@ -44,7 +60,7 @@ exports.deletarTipoSala = async (req, res) => {
     const tipoSala = await TipoSala.findByPk(req.params.id);
     if (!tipoSala) return res.status(404).send("Tipo de Sala não encontrada");
     await tipoSala.destroy();
-    res.send("Tipo de Sala deletada com sucesso");
+    res.redirect("/tipoSala");
   } catch (error) {
     res.status(500).send("Erro ao deletar tipo de Sala");
   }
