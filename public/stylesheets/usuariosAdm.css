@@ -64,24 +64,37 @@ h1 {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(132, 146, 91, 0.4);
 }
-.user-table-container {
+/* Corrige e padroniza botões de ação para todas as telas administrativas */
+.user-table-container,
+.bloco-table-container,
+.andar-table-container,
+.mesa-table-container,
+.tipo-sala-table-container {
     background-color: var(--white);
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     margin-bottom: 30px;
 }
-.user-table {
+.user-table,
+.bloco-table,
+.andar-table,
+.mesa-table,
+.tipo-sala-table {
     width: 100%;
     border-collapse: collapse;
 }
-.user-table th, .user-table td {
+.user-table th, .user-table td,
+.bloco-table th, .bloco-table td,
+.andar-table th, .andar-table td,
+.mesa-table th, .mesa-table td,
+.tipo-sala-table th, .tipo-sala-table td {
     padding: 16px 24px;
     text-align: left;
     border-bottom: 1px solid var(--gray-light);
     vertical-align: middle;
 }
-.user-table th {
+.user-table th, .bloco-table th, .andar-table th, .mesa-table th, .tipo-sala-table th {
     background-color: var(--primary-color);
     color: var(--white);
     font-weight: 500;
@@ -89,10 +102,18 @@ h1 {
     font-size: 13px;
     letter-spacing: 0.5px;
 }
-.user-table tr:last-child td {
+.user-table tr:last-child td,
+.bloco-table tr:last-child td,
+.andar-table tr:last-child td,
+.mesa-table tr:last-child td,
+.tipo-sala-table tr:last-child td {
     border-bottom: none;
 }
-.user-table tr:hover {
+.user-table tr:hover,
+.bloco-table tr:hover,
+.andar-table tr:hover,
+.mesa-table tr:hover,
+.tipo-sala-table tr:hover {
     background-color: var(--secondary-color);
 }
 .empty-message {
@@ -107,30 +128,44 @@ h1 {
     justify-content: flex-end;
 }
 .btn-action {
-    padding: 8px 12px;
+    padding: 8px 18px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(132,146,91,0.08);
+    background: var(--white);
+    border: 1.5px solid var(--primary-light);
+    outline: none;
+}
+.btn-action i {
+    font-size: 15px;
+    margin-right: 4px;
 }
 .btn-edit {
-    background-color: rgba(255, 152, 0, 0.1);
     color: var(--warning-color);
+    border-color: var(--warning-color);
+    background: rgba(255,152,0,0.08);
 }
 .btn-edit:hover {
-    background-color: rgba(255, 152, 0, 0.2);
+    background: var(--warning-color);
+    color: var(--white);
+    border-color: var(--warning-color);
 }
 .btn-delete {
-    background-color: rgba(244, 67, 54, 0.1);
     color: var(--error-color);
+    border-color: var(--error-color);
+    background: rgba(244,67,54,0.08);
 }
 .btn-delete:hover {
-    background-color: rgba(244, 67, 54, 0.2);
+    background: var(--error-color);
+    color: var(--white);
+    border-color: var(--error-color);
 }
 .modal {
     display: none;
@@ -138,11 +173,13 @@ h1 {
     z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
     animation: fadeIn 0.3s;
+    align-items: center;
+    justify-content: center;
 }
 @keyframes fadeIn {
     from {opacity: 0;}
@@ -155,9 +192,12 @@ h1 {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     width: 450px;
-    max-width: 90%;
+    max-width: 90vw;
     animation: slideIn 0.3s;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 @keyframes slideIn {
     from {
@@ -265,5 +305,11 @@ h1 {
     }
     .btn-action i {
         display: none;
+    }
+}
+@media (max-width: 600px) {
+    .modal-content {
+        width: 98vw;
+        padding: 10px;
     }
 }

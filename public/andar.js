@@ -1,4 +1,6 @@
 // JS do andar.hbs
+console.log('andar.js carregado');
+
 // Abrir modal ao clicar no botão + 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('btnAddAndar').addEventListener('click', function() {
@@ -6,14 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Fechar modal ao clicar no X
-  document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('addAndarModal').style.display = 'none';
+  document.querySelectorAll('.close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      this.closest('.modal').style.display = 'none';
+    });
   });
   
   // Fechar modal ao clicar fora dele
   window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('addAndarModal')) {
-      document.getElementById('addAndarModal').style.display = 'none';
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
     }
   });
 

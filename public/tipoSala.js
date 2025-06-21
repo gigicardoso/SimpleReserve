@@ -1,16 +1,19 @@
 // JS do Gerenciador de Tipos de Sala
+console.log('tipoSala.js carregado');
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('btnAddTipoSala').addEventListener('click', function() {
     document.getElementById('addTipoSalaModal').style.display = 'block';
   });
   // Fechar modal ao clicar no X
-  document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('addTipoSalaModal').style.display = 'none';
+  document.querySelectorAll('.close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      this.closest('.modal').style.display = 'none';
+    });
   });
   // Fechar modal ao clicar fora dele
   window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('addTipoSalaModal')) {
-      document.getElementById('addTipoSalaModal').style.display = 'none';
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
     }
   });
   // Adicionar evento de exclusão para os botões existentes
