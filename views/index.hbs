@@ -8,14 +8,45 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./stylesheets/style.css" />
-    <link rel="stylesheet" href="./stylesheets/sidebar.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
     />
-    <body>
- <h1 style="text-align: center;"> calendario vai ficar aqui</h1>
+    <link href="/stylesheets/index.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <h2 class="calendar-title" id="month-year">Mês Ano</h2>
+          <div class="calendar-nav">
+            <button id="prev-month" class="btn-nav" title="Mês anterior">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button id="today" class="btn-today" title="Voltar para hoje">Hoje</button>
+            <button id="next-month" class="btn-nav" title="Próximo mês">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="calendar-weekdays">
+          <div>Dom</div>
+          <div>Seg</div>
+          <div>Ter</div>
+          <div>Qua</div>
+          <div>Qui</div>
+          <div>Sex</div>
+          <div>Sáb</div>
+        </div>
+        
+        <div class="calendar-days" id="calendar-days">
+          <!-- Os dias serão preenchidos pelo JavaScript -->
+        </div>
+      </div>
+    </div>
 
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/index.js"></script>
+  </body>
 </html>
