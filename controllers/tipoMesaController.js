@@ -3,8 +3,8 @@ const Mesa = require("../models/tipoMesaModel");
 // CONSULTA
 exports.listarMesas = async (req, res) => {
   try {
-    const mesa = await Mesa.findAll();
-    res.render("adm/tipoMesa", { mesa, layout: "layout", showSidebar: true, showLogo: true, isGerenciarMesas: true });
+    const mesas = await Mesa.findAll();
+    res.render("adm/tipoMesa", { mesas, layout: "layout", showSidebar: true, showLogo: true, isGerenciarMesas: true });
   } catch (error) {
     res.status(500).send("Erro ao buscar mesa");
   }

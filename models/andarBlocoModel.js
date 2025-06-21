@@ -28,5 +28,6 @@ const AndarBloco = sequelize.define(
   }
 );
 
+AndarBloco.belongsTo(require("./blocosModel"), { foreignKey: "id_bloco", as: "bloco" });
 
 module.exports = AndarBloco;

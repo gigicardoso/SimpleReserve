@@ -48,14 +48,7 @@ router.get("/adm", (req, res) => {
   });
 });
 
-router.get("/tipoMesa", (req, res) => {
-  res.render("adm/tipoMesa", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isGerenciador: true,
-  });
-});
+router.get("/tipoMesa", tipoMesaController.listarMesas);
 
 router.get("/tipoSala", (req, res) => {
   res.render("adm/tipoSala", {
@@ -66,14 +59,7 @@ router.get("/tipoSala", (req, res) => {
   });
 });
 
-router.get("/bloco", (req, res) => {
-  res.render("adm/bloco", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isGerenciador: true,
-  });
-});
+router.get("/bloco", blocosController.listarBlocos);
 
 router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
 router.get("/andar", andarBlocoController.formCadastroAndar);
