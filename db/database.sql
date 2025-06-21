@@ -62,7 +62,7 @@ id_andar integer not null,
 id_mesa integer not null,
 imagem_sala varchar(150),
 primary key (id_salas),
-foreign key (id_tipo) references tipo_mesa (id_tipo),
+foreign key (id_tipo) references tipo_sala (id_tipo),
 foreign key (id_andar) references andar_bloco (id_andar),
 foreign key (id_mesa) references tipo_mesa (id_mesa)
 );
