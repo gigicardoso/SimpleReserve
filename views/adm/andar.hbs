@@ -23,8 +23,14 @@
               <td>{{this.descricao}}</td>
               <td>{{this.blocoAndar.descricao}}</td>
               <td class="actions">
-                <button class="btn-action btn-edit"><i class="fas fa-edit"></i> Editar</button>
-                <button class="btn-action btn-delete" data-id="{{this.id_andar}}"><i class="fas fa-trash-alt"></i> Excluir</button>
+               <a href="editarAndar/{{id_andar}}" class="btn-action btn-edit">
+                            <i class="fas fa-edit"></i>
+                            <span>Editar</span>
+                        </a>
+                        <a href="excluirAndar/{{id_andar}}" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja excluir este andar?')">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Excluir</span>
+                        </a>
               </td>
             </tr>
           {{/each}}
@@ -42,14 +48,14 @@
   </div>
 </div>
 
-<!-- Modal de Cadastro -->
+<!-- Modal de Cadastro de andar -->
 <div id="addAndarModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
       <h2><i class="fas fa-layer-group"></i> Cadastrar Novo Andar</h2>
       <span class="close">&times;</span>
     </div>
-    <form id="andarForm" action="/andar" method="POST">
+    <form id="andarForm" action="{{#if andar}}/editarAndar/{{andar.id_andar}}{{else}}/andar{{/if}}" method="POST">
       <div class="form-group">
         <label for="descricao">Nome do Andar</label>
         <input
@@ -59,6 +65,7 @@
           class="form-control"
           required
           placeholder="Ex: Andar 1, 2, 3..."
+          value="{{#if andar}}{{andar.descricao}}{{/if}}"
         />
       </div>
       <div class="form-group">
@@ -66,13 +73,13 @@
         <select id="id_bloco" name="id_bloco" class="form-control" required>
           <option value="">Selecione um bloco</option>
           {{#each blocos}}
-            <option value="{{this.id_bloco}}">{{this.descricao}}</option>
+            <option value="{{this.id_bloco}}" {{#if ../andar}}{{#ifeq this.id_bloco ../andar.id_bloco}}selected{{/ifeq}}{{/if}}>{{this.descricao}}</option>
           {{/each}}
         </select>
       </div>
       <button type="submit" class="btn-submit">
         <i class="fas fa-save"></i>
-        Salvar Andar
+        {{#if andar}}Salvar Alterações{{else}}Salvar Andar{{/if}}
       </button>
     </form>
   </div>
