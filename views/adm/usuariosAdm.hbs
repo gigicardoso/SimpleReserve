@@ -13,7 +13,6 @@
         <tr>
           <th>Nome</th>
           <th>E-mail</th>
-          <th>Perfil</th>
           <th>Senha</th>
           <th>Ações</th>
         </tr>
@@ -25,22 +24,16 @@
             <tr>
               <td>{{this.nome}}</td>
               <td>{{this.email}}</td>
-              <td>
-                {{#if this.permissaoUsuario}}
-                  {{this.permissaoUsuario.descricao}}
-                {{else}}
-                  -
-                {{/if}}
-              </td>
               <td>{{this.senha}}</td>
               <td class="actions">
-                <!-- Botões de editar/excluir aqui -->
+                <button class="btn-action btn-edit"><i class="fas fa-edit"></i> Editar</button>
+                <button class="btn-action btn-delete"><i class="fas fa-trash-alt"></i> Excluir</button>
               </td>
             </tr>
           {{/each}}
         {{else}}
           <tr class="empty-message-row">
-            <td colspan="5" class="empty-message">
+            <td colspan="4" class="empty-message">
               Nenhum usuário cadastrado. Clique no botão
               <i class="fas fa-plus"></i>
               para adicionar.
@@ -82,13 +75,14 @@
         />
       </div>
       <div class="form-group">
-        <label for="id_permissao">Perfil</label>
-        <select id="id_permissao" name="id_permissao" class="form-control" required>
-          <option value="">Selecione um perfil...</option>
-          {{#each permissoes}}
-            <option value="{{this.id_permissao}}">{{this.descricao}}</option>
-          {{/each}}
-        </select>
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          class="form-control"
+          required
+        />
       </div>
       <button type="submit" class="btn-submit">
         <i class="fas fa-save"></i>
@@ -196,8 +190,7 @@
       // Obter valores do formulário
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
-      const profile = document.getElementById('profile').value;
-      const profileText = document.getElementById('profile').options[document.getElementById('profile').selectedIndex].text;
+      const senha = document.getElementById('senha').value;
       // Remover mensagem de lista vazia se existir
       const emptyRow = document.querySelector('.empty-message-row');
       if (emptyRow) {
@@ -209,7 +202,6 @@
       newRow.innerHTML = `
         <td>${name}</td>
         <td>${email}</td>
-        <td>${profileText}</td>
         <td class="actions">
           <button class="btn-action btn-edit"><i class="fas fa-edit"></i> Editar</button>
           <button class="btn-action btn-delete"><i class="fas fa-trash-alt"></i> Excluir</button>
