@@ -31,6 +31,7 @@ exports.listarAndar = async (req, res) => {
         },
       ],
     });
+    const blocos = await Bloco.findAll();
 
     res.render("adm/andar", {
       layout: "layout",
@@ -38,6 +39,7 @@ exports.listarAndar = async (req, res) => {
       showLogo: true,
       isGerenciador: true,
       andares: andar,
+      blocos,
     });
   } catch (error) {
     console.error("Erro ao buscar andares:", error);
@@ -52,7 +54,7 @@ exports.criarAndar = async (req, res) => {
       descricao: req.body.descricao,
       id_bloco: req.body.id_bloco,
     });
-    res.redirect("/andar");
+    res.redirect("/andares");
   } catch (error) {
     res.status(500).send("Erro ao criar andar");
   }
@@ -64,7 +66,7 @@ exports.atualizarAndar = async (req, res) => {
     const andar = await Andar.findByPk(req.params.id);
     if (!andar) return res.status(404).send("Andar não encontrado");
     await andar.update(req.body);
-    res.redirect("/andar");
+    res.redirect("/andares");
   } catch (error) {
     res.status(500).send("Erro ao atualizar andar");
   }

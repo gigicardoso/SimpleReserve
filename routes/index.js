@@ -52,7 +52,16 @@ router.get("/tipoMesa", tipoMesaController.listarMesas);
 
 router.get("/tipoSala", tipoSalaController.listarTipoSalas);
 
+//Listagem de blocos
 router.get("/bloco", blocosController.listarBlocos);
+
+//Exclusão de andar
+router.get("/excluirBloco/:id", blocosController.deletarBloco);
+
+//Edição de andar
+router.get("/editarBloco/:id", blocosController.formEditarBloco);
+router.post("/editarBloco/:id", blocosController.atualizarBloco);
+
 
 //Listagem de andares
 router.get("/andares", andarBlocoController.listarAndar);
