@@ -7,8 +7,14 @@ exports.listarUsuarios = async (req, res) => {
     const usuarios = await Usuario.findAll({
       include: [{ model: Permissao, as: 'permissaoUsuario' }]
     });
-    res.render('usuarios', { usuarios });
+    res.render('adm/usuariosadm', { usuarios,
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isGerenciador: true
+     });
   } catch (error) {
+    console.error('Erro ao buscar usuários:', error);
     res.status(500).send('Erro ao buscar usuários');
   }
 };
