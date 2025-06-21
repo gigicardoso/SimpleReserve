@@ -34,7 +34,13 @@ exports.listarAndar = async (req, res) => {
         },
       ],
     });
-    res.json(andar);
+  res.render("/adm/andar", {
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      isGerenciador: true,
+      andares: andar,
+    });
   } catch (error) {
     res.status(500).send("Erro ao buscar andares");
   }

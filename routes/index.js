@@ -54,6 +54,8 @@ router.get("/tipoSala", tipoSalaController.listarTipoSalas);
 
 router.get("/bloco", blocosController.listarBlocos);
 
+router.get("/andar", andarBlocoController.listarAndar);
+
 router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
 router.get("/andar", andarBlocoController.formCadastroAndar);
 router.post("/andar", andarBlocoController.criarAndar);

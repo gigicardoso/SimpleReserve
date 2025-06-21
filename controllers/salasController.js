@@ -9,11 +9,11 @@ exports.listarSalas = async (req, res) => {
   try {
     const salas = await Sala.findAll({
       include: [
-        { model: AndarBloco, as: "andarSala",
-          include: [
-            { model: Bloco, as: "blocoAndar" }
-          ]
-         },
+        {
+          model: AndarBloco,
+          as: "andarSala",
+          include: [{ model: Bloco, as: "blocoAndar" }],
+        },
         { model: Mesa, as: "mesaSala" },
         { model: SalaTipo, as: "tipoSala" },
       ],
@@ -30,7 +30,6 @@ exports.listarSalas = async (req, res) => {
     res.status(500).send("Erro ao buscar salas");
   }
 };
-
 
 // CRIAÇÃO
 exports.criarSala = async (req, res) => {
@@ -70,7 +69,9 @@ exports.formEditarSala = async (req, res) => {
     const blocos = await Bloco.findAll();
     let andares = [];
     if (blocos.length > 0) {
-      andares = await AndarBloco.findAll({ where: { id_bloco: blocos[0].id_bloco } });
+      andares = await AndarBloco.findAll({
+        where: { id_bloco: blocos[0].id_bloco },
+      });
     }
 
     res.render("cadastroSala", {
@@ -82,12 +83,12 @@ exports.formEditarSala = async (req, res) => {
       tiposSala,
       tiposMesa,
       blocos,
-      andares
+      andares,
     });
   } catch (error) {
     res.status(500).send("Erro ao carregar formulário de atualização de sala");
   }
-}
+};
 
 //DELETE
 exports.deletarSala = async (req, res) => {
@@ -110,7 +111,9 @@ exports.formCadastroSala = async (req, res) => {
     let andares = [];
     if (blocos.length > 0) {
       const AndarBloco = require("../models/andarBlocoModel");
-      andares = await AndarBloco.findAll({ where: { id_bloco: blocos[0].id_bloco } });
+      andares = await AndarBloco.findAll({
+        where: { id_bloco: blocos[0].id_bloco },
+      });
     }
     res.render("cadastroSala", {
       layout: "layout",
@@ -120,7 +123,7 @@ exports.formCadastroSala = async (req, res) => {
       tiposSala,
       tiposMesa,
       blocos,
-      andares
+      andares,
     });
   } catch (error) {
     res.status(500).send("Erro ao carregar formulário de cadastro de sala");
