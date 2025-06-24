@@ -13,7 +13,7 @@
   </head>
   <body>
     {{#if showSidebar}}
-      <div class="sidebar">
+      <div class="sidebar"> 
         <div class="sidebar-header">
           <h4>Simple Reserve</h4>
         </div>
@@ -29,7 +29,7 @@
           </div>
 
 
-        <a href="/reservasDoDia"></a>
+        <a href="/reservasDoDia.hbs"></a>
         <div>
           <li class="{{#if isReservasDia}}active{{/if}}">
             <i class="bi bi-list-check"></i> <span>Reservas do Dia</span>
@@ -118,5 +118,49 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.createElement('button');
+    const overlay = document.createElement('div');
+    
+    // Só mostra o botão sanduíche em telas pequenas
+    function isMobile() {
+      return window.innerWidth <= 576;
+    }
+    
+    function updateToggleBtnVisibility() {
+      if (isMobile()) {
+        toggleBtn.style.display = 'block';
+      } else {
+        toggleBtn.style.display = 'none';
+        sidebar.classList.remove('active');
+        overlay.style.display = 'none';
+      }
+    }
+
+    toggleBtn.className = 'sidebar-toggle';
+    toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+    overlay.className = 'sidebar-overlay';
+    overlay.addEventListener('click', closeSidebar);
+    document.body.appendChild(toggleBtn);
+    document.body.appendChild(overlay);
+    
+    function toggleSidebar() {
+      sidebar.classList.toggle('active');
+      overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      overlay.style.display = 'none';
+    }
+    toggleBtn.addEventListener('click', toggleSidebar);
+    document.querySelectorAll('.sidebar-menu a').forEach(item => {
+      item.addEventListener('click', closeSidebar);
+    });
+    window.addEventListener('resize', updateToggleBtnVisibility);
+    updateToggleBtnVisibility();
+  });
+</script>
   </body>
 </html>

@@ -12,7 +12,170 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
     />
-    <link href="/stylesheets/index.css" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #84925b;
+        --primary-light: #a3b174;
+        --primary-dark: #687546;
+        --text-color: #333;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .calendar-container {
+        max-width: 900px;
+        margin: 30px auto;
+        background-color: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .calendar-header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .calendar-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .calendar-nav {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .calendar-nav .btn-nav {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        font-weight: 600;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.3s ease;
+      }
+
+      .calendar-nav .btn-nav:hover {
+        background-color: white;
+        color: var(--primary-color);
+        transform: scale(1.05);
+      }
+
+      .calendar-nav .btn-today {
+        background-color: white;
+        color: var(--primary-color);
+        border: none;
+        border-radius: 20px;
+        padding: 6px 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .calendar-nav .btn-today:hover {
+        background-color: var(--primary-dark);
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .calendar-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        background-color: var(--primary-light);
+        color: white;
+        text-align: center;
+        font-weight: 500;
+        padding: 10px 0;
+      }
+
+      .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background-color: #e0e0e0;
+      }
+
+      .calendar-day {
+        aspect-ratio: 1/0.8;
+        background-color: var(--white);
+        padding: 8px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .calendar-day:hover {
+        background-color: #f0f0f0;
+      }
+
+      .calendar-day.empty {
+        background-color: var(--light-gray);
+        cursor: default;
+      }
+
+      .calendar-day.today {
+        background-color: rgba(132, 146, 91, 0.1);
+        font-weight: bold;
+      }
+
+      .day-number {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        font-size: 14px;
+      }
+
+      .calendar-day.today .day-number {
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+
+      .events-container {
+        margin-top: 25px;
+        font-size: 12px;
+        max-height: calc(100% - 30px);
+        overflow-y: auto;
+      }
+
+      .event {
+        background-color: var(--primary-light);
+        color: white;
+        padding: 2px 4px;
+        border-radius: 3px;
+        margin-bottom: 2px;
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      @media (max-width: 768px) {
+        .calendar-day {
+          aspect-ratio: 1/1;
+        }
+        
+        .calendar-header {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -47,6 +210,113 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/index.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        
+        // Elementos do DOM
+        const calendarDays = document.getElementById('calendar-days');
+        const monthYearElement = document.getElementById('month-year');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const todayBtn = document.getElementById('today');
+        
+        // Nomes dos meses
+        const monthNames = [
+          'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+        
+        // Renderiza o calendário
+        function renderCalendar(month, year) {
+          // Atualiza o cabeçalho
+          monthYearElement.textContent = `${monthNames[month]} ${year}`;
+          
+          // Limpa o calendário
+          calendarDays.innerHTML = '';
+          
+          // Obtém o primeiro dia do mês e quantos dias tem o mês
+          const firstDay = new Date(year, month, 1);
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+          
+          // Obtém o dia da semana do primeiro dia (0-6, onde 0 é domingo)
+          const startDay = firstDay.getDay();
+          
+          // Obtém o último dia do mês anterior
+          const daysInLastMonth = new Date(year, month, 0).getDate();
+          
+          // Adiciona dias vazios para o mês anterior (se necessário)
+          for (let i = 0; i < startDay; i++) {
+            const day = daysInLastMonth - startDay + i + 1;
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day empty';
+            dayElement.innerHTML = `<div class="day-number">${day}</div>`;
+            calendarDays.appendChild(dayElement);
+          }
+          
+          // Adiciona os dias do mês atual
+          const today = new Date();
+          for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month, i);
+            const isToday = date.getDate() === today.getDate() && 
+                            date.getMonth() === today.getMonth() && 
+                            date.getFullYear() === today.getFullYear();
+            
+            const dayElement = document.createElement('div');
+            dayElement.className = `calendar-day ${isToday ? 'today' : ''}`;
+            dayElement.innerHTML = `
+              <div class="day-number">${i}</div>
+              <div class="events-container">
+                <!-- Eventos podem ser adicionados aqui -->
+              </div>
+            `;
+            calendarDays.appendChild(dayElement);
+          }
+          
+          // Calcula quantos dias faltam para completar a última semana
+          const totalCells = startDay + daysInMonth;
+          const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+          
+          // Adiciona dias vazios para o próximo mês (se necessário)
+          for (let i = 1; i <= remainingCells; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day empty';
+            dayElement.innerHTML = `<div class="day-number">${i}</div>`;
+            calendarDays.appendChild(dayElement);
+          }
+        }
+        
+        // Navegação do calendário
+        prevMonthBtn.addEventListener('click', function() {
+          currentMonth--;
+          if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+          }
+          renderCalendar(currentMonth, currentYear);
+        });
+        
+        nextMonthBtn.addEventListener('click', function() {
+          currentMonth++;
+          if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+          }
+          renderCalendar(currentMonth, currentYear);
+        });
+        
+        todayBtn.addEventListener('click', function() {
+          currentDate = new Date();
+          currentMonth = currentDate.getMonth();
+          currentYear = currentDate.getFullYear();
+          renderCalendar(currentMonth, currentYear);
+        });
+        
+        // Inicializa o calendário
+        renderCalendar(currentMonth, currentYear);
+      });
+    </script>
   </body>
 </html>

@@ -139,13 +139,96 @@ body {
     width: var(--sidebar-collapsed-width);
   }
 
+  /* Mostra nomes e header quando sidebar está ativa */
+  .sidebar.active .sidebar-header h4,
+  .sidebar.active .sidebar-menu li span {
+    display: inline;
+    opacity: 1;
+    transition: opacity var(--transition-speed);
+  }
+
   .sidebar-header h4,
   .sidebar-menu li span {
     display: none;
+    opacity: 0;
   }
+}
 
-  .sidebar:hover .sidebar-header h4,
-  .sidebar:hover .sidebar-menu li span {
+@media (max-width: 576px) {
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Esconde a sidebar */
+    z-index: 1000;
+    transition: left 0.3s ease;
+    border-radius: 0 16px 16px 0;
+    overflow-y: auto;
+  }
+  .sidebar.active {
+    left: 0;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+  }
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    left: auto;
+    z-index: 1100;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    outline: none;
+    transition: background 0.2s, color 0.2s;
+    padding: 0;
+  }
+  .sidebar-toggle i {
+    font-size: 2rem;
+    display: block;
+    margin: 0 auto;
+    line-height: 1;
+  }
+  .sidebar-overlay {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 900;
+  }
+  .sidebar.active + .sidebar-overlay {
+    display: block;
+  }
+  .sidebar.active .sidebar-header h4,
+  .sidebar.active .sidebar-menu li span {
+    display: inline;
+    opacity: 1;
+    transition: opacity var(--transition-speed);
+  }
+  .sidebar-header h4,
+  .sidebar-menu li span {
+    display: none;
+    opacity: 0;
+  }
+  .sidebar:hover {
+    left: -250px;
+  }
+  .sidebar.active:hover {
+    left: 0;
+  }
+  .logoSala {
+    margin-left: 60px;
   }
 }
