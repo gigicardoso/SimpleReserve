@@ -85,13 +85,13 @@
           <div class="input-group-cadSala">
             <label for="acessibilidade">*A sala é acessível?:</label>
             <select id="acessibilidade" name="acess" required>
-              <option value="sim" {{#if sala}}{{#ifeq sala.acess "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
-              <option value="nao" {{#if sala}}{{#ifeq sala.acess "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
+              <option value="1" {{#if sala}}{{#ifeq sala.acess "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
+              <option value="0" {{#if sala}}{{#ifeq sala.acess "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
             </select>
           </div>
           <div class="input-group-cadSala">
             <label for="qtdade_mesa_acessivel">*Mesas acessíveis:</label>
-            <input min="0" type="number" id="mesa_acess" name="mesa_acess" value="{{#if sala}}{{sala.qtdade_mesa_acessivel}}{{/if}}" required />
+            <input min="0" type="number" id="mesa_acess" name="mesa_acess" value="{{#if sala}}{{sala.mesa_acess}}{{/if}}" required />
           </div>
           <div class="input-group-cadSala">
             <label for="imagem_sala">Imagem da Sala:</label> <br>

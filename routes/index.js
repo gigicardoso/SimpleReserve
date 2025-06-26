@@ -165,6 +165,7 @@ router.get("/mais/adicionabloco", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // Rota para tela dedicada de cadastro de andar
 router.get("/adicionaandar", (req, res) => {
   // Buscar blocos para o select
@@ -200,6 +201,11 @@ router.get("/mais/adicionaandar", (req, res) => {
       res.status(500).send('Erro ao buscar blocos');
     });
 });
+=======
+//Edição dos blocos
+router.get("/editarBloco/:id", blocosController.formEditarBloco);
+router.post("/editarBloco/:id", blocosController.atualizarBloco);
+>>>>>>> 30b1eeabde67e6800bb1e1360125df0cc33b61d2
 
 // ...rotas POST para criação de tipoSala, tipoMesa e bloco...
 router.post("/tipoSala", tipoSalaController.criarTipoSala);

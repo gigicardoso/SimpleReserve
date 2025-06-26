@@ -43,7 +43,7 @@ exports.formEditarBloco = async (req, res) => {
   try {
     const bloco = await Bloco.findByPk(req.params.id);
     if (!bloco) return res.status(404).send("Bloco não encontrado");
-    res.render("adm/editarBloco", {
+    res.render("adm/adicionabloco", {
       bloco,
       layout: "layout",
       showSidebar: true,
