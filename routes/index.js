@@ -136,27 +136,8 @@ router.get("/reservasDoDia", (req, res) => {
 });
 
 
-
-router.get("/adm/adicionabloco", (req, res) => {
-  res.render("adm/adicionabloco", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isAdicionarBloco: true,
-  });
-});
-
 // Rotas para tela de cadastro de bloco
 router.get("/adicionabloco", (req, res) => {
-  res.render("adm/adicionabloco", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isAdicionarBloco: true,
-  });
-});
-
-router.get("/mais/adicionabloco", (req, res) => {
   res.render("adm/adicionabloco", {
     layout: "layout",
     showSidebar: true,
