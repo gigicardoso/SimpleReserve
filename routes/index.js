@@ -165,6 +165,10 @@ router.get("/mais/adicionabloco", (req, res) => {
   });
 });
 
+//Edição dos blocos
+router.get("/editarBloco/:id", blocosController.formEditarBloco);
+router.post("/editarBloco/:id", blocosController.atualizarBloco);
+
 // ...rotas POST para criação de tipoSala, tipoMesa e bloco...
 router.post("/tipoSala", tipoSalaController.criarTipoSala);
 router.post("/tipoMesa", tipoMesaController.criarMesa);
