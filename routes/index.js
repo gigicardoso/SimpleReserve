@@ -146,24 +146,6 @@ router.get("/adicionabloco", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-// Rota para tela dedicada de cadastro de andar
-router.get("/adicionaandar", (req, res) => {
-  // Buscar blocos para o select
-  db.query('SELECT * FROM blocos', (err, results) => {
-    if (err) {
-      return res.status(500).send('Erro ao buscar blocos');
-    }
-    res.render("adm/adicionaAndar", {
-      layout: "layout",
-      showSidebar: true,
-      showLogo: true,
-      blocos: results,
-      isAdicionarAndar: true,
-    });
-  });
-});
-
 // Rota para tela dedicada de cadastro de andar (em /mais/adicionaandar) usando Sequelize
 const { sequelize } = require("../db/db");
 
@@ -181,12 +163,16 @@ router.get("/mais/adicionaandar", (req, res) => {
     .catch(err => {
       res.status(500).send('Erro ao buscar blocos');
     });
+
 });
-=======
+
+//Edição de andares
+router.get("/editarAndar/:id", andarBlocoController.formEditarAndar);
+router.post("/editarAndar/:id", andarBlocoController.atualizarAndar);
+
 //Edição dos blocos
 router.get("/editarBloco/:id", blocosController.formEditarBloco);
 router.post("/editarBloco/:id", blocosController.atualizarBloco);
->>>>>>> 30b1eeabde67e6800bb1e1360125df0cc33b61d2
 
 // ...rotas POST para criação de tipoSala, tipoMesa e bloco...
 router.post("/tipoSala", tipoSalaController.criarTipoSala);

@@ -93,7 +93,7 @@ exports.formEditarAndar = async (req, res) => {
     if (!andar) return res.status(404).send("Andar não encontrado");
 
     const blocos = await Bloco.findAll();
-    res.render("adm/andar", {
+    res.render("mais/adicionaAndar", {
       andar,
       blocos,
       layout: "layout",
