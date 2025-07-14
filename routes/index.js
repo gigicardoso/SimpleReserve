@@ -146,6 +146,8 @@ router.get("/adicionabloco", (req, res) => {
   });
 });
 
+
+
 // Rota para tela dedicada de cadastro de andar (em /mais/adicionaandar) usando Sequelize
 const { sequelize } = require("../db/db");
 
@@ -162,6 +164,40 @@ router.get("/mais/adicionaandar", (req, res) => {
     })
     .catch(err => {
       res.status(500).send('Erro ao buscar blocos');
+    });
+
+});
+
+router.get("/mais/adicionamesa", (req, res) => {
+  sequelize.query('SELECT * FROM blocos', { type: sequelize.QueryTypes.SELECT })
+    .then(results => {
+      res.render("mais/adicionaMesa", {
+        layout: "layout",
+        showSidebar: true,
+        showLogo: true,
+        blocos: results,
+        isAdicionarAndar: true,
+      });
+    })
+    .catch(err => {
+      res.status(500).send('Erro ao buscar cadastro de tipo de mesa');
+    });
+
+});
+
+router.get("/mais/adicionasala", (req, res) => {
+  sequelize.query('SELECT * FROM blocos', { type: sequelize.QueryTypes.SELECT })
+    .then(results => {
+      res.render("mais/adicionaSala", {
+        layout: "layout",
+        showSidebar: true,
+        showLogo: true,
+        blocos: results,
+        isAdicionarAndar: true,
+      });
+    })
+    .catch(err => {
+      res.status(500).send('Erro ao buscar cadastro de Sala');
     });
 
 });

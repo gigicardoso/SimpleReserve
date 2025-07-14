@@ -1,10 +1,12 @@
 <div class="container">
   <div class="header">
     <div class="title-container">
-      <h1><i class="fas fa-door-open"></i> Gerenciador de Tipos de Sala</h1>
-      <button class="btn-add" id="btnAddTipoSala" title="Adicionar tipo de sala">
-        <i class="fas fa-plus"></i>
-      </button>
+      <h1><i class="fas fa-door-open"></i> Gerenciador de tipo de sala</h1>
+        <a href="mais/adicionaSala" class="btn-add" id="btnAddBloco" title="Adicionar bloco">
+          <button class="btn-add" id="btnAddTipoMesa" title="Adicionar tipo de mesa">
+            <i class="fas fa-plus"></i>
+          </button>
+      </a>
     </div>
   </div>
   <div class="user-table-container">
@@ -46,32 +48,6 @@
   </div>
 </div>
 
-<!-- Modal de Cadastro -->
-<div id="addTipoSalaModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><i class="fas fa-door-open"></i> Cadastrar Novo Tipo de Sala</h2>
-      <span class="close">&times;</span>
-    </div>
-    <form id="tipoSalaForm" action="/tipoSala" method="POST">
-      <div class="form-group">
-        <label for="descricao">Tipo de Sala</label>
-        <input
-          type="text"
-          id="descricao"
-          name="descricao"
-          class="form-control"
-          required
-          placeholder="Ex: Sala de aula, Auditório, Laboratório"
-        />
-      </div>
-      <button type="submit" class="btn-submit">
-        <i class="fas fa-save"></i>
-        Salvar Tipo de Sala
-      </button>
-    </form>
-  </div>
-</div>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

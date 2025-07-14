@@ -1,3 +1,6 @@
+a.btn-add, a.btn-add:visited, a.btn-add:active, a.btn-add:hover, a.btn-add:focus {
+  text-decoration: none !important;
+}
 /* Importa variáveis e estilos principais do usuariosAdm */
 :root {
     --primary-color: #84925b;

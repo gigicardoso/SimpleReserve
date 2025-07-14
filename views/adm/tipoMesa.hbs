@@ -1,10 +1,12 @@
 <div class="container">
   <div class="header">
     <div class="title-container">
-      <h1><i class="fas fa-table"></i> Gerenciador de Tipos de Mesa</h1>
-      <button class="btn-add" id="btnAddMesa" title="Adicionar tipo de mesa">
-        <i class="fas fa-plus"></i>
-      </button>
+      <h1><i class="fas fa-building"></i> Gerenciador de tipo de mesa</h1>
+        <a href="mais/adicionaMesa" class="btn-add" id="btnAddBloco" title="Adicionar bloco">
+          <button class="btn-add" id="btnAddTipoMesa" title="Adicionar tipo de mesa">
+            <i class="fas fa-plus"></i>
+          </button>
+      </a>
     </div>
   </div>
   <div class="user-table-container">
@@ -46,32 +48,7 @@
   </div>
 </div>
 
-<!-- Modal de Cadastro -->
-<div id="addMesaModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><i class="fas fa-table"></i> Cadastrar Novo Tipo de Mesa</h2>
-      <span class="close">&times;</span>
-    </div>
-    <form id="mesaForm" action="/tipoMesa" method="POST">
-      <div class="form-group">
-        <label for="descricao">Descrição do Tipo de Mesa</label>
-        <input
-          type="text"
-          id="descricao"
-          name="descricao"
-          class="form-control"
-          required
-          placeholder="Ex: Mesa redonda de 8 lugares"
-        />
-      </div>
-      <button type="submit" class="btn-submit">
-        <i class="fas fa-save"></i>
-        Salvar Tipo de Mesa
-      </button>
-    </form>
-  </div>
-</div>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

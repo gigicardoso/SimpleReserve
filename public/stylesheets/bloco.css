@@ -1,3 +1,7 @@
+/* Remove sublinhado dos links dos botões de adicionar */
+a.btn-add, a.btn-add:visited, a.btn-add:active, a.btn-add:hover, a.btn-add:focus {
+  text-decoration: none !important;
+}
 :root {
   --primary-color: #84925b;
   --primary-dark: #6a774a;

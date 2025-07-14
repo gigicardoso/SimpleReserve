@@ -4,7 +4,7 @@ const Usuario = require('../models/usuariosModel');
 exports.listarUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.findAll();
-    res.render('adm/usuariosadm', {
+    res.render('adm/usuariosAdm', {
       usuarios,
       layout: 'layout',
       showSidebar: true,
