@@ -1,3 +1,72 @@
+/* ----------- Breadcrumb Navigation ----------- */
+.breadcrumb-nav {
+  position: fixed;
+  top: 18px;
+  right: 32px;
+  z-index: 100;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(132,146,91,0.10);
+  padding: 8px 24px 8px 18px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #84925b;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+.breadcrumb-item {
+  font-size: 16px;
+  color: #84925b;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.breadcrumb-item a {
+  color: #84925b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.breadcrumb-item a:hover {
+  color: #fff;
+  background: #84925b;
+}
+
+.breadcrumb-separator {
+  margin: 0 10px;
+  color: #b2bfa0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-nav {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px 6px 10px;
+    min-height: 30px;
+  }
+  .breadcrumb-item {
+    font-size: 13px;
+  }
+  .breadcrumb-separator {
+    margin: 0 5px;
+    font-size: 15px;
+  }
+}
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* --------------------------------- CSS GERAL ------------------------------------------------ */

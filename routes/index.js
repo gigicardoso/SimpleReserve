@@ -143,6 +143,11 @@ router.get("/adicionabloco", (req, res) => {
     showSidebar: true,
     showLogo: true,
     isAdicionarBloco: true,
+    breadcrumb: [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Blocos', path: '/bloco' },
+      { title: 'Adicionar Bloco', path: '/adicionabloco' }
+    ]
   });
 });
 
@@ -160,6 +165,11 @@ router.get("/mais/adicionaandar", (req, res) => {
         showLogo: true,
         blocos: results,
         isAdicionarAndar: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Andares', path: '/andares' },
+          { title: 'Adicionar Andar', path: '/mais/adicionaandar' }
+        ]
       });
     })
     .catch(err => {
@@ -177,6 +187,11 @@ router.get("/mais/adicionamesa", (req, res) => {
         showLogo: true,
         blocos: results,
         isAdicionarAndar: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Tipos de Mesa', path: '/tipoMesa' },
+          { title: 'Adicionar Tipo', path: '/mais/adicionamesa' }
+        ]
       });
     })
     .catch(err => {
@@ -194,6 +209,11 @@ router.get("/mais/adicionasala", (req, res) => {
         showLogo: true,
         blocos: results,
         isAdicionarAndar: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Tipos de Sala', path: '/tipoSala' },
+          { title: 'Adicionar Tipo', path: '/mais/adicionasala' }
+        ]
       });
     })
     .catch(err => {

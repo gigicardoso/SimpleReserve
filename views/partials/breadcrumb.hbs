@@ -1,0 +1,16 @@
+{{#if breadcrumb}}
+  <nav class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      {{#each breadcrumb}}
+        <li class="breadcrumb-item">
+          {{#if @last}}
+            <span>{{title}}</span>
+          {{else}}
+            <a href="{{path}}">{{title}}</a>
+            <span class="breadcrumb-separator">&gt;</span>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ol>
+  </nav>
+{{/if}}
