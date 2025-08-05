@@ -156,6 +156,59 @@
                 margin-right: 0;
             }
         }
+
+        /* Estilos do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        /* Estilos para o conteúdo dos detalhes da sala */
+        #detalhesSalaContent {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
@@ -173,15 +226,6 @@
                     <th>Andar</th>
                     <th>Tipo</th>
                     <th>Capacidade</th>
-                    <th>Mesa</th>
-                    <th>Canhoto</th>
-                    <th>Projetor</th>
-                    <th>Ar Cond.</th>
-                    <th>Quadro</th>
-                    <th>Computador</th>
-                    <th>Acessível</th>
-                    <th>Mesas Acess.</th>
-                    <th>Descrição</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -194,24 +238,11 @@
                     <td>{{andarSala.descricao}}</td>
                     <td>{{tipoSala.descricao}}</td>
                     <td>{{capacidade}}</td>
-                    <td>{{mesaSala.descricao}}</td>
-                    <td>{{mesa_canhoto}}</td>
-                    <td><span class="badge {{#if projetor}}badge-yes{{else}}badge-no{{/if}}">
-                        {{#if projetor}}Sim{{else}}Não{{/if}}
-                    </span></td>
-                    <td><span class="badge {{#if ar_cond}}badge-yes{{else}}badge-no{{/if}}">
-                        {{#if ar_cond}}Sim{{else}}Não{{/if}}
-                    </span></td>
-                    <td><span class="badge {{#if quadro}}badge-yes{{else}}badge-no{{/if}}">
-                        {{#if quadro}}Sim{{else}}Não{{/if}}
-                    </span></td>
-                    <td>{{computador}}</td>
-                    <td><span class="badge {{#if acess}}badge-yes{{else}}badge-no{{/if}}">
-                        {{#if acess}}Sim{{else}}Não{{/if}}
-                    </span></td>
-                    <td>{{mesa_acess}}</td>
-                    <td>{{descricao}}</td>
                     <td class="actions">
+                        <button class="btn-action btn-details" data-id="{{id_salas}}">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Detalhes</span>
+                        </button>
                         <a href="/salas/editar/{{id_salas}}" class="btn-action btn-edit">
                             <i class="fas fa-edit"></i>
                             <span>Editar</span>
@@ -220,11 +251,23 @@
                             <i class="fas fa-trash-alt"></i>
                             <span>Excluir</span>
                         </a>
+
                     </td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
+    </div>
+
+    <!-- Modal de Detalhes da Sala -->
+    <div id="detalhesModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Detalhes da Sala</h2>
+        <div id="detalhesSalaContent">
+          <!-- Conteúdo será preenchido via JS -->
+        </div>
+      </div>
     </div>
 
     <script>
@@ -235,6 +278,43 @@
                     e.preventDefault();
                 }
             });
+        });
+
+        // Abrir modal de detalhes
+        document.querySelectorAll('.btn-details').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const idSala = this.getAttribute('data-id');
+                fetch(`/salas/detalhes/${idSala}`)
+                    .then(res => res.json())
+                    .then(sala => {
+                        const detalhesContent = `
+                            <p><strong>Mesa:</strong> ${sala.mesaSala?.descricao || '-'}</p>
+                            <p><strong>Canhoto:</strong> ${sala.mesa_canhoto}</p>
+                            <p><strong>Projetor:</strong> ${sala.projetor ? 'Sim' : 'Não'}</p>
+                            <p><strong>Ar Cond:</strong> ${sala.ar_cond ? 'Sim' : 'Não'}</p>
+                            <p><strong>Quadro:</strong> ${sala.quadro ? 'Sim' : 'Não'}</p>
+                            <p><strong>Computador:</strong> ${sala.computador}</p>
+                            <p><strong>Acessível:</strong> ${sala.acess ? 'Sim' : 'Não'}</p>
+                            <p><strong>Mesas Acess:</strong> ${sala.mesa_acess}</p>
+                            <p><strong>Descrição:</strong> ${sala.descricao}</p>
+                        `;
+                        document.getElementById('detalhesSalaContent').innerHTML = detalhesContent;
+                        document.getElementById('detalhesModal').style.display = 'block';
+                    });
+            });
+        });
+
+        // Fechar modal ao clicar na cruz
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('detalhesModal').style.display = 'none';
+        });
+
+        // Fechar modal ao clicar fora do conteúdo
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('detalhesModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
         });
     </script>
 </body>

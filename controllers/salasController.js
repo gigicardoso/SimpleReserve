@@ -129,3 +129,20 @@ exports.formCadastroSala = async (req, res) => {
     res.status(500).send("Erro ao carregar formulário de cadastro de sala");
   }
 };
+
+// Exibir detalhes da sala
+exports.detalhesSala = async (req, res) => {
+  try {
+    const sala = await Sala.findByPk(req.params.id, {
+      include: [
+        { model: AndarBloco, as: "andarSala" },
+        { model: Mesa, as: "mesaSala" },
+        { model: SalaTipo, as: "tipoSala" },
+      ],
+    });
+    if (!sala) return res.status(404).send("Sala não encontrada");
+    res.json(sala);
+  } catch (error) {
+    res.status(500).send("Erro ao carregar detalhes da sala");
+  }
+}

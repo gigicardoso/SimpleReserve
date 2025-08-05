@@ -16,4 +16,6 @@ router.post("/editar/:id", salasController.atualizarSala);
 // Deletar sala
 router.get("/excluir/:id", salasController.deletarSala);
 
+//Exibir detalhes da sala na tela de gerenciamento de salas
+router.get("/detalhes/:id", salasController.detalhesSala);
 module.exports = router;
