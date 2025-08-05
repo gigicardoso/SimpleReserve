@@ -9,7 +9,11 @@ exports.listarUsuarios = async (req, res) => {
       layout: 'layout',
       showSidebar: true,
       showLogo: true,
-      isGerenciador: true
+      isGerenciador: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de Usuários', path: '/usuariosadm' }
+      ]
     });
   } catch (error) {
     console.error('Erro ao buscar usuários:', error);

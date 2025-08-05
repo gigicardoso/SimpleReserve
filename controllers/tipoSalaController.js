@@ -4,12 +4,16 @@ const TipoSala = require("../models/tipoSalaModel");
 exports.listarTipoSalas = async (req, res) => {
   try {
     const tipoSalas = await TipoSala.findAll();
-    res.render("adm/tipoSala", {
+    res.render('adm/tipoSala', {
       tipoSalas,
-      layout: "layout",
+      layout: 'layout',
       showSidebar: true,
       showLogo: true,
-      isGerenciarTipoSalas: true,
+      isGerenciador: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de tipo de sala', path: '/tipoSala' }
+      ]
     });
   } catch (error) {
     res.status(500).send("Erro ao buscar tipo de Salas");

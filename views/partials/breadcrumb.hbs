@@ -1,3 +1,4 @@
+
 {{#if breadcrumb}}
   <nav class="breadcrumb-nav">
     <ol class="breadcrumb-list">
@@ -7,9 +8,11 @@
             <span>{{title}}</span>
           {{else}}
             <a href="{{path}}">{{title}}</a>
-            <span class="breadcrumb-separator">&gt;</span>
           {{/if}}
         </li>
+        {{#unless @last}}
+          <span class="breadcrumb-separator"> &gt; </span>
+        {{/unless}}
       {{/each}}
     </ol>
   </nav>

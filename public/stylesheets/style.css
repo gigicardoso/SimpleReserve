@@ -64,7 +64,7 @@
   }
   .breadcrumb-separator {
     margin: 0 5px;
-    font-size: 15px;
+  color: #84925b; /* Updated color */
   }
 }
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");

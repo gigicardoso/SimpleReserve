@@ -4,12 +4,16 @@ const Mesa = require("../models/tipoMesaModel");
 exports.listarMesas = async (req, res) => {
   try {
     const mesas = await Mesa.findAll();
-    res.render("adm/tipoMesa", {
+    res.render('adm/tipoMesa', {
       mesas,
-      layout: "layout",
+      layout: 'layout',
       showSidebar: true,
       showLogo: true,
-      isGerenciarMesas: true,
+      isGerenciador: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de tipo de mesa', path: '/tipoMesa' }
+      ]
     });
   } catch (error) {
     res.status(500).send("Erro ao buscar mesa");
@@ -48,6 +52,11 @@ exports.formEditarMesa = async (req, res) => {
       showSidebar: true,
       showLogo: true,
       isEditarMesa: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de tipo de mesa', path: '/tipoMesa' },
+        { title: 'Editar tipo de mesa', path: '' }
+      ]
     });
   } catch (error) {
     res.status(500).send("Erro ao buscar mesa para edição");

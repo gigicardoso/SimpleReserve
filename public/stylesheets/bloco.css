@@ -1,3 +1,8 @@
+/* Fundo especial para a página de adicionar bloco */
+.container.adiciona-bloco {
+  background-color: #84925b;
+  border-radius: 18px;
+}
 /* Remove sublinhado dos links dos botões de adicionar */
 a.btn-add, a.btn-add:visited, a.btn-add:active, a.btn-add:hover, a.btn-add:focus {
   text-decoration: none !important;
