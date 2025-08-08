@@ -297,6 +297,7 @@
                             <p><strong>Acessível:</strong> ${sala.acess ? 'Sim' : 'Não'}</p>
                             <p><strong>Mesas Acess:</strong> ${sala.mesa_acess}</p>
                             <p><strong>Descrição:</strong> ${sala.descricao}</p>
+                            <p><strong>Imagem da Sala:</strong> ${sala.imagem_sala ? `<img src="/uploads/salas/${sala.imagem_sala}" alt="Imagem da Sala" style="max-width: 100%; height: auto; border-radius: 8px;">` : 'Nenhuma imagem disponível'}</p>
                         `;
                         document.getElementById('detalhesSalaContent').innerHTML = detalhesContent;
                         document.getElementById('detalhesModal').style.display = 'block';

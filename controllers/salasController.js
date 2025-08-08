@@ -34,7 +34,11 @@ exports.listarSalas = async (req, res) => {
 // CRIAÇÃO
 exports.criarSala = async (req, res) => {
   try {
-    await Sala.create(req.body);
+    const dadosSala = req.body;
+    if (req.file) {
+      dadosSala.imagem_sala = req.file.filename; 
+    }
+    await Sala.create(dadosSala);
     res.redirect("/salas/gerenciarsalas");
   } catch (error) {
     res.status(500).send("Erro ao criar sala");
@@ -46,6 +50,9 @@ exports.atualizarSala = async (req, res) => {
   try {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
+    if (req.file) {
+      req.body.imagem_sala = req.file.filename;
+    }
     await sala.update(req.body);
     res.redirect("/salas/gerenciarsalas");
   } catch (error) {
@@ -137,6 +144,7 @@ exports.detalhesSala = async (req, res) => {
       include: [
         { model: AndarBloco, as: "andarSala" },
         { model: Mesa, as: "mesaSala" },
+        
         { model: SalaTipo, as: "tipoSala" },
       ],
     });
@@ -145,4 +153,4 @@ exports.detalhesSala = async (req, res) => {
   } catch (error) {
     res.status(500).send("Erro ao carregar detalhes da sala");
   }
-}
+};
