@@ -1,3 +1,54 @@
+.card-header {
+  background-color: #84925b !important;
+  color: #fff !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+
+.card-header h2 {
+  color: #fff !important;
+}
+
+.card .btn[type="submit"] {
+  background-color: #84925b !important;
+  color: #fff !important;
+  border: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.card .btn[type="submit"]:hover {
+  background-color: #6a774a !important;
+  color: #fff !important;
+}
+.bg-tema {
+  background-color: #84925b !important;
+  color: #fff !important;
+}
+
+.btn-tema {
+  background-color: #84925b !important;
+  color: #fff !important;
+  border: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-tema:hover {
+  background-color: #6a774a !important;
+  color: #fff !important;
+}
+/* Fundo tema exclusivo para o cadastro de bloco */
+.cadastro-bloco-tema {
+  background-color: #84925b !important;
+  border-radius: 18px;
+}
+/* Corrige o verde do card-header do cadastro de bloco */
+.bg-success {
+  background-color: #84925b !important;
+  border-color: #84925b !important;
+}
+/* Fundo tema para blocos */
+.bg-tema {
+  background-color: #84925b !important;
+}
 /* Fundo especial para a página de adicionar bloco */
 .container.adiciona-bloco {
   background-color: #84925b;
@@ -105,10 +156,16 @@ h1 {
 }
 
 /* Card do formulário */
+
 .card {
   border: none;
   border-radius: 10px;
   margin-bottom: 20px;
+  background: transparent !important;
+}
+
+.card-body {
+  background: transparent !important;
 }
 
 .card-header {
