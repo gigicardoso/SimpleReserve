@@ -1,7 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const salasController = require("../controllers/salasController");
+const multer = require('multer');
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, './public/uploads/salas')
+    },
+    filename: (req, file, cb) =>{
+        cb(null, Date.now().toString + '-' + file.originalname  )
+    },
+
+fileFilter:  (req, file, cb) => {
+    const extensao = ['image/jpeg', 'image/jpg', 'image/png'].find(formatoAceito => formatoAceito === file.mimetype);
+    if(extensao){
+        return cb(null, true);
+    }
+    return cb(null, false)
+}
+
+})
 // Listar todas as salas (tela de gerenciamento)
 router.get("/gerenciarsalas", salasController.listarSalas);
 
@@ -18,4 +36,6 @@ router.get("/excluir/:id", salasController.deletarSala);
 
 //Exibir detalhes da sala na tela de gerenciamento de salas
 router.get("/detalhes/:id", salasController.detalhesSala);
+
+
 module.exports = router;

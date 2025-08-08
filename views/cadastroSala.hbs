@@ -4,7 +4,7 @@
   </div>
   <div class="conteudo-principal">
     <h1 class="tituloSala">Cadastro de Salas</h1>
-    <form method="POST" action="{{#if sala}}/salas/editar/{{sala.id_salas}}{{else}}/salas/cadastrosala{{/if}}">
+    <form method="POST" action="{{#if sala}}/salas/editar/{{sala.id_salas}}{{else}}/salas/cadastrosala{{/if}}" enctype="multipart/form-data">
       <div class="linha-form">
         <div class="basico-Sala">
           <div class="input-group-cadSala">

@@ -5,7 +5,8 @@ const hbs = require('hbs');
 const express = require('express');
 const path = require('path');
 const { sequelize } = require('./db/db');
-require('./models/relacionamento.js'); 
+require('./models/relacionamento.js');
+ 
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
