@@ -24,16 +24,27 @@ exports.listarUsuarios = async (req, res) => {
 // Criar usuário
 exports.criarUsuario = async (req, res) => {
   try {
-    if (req.body.senha !== req.body.senha2){
-      return res.status(400).send('As senhas não coincidem');
-    }
-    await Usuario.create(
-      {
+    if (req.body.senha !== req.body.senha2) {
+      return res.render('mais/adicionaUsuario', {
+        layout: 'layout',
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
+          { title: 'Cadastrar Novo Usuário', path: '/mais/adicionaUsuario' }
+        ],
+        senhaDiferente: true,
         nome: req.body.nome,
-        email: req.body.email,
-        senha: req.body.senha
-      }
-    );
+        email: req.body.email
+      });
+    }
+    await Usuario.create({
+      nome: req.body.nome,
+      email: req.body.email,
+      senha: req.body.senha,
+      id_permissao: 1
+    });
     res.redirect('/usuariosadm');
   } catch (error) {
     console.error('Erro ao criar usuário:', error);

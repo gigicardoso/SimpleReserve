@@ -1,3 +1,4 @@
+
 var express = require("express");
 var router = express.Router();
 const path = require("path");
@@ -7,6 +8,20 @@ const tipoMesaController = require("../controllers/tipoMesaController");
 const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
+
+// Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
+router.get("/mais/adicionaUsuario", (req, res) => {
+  res.render("mais/adicionaUsuario", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    breadcrumb: [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
+      { title: 'Cadastrar Novo Usuário', path: '/mais/adicionaUsuario' }
+    ]
+  });
+});
 
 /* Rota para Home */
 router.get("/", (req, res) => {
