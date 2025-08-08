@@ -1,4 +1,3 @@
-
 var express = require("express");
 var router = express.Router();
 const path = require("path");
@@ -148,7 +147,7 @@ router.get("/excluirUsuario/:id", usuariosController.deletarUsuario);
 
 // Edição de usuário
 router.get("/editarUsuario/:id", usuariosController.formEditarUsuario);
-router.post("/editarUsuario/:id", usuariosController.atualizarUsuario);
+router.post("/editarUsuario/:id", usuariosController.editarUsuario);
 
 router.get("/reservasadm", (req, res) => {
   res.render("adm/reservas", {

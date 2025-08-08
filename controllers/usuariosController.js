@@ -53,7 +53,7 @@ exports.criarUsuario = async (req, res) => {
 };
 
 //UPDATE
-exports.atualizarUsuario = async (req, res) => {
+/*exports.atualizarUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.params.id);
     if (!usuario) return res.status(404).send('Usuario não encontrada');
@@ -62,21 +62,27 @@ exports.atualizarUsuario = async (req, res) => {
   } catch (error) {
     res.status(500).send('Erro ao atualizar usuario');
   }
-};
+};*/
 
 exports.formEditarUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.params.id);
-    if (!usuario) return res.status(404).send('Usuario não encontrada');
-    res.render('adm/editarUsuario', {
-      usuario,
-      layout: 'layout',
+    if (!usuario) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+    res.render("mais/adicionaUsuario", {
+      layout: "layout",
       showSidebar: true,
       showLogo: true,
-      isEditarUsuario: true
+      usuario,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
+        { title: 'Editar Usuário', path: `/editarUsuario/${usuario.id_user}` }
+      ]
     });
-  } catch (error) {
-    res.status(500).send('Erro ao buscar usuario para edição');
+  } catch (err) {
+    res.status(500).send('Erro ao buscar usuário');
   }
 };
 
@@ -89,5 +95,19 @@ exports.deletarUsuario = async (req, res) => {
     res.redirect('/usuariosadm');
   } catch (error) {
     res.status(500).send('Erro ao deletar usuario');
+  }
+};
+
+exports.editarUsuario = async (req, res) => {
+  try {
+    const { nome, email, senha } = req.body;
+    const id = req.params.id;
+    await Usuario.update(
+      { nome, email, senha },
+      { where: { id_user: id } }
+    );
+    res.redirect('/usuariosadm');
+  } catch (err) {
+    res.status(500).send('Erro ao editar usuário');
   }
 };
