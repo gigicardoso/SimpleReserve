@@ -1,10 +1,9 @@
-<script id="cadastroBlocoTemplate" type="text/x-handlebars-template">
   <div class="container py-4 adiciona-bloco">
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card shadow">
           <div class="card-header bg-success text-white d-flex align-items-center">
-            <h2 class="mb-0"><i class="fas fa-building me-2"></i>{{#if blocos}}Editar Bloco{{else}}Cadastrar Bloco{{/if}}</h2>
+            <h2 class="mb-0"><i class="fas fa-building me-2"></i>{{#if bloco}}Editar Bloco{{else}}Cadastrar Bloco{{/if}}</h2>
           </div>
           <div class="card-body">
             <form id="blocoForm" action="/bloco" method="POST">
@@ -20,8 +19,8 @@
                 />
               </div>
               <button type="submit" class="btn btn-success w-100">
-                <i class="fas fa-save me-2"></i>{{#if blocos}}Salvar Alterações{{else}}
-                Cadastrar Bloco{{/if}}
+                <i class="fas fa-save me-2"></i>{{#if bloco}}Salvar Alterações{{else}}
+                Cadastrar{{/if}}
               </button>
             </form>
           </div>
@@ -33,4 +32,3 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="/stylesheets/bloco.css">
-</script>
