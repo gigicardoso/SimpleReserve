@@ -46,7 +46,7 @@ exports.formEditarMesa = async (req, res) => {
   try {
     const mesa = await Mesa.findByPk(req.params.id);
     if (!mesa) return res.status(404).send("Mesa não encontrada");
-    res.render("adm/editarMesa", {
+    res.render("mais/adicionaMesa", {
       mesa,
       layout: "layout",
       showSidebar: true,

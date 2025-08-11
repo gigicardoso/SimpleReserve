@@ -53,16 +53,19 @@ exports.criarUsuario = async (req, res) => {
 };
 
 //UPDATE
-/*exports.atualizarUsuario = async (req, res) => {
+exports.editarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findByPk(req.params.id);
-    if (!usuario) return res.status(404).send('Usuario não encontrada');
-    await usuario.update(req.body);
+    const { nome, email, senha } = req.body;
+    const id = req.params.id;
+    await Usuario.update(
+      { nome, email, senha },
+      { where: { id_user: id } }
+    );
     res.redirect('/usuariosadm');
-  } catch (error) {
-    res.status(500).send('Erro ao atualizar usuario');
+  } catch (err) {
+    res.status(500).send('Erro ao editar usuário');
   }
-};*/
+};
 
 exports.formEditarUsuario = async (req, res) => {
   try {
@@ -98,16 +101,3 @@ exports.deletarUsuario = async (req, res) => {
   }
 };
 
-exports.editarUsuario = async (req, res) => {
-  try {
-    const { nome, email, senha } = req.body;
-    const id = req.params.id;
-    await Usuario.update(
-      { nome, email, senha },
-      { where: { id_user: id } }
-    );
-    res.redirect('/usuariosadm');
-  } catch (err) {
-    res.status(500).send('Erro ao editar usuário');
-  }
-};

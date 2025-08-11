@@ -9,10 +9,9 @@
       </ol>
     </nav>
     <div class="area">
-    <!-- apenas para manter o layout do exemplo, pode ser removido se não quiser -->
   </div>
   <div class="conteudo-principal">
-    <h1 class="tituloSala">Cadastro de Salas</h1>
+    <h1 class="tituloSala"> {{#if sala}}Editar Sala{{else}}Cadastro de Salas{{/if}}</h1>
     <form method="POST" action="{{#if sala}}/salas/editar/{{sala.id_salas}}{{else}}/salas/cadastrosala{{/if}}" enctype="multipart/form-data">
       <div class="linha-form">
         <div class="basico-Sala">
@@ -114,7 +113,7 @@
           </div>
           
       </div>
-      <button class="cadSala-Button" type="submit">Cadastrar</button>
+      <button class="cadSala-Button" type="submit">{{#if sala}}Salvar Alterações{{else}}Cadastrar{{/if}}</button>
   </div>
   </form>
 <script>

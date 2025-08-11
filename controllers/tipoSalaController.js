@@ -46,7 +46,7 @@ exports.formEditarTipoSala = async (req, res) => {
   try {
     const tipoSala = await TipoSala.findByPk(req.params.id);
     if (!tipoSala) return res.status(404).send("Tipo de Sala não encontrada");
-    res.render("adm/editarTipoSala", {
+    res.render("mais/adicionaSala", {
       tipoSala,
       layout: "layout",
       showSidebar: true,

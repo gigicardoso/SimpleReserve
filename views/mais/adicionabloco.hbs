@@ -4,7 +4,7 @@
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card shadow">
           <div class="card-header bg-success text-white d-flex align-items-center">
-            <h2 class="mb-0"><i class="fas fa-building me-2"></i> Cadastrar Novo Bloco</h2>
+            <h2 class="mb-0"><i class="fas fa-building me-2"></i>{{#if blocos}}Editar Bloco{{else}}Cadastrar Bloco{{/if}}</h2>
           </div>
           <div class="card-body">
             <form id="blocoForm" action="/bloco" method="POST">
@@ -20,8 +20,8 @@
                 />
               </div>
               <button type="submit" class="btn btn-success w-100">
-                <i class="fas fa-save me-2"></i>
-                Cadastrar Bloco
+                <i class="fas fa-save me-2"></i>{{#if blocos}}Salvar Alterações{{else}}
+                Cadastrar Bloco{{/if}}
               </button>
             </form>
           </div>

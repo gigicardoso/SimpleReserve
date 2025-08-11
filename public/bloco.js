@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     blocoForm.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Aqui você pode adicionar a lógica de envio do formulário
       fetch(this.action, {
         method: this.method,
         body: new FormData(this)
