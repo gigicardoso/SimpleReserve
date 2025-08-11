@@ -212,8 +212,24 @@
     </style>
 </head>
 <body>
+    <nav class="breadcrumb-nav">
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item"><a href="/adm">Gerenciador ADM</a></li>
+        <span class="breadcrumb-separator"> &gt; </span>
+        <li class="breadcrumb-item"><a href="/salas/gerenciarsalas">Gerenciar Salas</a></li>
+      </ol>
+    </nav>
     <div class="header">
-        <h1><i class="fas fa-door-open"></i> Gerenciar Salas</h1>
+        <div class="title-container" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 10px;">
+            <h1 style="margin: 0; font-size: 2rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-door-open"></i> Gerenciar Salas
+            </h1>
+            <a href="/salas/cadastrosala" title="Adicionar sala" style="display: flex; align-items: center;">
+                <button type="button" style="width: 44px; height: 44px; border-radius: 50%; background: var(--primary-color); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(132,146,91,0.10); transition: background 0.2s;">
+                    <i class="fas fa-plus" style="color: #fff; font-size: 1.5rem;"></i>
+                </button>
+            </a>
+        </div>
     </div>
     
     <div class="table-container">
