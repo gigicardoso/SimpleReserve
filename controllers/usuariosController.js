@@ -45,7 +45,7 @@ exports.criarUsuario = async (req, res) => {
       senha: req.body.senha,
       id_permissao: 1
     });
-    res.redirect('/usuariosadm');
+    res.redirect('/usuariosAdm');
   } catch (error) {
     console.error('Erro ao criar usuário:', error);
     res.status(500).send('Erro ao criar usuário');
@@ -61,7 +61,7 @@ exports.editarUsuario = async (req, res) => {
       { nome, email, senha },
       { where: { id_user: id } }
     );
-    res.redirect('/usuariosadm');
+    res.redirect('/usuariosAdm');
   } catch (err) {
     res.status(500).send('Erro ao editar usuário');
   }
