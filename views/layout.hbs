@@ -77,20 +77,16 @@
 
 
           <li class="{{#if isSair}}active{{/if}}">
-            <a href="#"><i class="bi bi-box-arrow-right"></i> <span>Sair</span></a>
+            <a href="#" id="btn-logout"><i class="bi bi-box-arrow-right"></i> <span>Sair</span></a>
           </li>
 
 
           <div class="sidebar-divider"></div>
-          <!--<span class="sidebar-title">Administração</span>-->
-
-          
-
-
+    
            <a href="/adm">
           <div>
           <li class="{{#if isGerenciador}}active{{/if}}">
-           <i class="bi bi-gear"></i> <span>Gerenciador</span>
+           <i class="bi bi-gear"></i> <span>ADM</span>
           </li></a>
           </div>
         </ul>
@@ -152,6 +148,19 @@
     });
     window.addEventListener('resize', updateToggleBtnVisibility);
     updateToggleBtnVisibility();
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Deseja realmente sair do sistema?')) {
+          window.location.href = '/logout';
+        }
+      });
+    }
   });
 </script>
   </body>

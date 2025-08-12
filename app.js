@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 const { sequelize } = require('./db/db');
 require('./models/relacionamento.js');
+const session = require('express-session');
  
 
 var indexRouter = require("./routes/index");
@@ -32,6 +33,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
+//teste de login
+app.use(session({
+  secret: 'simpleReserveSecret',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

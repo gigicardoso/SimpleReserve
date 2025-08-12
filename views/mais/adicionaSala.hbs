@@ -6,7 +6,7 @@
           <h2 class="mb-0 flex-grow-1"><i class="fas fa-door-open me-2"></i>{{#if tipoSala}}Editar Tipo de Sala{{else}}Cadastrar Tipo de Sala{{/if}}</h2>
         </div>
         <div class="card-body">
-          <form id="tipoSalaForm" action="/tipoSala" method="POST">
+          <form id="tipoSalaForm" action="{{#if tipoSala}}/editarTipoSala/{{tipoSala.id_tipo_sala}}{{else}}/tipoSala{{/if}}" method="POST">
             <div class="mb-3">
               <label for="descricao" class="form-label">Tipo de Sala</label>
               <input
@@ -16,11 +16,11 @@
                 class="form-control"
                 required
                 placeholder="Ex: Auditório, Laboratório, Sala de Reunião, etc."
+                value="{{#if tipoSala}}{{tipoSala.descricao}}{{/if}}"
               />
             </div>
             <button type="submit" class="btn btn-success w-100">
-              <i class="fas fa-save me-2"></i>{{#if tipoSala}}Salvar Alterações{{else}}
-              Cadastrar Tipo de Sala{{/if}}
+              <i class="fas fa-save me-2"></i>{{#if tipoSala}}Salvar Alterações{{else}}Cadastrar Tipo de Sala{{/if}}
             </button>
           </form>
         </div>
@@ -28,7 +28,6 @@
     </div>
   </div>
 </div>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="/stylesheets/bloco.css">
