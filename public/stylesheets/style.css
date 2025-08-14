@@ -567,6 +567,7 @@ input[type="checkbox"] {
   background-position: 45%;
   background-size: 60%;
   background-repeat: no-repeat;
+  background-color: white;
 }
 
 .cadastro-container {

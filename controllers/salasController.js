@@ -42,6 +42,7 @@ exports.criarSala = async (req, res) => {
     res.redirect("/salas/gerenciarsalas");
   } catch (error) {
     res.status(500).send("Erro ao criar sala");
+    console.log(error);
   }
 };
 
