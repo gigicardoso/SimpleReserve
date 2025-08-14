@@ -66,21 +66,6 @@ foreign key (id_andar) references andar_bloco (id_andar),
 foreign key (id_mesa) references tipo_mesa (id_mesa)
 );
 
--- TABELA AGENDA --
-create table agenda(
-id_agenda integer not null auto_increment,
-nome_evento varchar(35) not null,
-descricao varchar(60),
-data date not null,
-hora_inicio time not null,
-hora_final time not null,
-id_user integer not null,
-id_salas integer not null,
-primary key (cod),
-foreign key (id_user) references usuario (id_user),
-foreign key (id_salas) references salas (id_salas)
-);
-
 -- TABELA USUARIO --
 use sr;
 create table usuarios(
@@ -91,4 +76,19 @@ email varchar(50),
 id_permissao integer not null,
 primary key (id_user),
 foreign key (id_permissao) references permissao (id_permissao)
+);
+
+-- TABELA AGENDA --
+create table agenda(
+id_agenda integer not null auto_increment,
+nome_evento varchar(35) not null,
+descricao varchar(60),
+data date not null,
+hora_inicio time not null,
+hora_final time not null,
+id_user integer not null,
+id_salas integer not null,
+primary key (id_agenda),
+foreign key (id_user) references usuario (id_user),
+foreign key (id_salas) references salas (id_salas)
 );
