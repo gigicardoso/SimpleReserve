@@ -9,6 +9,7 @@ cadSala boolean not null default 0,
 cadUser boolean not null default 0,
 edUser boolean not null default 0,
 arqUser boolean not null default 0,
+arqSala boolean not null default 0,
 edSalas boolean not null default 0,
 primary key (id_permissao));
 
