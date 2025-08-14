@@ -178,6 +178,11 @@
     </style>
   </head>
   <body>
+    {{#if usuario}}
+  <div class="alert alert-success mt-3 text-center">
+    Bem-vindo, {{usuario.nome}}!
+  </div>
+{{/if}}
     <div class="container">
       <div class="calendar-container">
         <div class="calendar-header">

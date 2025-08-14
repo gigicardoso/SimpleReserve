@@ -45,7 +45,7 @@ exports.criarUsuario = async (req, res) => {
       senha: req.body.senha,
       id_permissao: 1
     });
-    res.redirect('/usuariosadm');
+    res.redirect('/');
   } catch (error) {
     console.error('Erro ao criar usuário:', error);
     res.status(500).send('Erro ao criar usuário');
@@ -61,7 +61,7 @@ exports.editarUsuario = async (req, res) => {
       { nome, email, senha },
       { where: { id_user: id } }
     );
-    res.redirect('/usuariosadm');
+    res.redirect('/usuariosAdm');
   } catch (err) {
     res.status(500).send('Erro ao editar usuário');
   }
@@ -99,5 +99,31 @@ exports.deletarUsuario = async (req, res) => {
   } catch (error) {
     res.status(500).send('Erro ao deletar usuario');
   }
+};
+
+//teste login
+exports.login = async (req, res) => {
+  const { email, senha } = req.body;
+  try {
+    const usuario = await Usuario.findOne({ where: { email, senha } });
+    if (!usuario) {
+      return res.render('login', { layout: 'layout', erro: 'Usuário ou senha inválidos' });
+    }
+    req.session.usuario = {
+      id_user: usuario.id_user,
+      nome: usuario.nome,
+      email: usuario.email,
+      id_permissao: usuario.id_permissao
+    };
+    res.redirect('/');
+  } catch (error) {
+    res.render('login', { layout: 'layout', erro: 'Erro ao fazer login' });
+  }
+};
+
+exports.logout = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
 };
 

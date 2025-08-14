@@ -7,6 +7,7 @@ const tipoMesaController = require("../controllers/tipoMesaController");
 const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
+const auth = require("../middlewares/auth");
 
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
 router.get("/mais/adicionaUsuario", (req, res) => {
@@ -41,6 +42,11 @@ router.get("/login", (req, res) => {
   });
 });
 
+//teste login
+router.post("/login", usuariosController.login);
+
+router.get("/logout", usuariosController.logout);
+
 // Rota para cadastro de usuário
 router.get("/cadastrousuario", (req, res) => {
   res.render("cadastroUsuarios", {
@@ -53,7 +59,7 @@ router.get("/cadastrousuario", (req, res) => {
 
 router.post("/cadastrousuario", usuariosController.criarUsuario);
 
-router.get("/adm", (req, res) => {
+router.get("/adm", auth, (req, res) => {
   res.render("adm/gerenciadorAdm", {
     layout: "layout",
     showSidebar: true,
@@ -61,7 +67,8 @@ router.get("/adm", (req, res) => {
     isGerenciador: true,
     breadcrumb: [
       { title: 'Gerenciador ADM', path: '/adm' }
-    ]
+    ],
+    usuario: req.session.usuario
   });
 });
 
@@ -85,8 +92,6 @@ router.get("/excluirTipoSala/:id", tipoSalaController.deletarTipoSala);
 router.get("/editarTipoSala/:id", tipoSalaController.formEditarTipoSala);
 router.post("/editarTipoSala/:id", tipoSalaController.atualizarTipoSala);
 
-
-
 //Listagem de blocos
 router.get("/bloco", blocosController.listarBlocos);
 // Gerenciador de blocos
@@ -96,9 +101,9 @@ router.get("/bloco", (req, res) => {
     showSidebar: true,
     showLogo: true,
     breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Gerenciador de blocos', path: '/bloco' }
-    ]
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Gerenciador de blocos", path: "/bloco" },
+    ],
   });
 });
 
@@ -109,7 +114,6 @@ router.get("/excluirBloco/:id", blocosController.deletarBloco);
 router.get("/editarBloco/:id", blocosController.formEditarBloco);
 router.post("/editarBloco/:id", blocosController.atualizarBloco);
 
-
 //Listagem de andares
 router.get("/andares", andarBlocoController.listarAndar);
 // Gerenciador de andares
@@ -119,9 +123,9 @@ router.get("/andares", (req, res) => {
     showSidebar: true,
     showLogo: true,
     breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Gerenciador de andares', path: '/andares' }
-    ]
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Gerenciador de andares", path: "/andares" },
+    ],
   });
 });
 
@@ -139,7 +143,7 @@ router.get("/andares/:id_bloco", andarBlocoController.getAndaresPorBloco);
 router.get("/andar", andarBlocoController.formCadastroAndar);
 router.post("/andar", andarBlocoController.criarAndar);
 
-// Listar usuários 
+// Listar usuários
 router.get("/usuariosadm", usuariosController.listarUsuarios);
 
 // Excluir usuário
@@ -156,9 +160,9 @@ router.get("/reservasadm", (req, res) => {
     showLogo: true,
     isGerenciador: true,
     breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Reservas', path: '/reservasadm' }
-    ]
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Reservas", path: "/reservasadm" },
+    ],
   });
 });
 
@@ -169,9 +173,9 @@ router.get("/salas", (req, res) => {
     showLogo: true,
     isGerenciador: true,
     breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Salas', path: '/salas' }
-    ]
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Salas", path: "/salas" },
+    ],
   });
 });
 
@@ -184,7 +188,6 @@ router.get("/reservasDoDia", (req, res) => {
   });
 });
 
-
 // Rotas para tela de cadastro de bloco
 router.get("/adicionabloco", (req, res) => {
   res.render("adm/adicionabloco", {
@@ -193,21 +196,20 @@ router.get("/adicionabloco", (req, res) => {
     showLogo: true,
     isAdicionarBloco: true,
     breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Gerenciador de blocos', path: '/bloco' },
-      { title: 'Cadastrar novo bloco', path: '/adicionabloco' }
-    ]
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Gerenciador de blocos", path: "/bloco" },
+      { title: "Cadastrar novo bloco", path: "/adicionabloco" },
+    ],
   });
 });
-
-
 
 // Rota para tela dedicada de cadastro de andar (em /mais/adicionaandar) usando Sequelize
 const { sequelize } = require("../db/db");
 
 router.get("/mais/adicionaandar", (req, res) => {
-  sequelize.query('SELECT * FROM blocos', { type: sequelize.QueryTypes.SELECT })
-    .then(results => {
+  sequelize
+    .query("SELECT * FROM blocos", { type: sequelize.QueryTypes.SELECT })
+    .then((results) => {
       res.render("mais/adicionaAndar", {
         layout: "layout",
         showSidebar: true,
@@ -215,21 +217,21 @@ router.get("/mais/adicionaandar", (req, res) => {
         blocos: results,
         isAdicionarAndar: true,
         breadcrumb: [
-          { title: 'Gerenciador ADM', path: '/adm' },
-          { title: 'Gerenciador de andares', path: '/andares' },
-          { title: 'Cadastrar Novo Andar', path: '/mais/adicionaandar' }
-        ]
+          { title: "Gerenciador ADM", path: "/adm" },
+          { title: "Gerenciador de andares", path: "/andares" },
+          { title: "Cadastrar Novo Andar", path: "/mais/adicionaandar" },
+        ],
       });
     })
-    .catch(err => {
-      res.status(500).send('Erro ao buscar blocos');
+    .catch((err) => {
+      res.status(500).send("Erro ao buscar blocos");
     });
-
 });
 
 router.get("/mais/adicionamesa", (req, res) => {
-  sequelize.query('SELECT * FROM blocos', { type: sequelize.QueryTypes.SELECT })
-    .then(results => {
+  sequelize
+    .query("SELECT * FROM blocos", { type: sequelize.QueryTypes.SELECT })
+    .then((results) => {
       res.render("mais/adicionaMesa", {
         layout: "layout",
         showSidebar: true,
@@ -237,21 +239,21 @@ router.get("/mais/adicionamesa", (req, res) => {
         blocos: results,
         isAdicionarAndar: true,
         breadcrumb: [
-          { title: 'Gerenciador ADM', path: '/adm' },
-          { title: 'Gerenciador de tipo de mesa', path: '/tipoMesa' },
-          { title: 'Cadastrar tipo de mesa', path: '/mais/adicionamesa' }
-        ]
+          { title: "Gerenciador ADM", path: "/adm" },
+          { title: "Gerenciador de tipo de mesa", path: "/tipoMesa" },
+          { title: "Cadastrar tipo de mesa", path: "/mais/adicionamesa" },
+        ],
       });
     })
-    .catch(err => {
-      res.status(500).send('Erro ao buscar cadastro de tipo de mesa');
+    .catch((err) => {
+      res.status(500).send("Erro ao buscar cadastro de tipo de mesa");
     });
-
 });
 
 router.get("/mais/adicionasala", (req, res) => {
-  sequelize.query('SELECT * FROM blocos', { type: sequelize.QueryTypes.SELECT })
-    .then(results => {
+  sequelize
+    .query("SELECT * FROM blocos", { type: sequelize.QueryTypes.SELECT })
+    .then((results) => {
       res.render("mais/adicionaSala", {
         layout: "layout",
         showSidebar: true,
@@ -259,16 +261,15 @@ router.get("/mais/adicionasala", (req, res) => {
         blocos: results,
         isAdicionarAndar: true,
         breadcrumb: [
-          { title: 'Gerenciador ADM', path: '/adm' },
-          { title: 'Gerenciador de tipo de sala', path: '/tipoSala' },
-          { title: 'Cadastrar Nova Sala', path: '/mais/adicionasala' }
-        ]
+          { title: "Gerenciador ADM", path: "/adm" },
+          { title: "Gerenciador de tipo de sala", path: "/tipoSala" },
+          { title: "Cadastrar Nova Sala", path: "/mais/adicionasala" },
+        ],
       });
     })
-    .catch(err => {
-      res.status(500).send('Erro ao buscar cadastro de Sala');
+    .catch((err) => {
+      res.status(500).send("Erro ao buscar cadastro de Sala");
     });
-
 });
 
 //Edição de andares
