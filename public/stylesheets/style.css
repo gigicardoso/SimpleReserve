@@ -1,3 +1,16 @@
+.user-table-container {
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--white);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.user-table {
+  border-radius: 12px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
 /* ----------- Breadcrumb Navigation ----------- */
 .breadcrumb-nav {
   position: fixed;
