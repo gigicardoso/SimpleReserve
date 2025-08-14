@@ -49,7 +49,6 @@ id_salas integer not null auto_increment,
 nome_salas varchar(65),
 descricao varchar(100),
 capacidade integer not null,
-tipo_mesa varchar(15) not null,
 mesa_canhoto integer not null,
 projetor boolean default 1 not null,
 ar_cond boolean default 1 not null,
@@ -86,8 +85,8 @@ foreign key (id_salas) references salas (id_salas)
 use sr;
 create table usuarios(
 id_user integer not null auto_increment,
-senha char(8) not null,
 nome varchar(50) not null,
+senha char(8) not null,
 email varchar(50),
 id_permissao integer not null,
 primary key (id_user),
