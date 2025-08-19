@@ -1,1 +1,12 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	document.querySelectorAll('.btn-delete').forEach(function(btn) {
+		btn.addEventListener('click', function(e) {
+			if (!window.confirm('Tem certeza que quer excluir?')) {
+				e.preventDefault();
+			}
+		});
+	});
+});
+</script>
 <h1 style="text-align: center;">Aqui vai ser o gerenciador de salas</h1>
