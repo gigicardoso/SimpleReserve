@@ -55,14 +55,14 @@ exports.editarUsuario = async (req, res) => {
 
 exports.formEditarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findByPk(req.params.id_user);
+    const usuario = await Usuario.findByPk(req.params.id);
     const permissao = await Permissao.findByPk(usuario.id_permissao);
     res.render('mais/adicionaUsuario', { 
       layout: 'layout',
       showSidebar: true,
       showLogo: true,
       usuario, 
-      permissao ,
+      permissao,
       breadcrumb: [
         { title: 'Gerenciador ADM', path: '/adm' },
         { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
@@ -71,6 +71,7 @@ exports.formEditarUsuario = async (req, res) => {
     });
   } catch (err) {
     res.render('error', { message: 'Erro ao carregar usuário.' });
+    console.error('Erro ao carregar usuário:', err);
   }
 };
 

@@ -55,28 +55,28 @@
             </div>
             {{#if permissao}}
             <div class="mb-3">
-              <label class="form-label">Permissões Individuais</label>
-              <div class="form-check">
+              <label class="form-label">Permissões do Usuário</label>
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="cadSala" name="cadSala" value="1" {{#if permissao.cadSala}}checked{{/if}}>
                 <label class="form-check-label" for="cadSala">Cadastrar Sala</label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="cadUser" name="cadUser" value="1" {{#if permissao.cadUser}}checked{{/if}}>
                 <label class="form-check-label" for="cadUser">Cadastrar Usuário</label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="edUser" name="edUser" value="1" {{#if permissao.edUser}}checked{{/if}}>
                 <label class="form-check-label" for="edUser">Editar Usuário</label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="arqUser" name="arqUser" value="1" {{#if permissao.arqUser}}checked{{/if}}>
                 <label class="form-check-label" for="arqUser">Arquivar Usuário</label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="arqSala" name="arqSala" value="1" {{#if permissao.arqSala}}checked{{/if}}>
                 <label class="form-check-label" for="arqSala">Arquivar Sala</label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="edSalas" name="edSalas" value="1" {{#if permissao.edSalas}}checked{{/if}}>
                 <label class="form-check-label" for="edSalas">Editar Salas</label>
               </div>

@@ -51,8 +51,8 @@ router.get("/logout", usuariosController.logout);
 router.get("/cadastrousuario", (req, res) => {
   res.render("cadastroUsuarios", {
     layout: "layout",
-    showSidebar: false, // não mostrar sidebar
-    showLogo: false,    // não mostrar logo
+    showSidebar: false, 
+    showLogo: false,    
     isCadastroUsuario: true,
   });
 });
@@ -203,7 +203,6 @@ router.get("/adicionabloco", (req, res) => {
   });
 });
 
-// Rota para tela dedicada de cadastro de andar (em /mais/adicionaandar) usando Sequelize
 const { sequelize } = require("../db/db");
 
 router.get("/mais/adicionaandar", (req, res) => {
