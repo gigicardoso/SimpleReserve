@@ -73,8 +73,8 @@ create table usuarios(
 id_user integer not null auto_increment,
 nome varchar(50) not null,
 senha char(8) not null,
-email varchar(50),
-id_permissao integer not null,
+email varchar(50) not null,
+id_permissao integer,
 primary key (id_user),
 foreign key (id_permissao) references permissao (id_permissao)
 );

@@ -1,4 +1,6 @@
 const Usuario = require('../models/usuariosModel');
+const Permissao = require('../models/permissaoModel');
+const bcrypt = require('bcrypt');
 
 // Listar todos os usuários
 exports.listarUsuarios = async (req, res) => {
@@ -24,31 +26,15 @@ exports.listarUsuarios = async (req, res) => {
 // Criar usuário
 exports.criarUsuario = async (req, res) => {
   try {
-    if (req.body.senha !== req.body.senha2) {
-      return res.render('mais/adicionaUsuario', {
-        layout: 'layout',
-        showSidebar: true,
-        showLogo: true,
-        breadcrumb: [
-          { title: 'Gerenciador ADM', path: '/adm' },
-          { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
-          { title: 'Cadastrar Novo Usuário', path: '/mais/adicionaUsuario' }
-        ],
-        senhaDiferente: true,
-        nome: req.body.nome,
-        email: req.body.email
-      });
+    const { nome, email, senha, senha2, id_permissao } = req.body;
+    if (senha !== senha2) {
+      return res.render('cadastroUsuarios', { erro: 'Senhas não conferem.' });
     }
-    await Usuario.create({
-      nome: req.body.nome,
-      email: req.body.email,
-      senha: req.body.senha,
-      id_permissao: 1
-    });
+    const hash = await bcrypt.hash(senha, 10);
+    await Usuario.create({ nome, email, senha: hash, id_permissao });
     res.redirect('/');
   } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    res.status(500).send('Erro ao criar usuário');
+    res.render('cadastroUsuarios', { erro: 'Erro ao cadastrar usuário.' });
   }
 };
 
@@ -69,15 +55,14 @@ exports.editarUsuario = async (req, res) => {
 
 exports.formEditarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findByPk(req.params.id);
-    if (!usuario) {
-      return res.status(404).send('Usuário não encontrado');
-    }
-    res.render("mais/adicionaUsuario", {
-      layout: "layout",
+    const usuario = await Usuario.findByPk(req.params.id_user);
+    const permissao = await Permissao.findByPk(usuario.id_permissao);
+    res.render('mais/adicionaUsuario', { 
+      layout: 'layout',
       showSidebar: true,
       showLogo: true,
-      usuario,
+      usuario, 
+      permissao ,
       breadcrumb: [
         { title: 'Gerenciador ADM', path: '/adm' },
         { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
@@ -85,7 +70,7 @@ exports.formEditarUsuario = async (req, res) => {
       ]
     });
   } catch (err) {
-    res.status(500).send('Erro ao buscar usuário');
+    res.render('error', { message: 'Erro ao carregar usuário.' });
   }
 };
 
@@ -105,9 +90,13 @@ exports.deletarUsuario = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, senha } = req.body;
   try {
-    const usuario = await Usuario.findOne({ where: { email, senha } });
+    const usuario = await Usuario.findOne({ where: { email } });
     if (!usuario) {
-      return res.render('login', { layout: 'layout', erro: 'Usuário ou senha inválidos' });
+      return res.render('login', { erro: 'Usuário ou senha inválidos' });
+    }
+    const senhaOk = await bcrypt.compare(senha, usuario.senha);
+    if (!senhaOk) {
+      return res.render('login', { erro: 'Usuário ou senha inválidos' });
     }
     req.session.usuario = {
       id_user: usuario.id_user,
@@ -116,8 +105,11 @@ exports.login = async (req, res) => {
       id_permissao: usuario.id_permissao
     };
     res.redirect('/');
-  } catch (error) {
-    res.render('login', { layout: 'layout', erro: 'Erro ao fazer login' });
+  } catch (error)
+  
+  {
+    console.error('Erro ao fazer login:', error);
+    res.render('login', { erro: 'Erro ao fazer login' });
   }
 };
 

@@ -36,7 +36,7 @@ exports.criarSala = async (req, res) => {
   try {
     const dadosSala = req.body;
     if (req.file) {
-      dadosSala.imagem_sala = req.file.filename; 
+      dadosSala.imagem_sala = req.file.filename;
     }
     await Sala.create(dadosSala);
     res.redirect("/salas/gerenciarsalas");
@@ -145,7 +145,7 @@ exports.detalhesSala = async (req, res) => {
       include: [
         { model: AndarBloco, as: "andarSala" },
         { model: Mesa, as: "mesaSala" },
-        
+
         { model: SalaTipo, as: "tipoSala" },
       ],
     });

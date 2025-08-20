@@ -15,7 +15,7 @@ const Usuario = sequelize.define(
       allowNull: false,
     },
     senha: {
-      type: DataTypes.CHAR(8),
+      type: DataTypes.CHAR(100),
       allowNull: false,
     },
     email: {
