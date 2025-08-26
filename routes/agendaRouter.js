@@ -20,6 +20,6 @@ router.get('/', async (req, res) => {
 });
 
 // Criar nova reserva
-router.post('/', agendaController.criarAgenda);
+router.post('/home', agendaController.criarAgenda);
 
 module.exports = router;
