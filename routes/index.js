@@ -9,6 +9,7 @@ const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
 const auth = require("../middlewares/auth");
 
+
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
 router.get("/mais/adicionaUsuario", (req, res) => {
   res.render("mais/adicionaUsuario", {

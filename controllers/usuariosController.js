@@ -34,6 +34,7 @@ exports.criarUsuario = async (req, res) => {
     await Usuario.create({ nome, email, senha: hash, id_permissao });
     res.redirect('/');
   } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error);
     res.render('cadastroUsuarios', { erro: 'Erro ao cadastrar usuário.' });
   }
 };
@@ -43,12 +44,15 @@ exports.editarUsuario = async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
     const id = req.params.id;
-    await Usuario.update(
-      { nome, email, senha },
-      { where: { id_user: id } }
-    );
-    res.redirect('/usuariosAdm');
+    const updateData = { nome, email };
+    if (senha && senha.trim() !== '') {
+      const hash = await bcrypt.hash(senha, 10);
+      updateData.senha = hash;
+    }
+   await Usuario.update(updateData, { where: { id_user: id } });
+    res.redirect('/usuariosadm');
   } catch (err) {
+    console.error('Erro ao editar usuário:', err);
     res.status(500).send('Erro ao editar usuário');
   }
 };
@@ -79,7 +83,7 @@ exports.formEditarUsuario = async (req, res) => {
 exports.deletarUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.params.id);
-    if (!usuario) return res.status(404).send('Usuario não encontrada');
+    if (!usuario) return res.status(404).send('Usuario não encontrado');
     await usuario.destroy();
     res.redirect('/usuariosadm');
   } catch (error) {
@@ -93,11 +97,12 @@ exports.login = async (req, res) => {
   try {
     const usuario = await Usuario.findOne({ where: { email } });
     if (!usuario) {
-      return res.render('login', { erro: 'Usuário ou senha inválidos' });
+      return res.render('login', { erro: 'Usuário ou senha inválidos 1' });
     }
-    const senhaOk = await bcrypt.compare(senha, usuario.senha);
+    const senhaOk = await bcrypt.compare(senha, usuario.senha); 
     if (!senhaOk) {
-      return res.render('login', { erro: 'Usuário ou senha inválidos' });
+      console.log(senhaOk, senha, usuario.senha);
+      return res.render('login', { erro: 'Usuário ou senha inválidos 2' });
     }
     req.session.usuario = {
       id_user: usuario.id_user,
@@ -106,9 +111,7 @@ exports.login = async (req, res) => {
       id_permissao: usuario.id_permissao
     };
     res.redirect('/');
-  } catch (error)
-  
-  {
+  } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.render('login', { erro: 'Erro ao fazer login' });
   }
@@ -119,4 +122,5 @@ exports.logout = (req, res) => {
     res.redirect('/login');
   });
 };
+
 
