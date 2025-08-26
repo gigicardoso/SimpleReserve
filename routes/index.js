@@ -24,8 +24,8 @@ router.get("/mais/adicionaUsuario", (req, res) => {
   });
 });
 
-/* Rota para Home */
-router.get("/", (req, res) => {
+// Rota para Home 
+router.get("/home", (req, res) => {
   res.render("index", {
     layout: "layout",
     showSidebar: true,
@@ -35,7 +35,7 @@ router.get("/", (req, res) => {
 });
 
 // Para login
-router.get("/login", (req, res) => {
+router.get("/", (req, res) => {
   res.render(path.join(__dirname, "..", "views", "login.hbs"), {
     layout: "layout",
     showSidebar: false,
