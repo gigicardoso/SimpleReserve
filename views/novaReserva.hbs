@@ -1,60 +1,58 @@
-<div class="formulario-reserva-sala">
-  <h1 class="tituloSala">Cadastre uma Reserva</h1>
-  <form id="formReserva" method="POST" action="/novareserva">
-    <div class="formulario-ask">
-      <label for="eventName">*Nome do evento:</label>
-      <input
-        type="text"
-        id="eventName"
-        name="nome_evento"
-        placeholder="Digite o nome do evento"
-      />
-    </div>
-    <div class="formulario-ask">
-      <label for="campusSala">*Sala do campus:</label>
-      <select id="campusSala" name="cod_salas" required>
-        <option value="">Selecione uma sala</option>
-        {{#each salas}}
-          <option value="{{cod}}">Sala {{numero}}</option>
-        {{/each}}
-      </select>
-    </div>
-    <div class="formulario-ask">
-      <label for="eventDate">*Data do evento:</label>
-      <input type="date" id="eventDate" name="date" />
-    </div>
 
-    <div class="formulario-ask">
-      <label for="eventTimeStart">*Hora início:</label>
-      <input type="time" id="eventTimeStart" name="hora_inicio" />
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header bg-success text-white d-flex align-items-center justify-content-between">
+          <h2 class="mb-0 flex-grow-1">
+            <i class="bi bi-calendar-plus me-2"></i>Nova Reserva
+          </h2>
+        </div>
+        <div class="card-body">
+          <form id="formReserva" method="POST" action="/novareserva">
+            <div class="mb-3">
+              <label for="eventName" class="form-label">*Nome do evento</label>
+              <input type="text" id="eventName" name="nome_evento" class="form-control" required placeholder="Digite o nome do evento" />
+            </div>
+            <div class="mb-3">
+              <label for="campusSala" class="form-label">*Sala do campus</label>
+              <select id="campusSala" name="cod_salas" class="form-select" required>
+                <option value="">Selecione uma sala</option>
+                {{#each salas}}
+                  <option value="{{cod}}">Sala {{numero}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="eventDate" class="form-label">*Data do evento</label>
+              <input type="date" id="eventDate" name="date" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="eventTimeStart" class="form-label">*Hora início</label>
+              <input type="time" id="eventTimeStart" name="hora_inicio" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="eventTimeEnd" class="form-label">*Hora final</label>
+              <input type="time" id="eventTimeEnd" name="hora_final" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="observations" class="form-label">Observações</label>
+              <textarea id="observations" name="obs" class="form-control" placeholder="Digite observações adicionais"></textarea>
+            </div>
+            <input type="hidden" name="cod_usuarios" value="1" />
+            <div class="d-flex gap-2">
+              <button type="reset" class="btn btn-secondary flex-fill">Limpar</button>
+              <button type="submit" class="btn btn-success flex-fill">
+                <i class="bi bi-calendar-plus me-2"></i>Salvar Evento
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-
-    <div class="formulario-ask">
-      <label for="eventTimeEnd">*Hora final:</label>
-      <input type="time" id="eventTimeEnd" name="hora_final" />
-    </div>
-
-    <div class="formulario-ask">
-      <label for="observations">Observações:</label>
-      <textarea
-        id="observations"
-        name="obs"
-        placeholder="Digite observações adicionais"
-      ></textarea>
-    </div>
-
-    <input type="hidden" name="cod_usuarios" value="1" />
-
-    <div class="divider"></div>
-
-    <!-- Aqui pode entrar o aviso de sucesso/erro futuramente -->
-
-    <div class="button-group">
-      <button class="clear-btn" type="reset">Limpar</button>
-      <button class="save-btn" type="submit">Salvar Evento</button>
-    </div>
-  </form>
+  </div>
 </div>
-{{#each salas}}
-  <p>{{cod}} Sala {{numero}}</p>
-{{/each}}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/stylesheets/bloco.css">
