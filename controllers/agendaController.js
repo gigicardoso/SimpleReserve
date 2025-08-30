@@ -60,9 +60,25 @@ exports.criarReserva = async (req, res) => {
   try {
     const { id_salas, data, hora_inicio, hora_final, nome_evento, descricao } = req.body;
     const id_user = req.session.usuario ? req.session.usuario.id_user : null;
-
     if (!id_user) {
-      return res.redirect("/");
+      return res.status(401).send("Usuário não autenticado");
+    }
+    // Validação: horário final deve ser maior que o inicial
+    if (hora_final <= hora_inicio) {
+      // Busque as salas para renderizar novamente o formulário
+      const Sala = require("../models/salasModel");
+      const salas = await Sala.findAll();
+
+      return res.render("novaReserva", {
+        salas,
+        layout: "layout",
+        showSidebar: true,
+        showLogo: true,
+        isNovaReserva: true,
+        erro: "O horário de fim deve ser maior que o horário de início!",
+        // Você pode repassar os valores preenchidos para o formulário, se desejar
+        valores: { id_salas, data, hora_inicio, hora_final, nome_evento, descricao }
+      });
     }
 
     await Agenda.create({
@@ -75,7 +91,7 @@ exports.criarReserva = async (req, res) => {
       id_user
     });
 
-    res.redirect("/reservasadm");
+    res.redirect("/reservas/reservasadm");
   } catch (error) {
     console.error("Erro ao criar reserva:", error);
     res.render("novaReserva", {

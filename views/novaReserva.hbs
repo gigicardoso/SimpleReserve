@@ -9,6 +9,7 @@
         </div>
         <div class="card-body">
           <div id="alerta-disponibilidade" style="display:none;" class="alert"></div>
+          <div id="alerta-horario" style="display:none;" class="alert alert-danger"></div>
           <form id="formReserva" method="POST" action="/reservas/nova">
             <div class="mb-3">
               <label for="eventName" class="form-label">*Nome do evento</label>
@@ -81,6 +82,20 @@ document.getElementById('formReserva').addEventListener('change', async function
       alerta.className = 'alert alert-danger';
       alerta.textContent = 'Horário já ocupado para esta sala!';
     }
+  }
+});
+
+document.getElementById('formReserva').addEventListener('change', function() {
+  const horaInicio = document.querySelector('[name="hora_inicio"]').value;
+  const horaFinal = document.querySelector('[name="hora_final"]').value;
+  const alerta = document.getElementById('alerta-horario');
+
+  if (horaInicio && horaFinal && horaFinal <= horaInicio) {
+    alerta.style.display = 'block';
+    alerta.textContent = 'O horário de fim deve ser maior que o horário de início!';
+  } else {
+    alerta.style.display = 'none';
+    alerta.textContent = '';
   }
 });
 </script>
