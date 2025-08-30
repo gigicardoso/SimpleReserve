@@ -41,6 +41,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);

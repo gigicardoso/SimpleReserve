@@ -2,18 +2,36 @@ const Agenda = require("../models/agendaModel");
 const Sala = require("../models/salasModel");
 const Usuario = require("../models/usuariosModel");
 
-//CONSULTA
-exports.listarAgendas = async (req, res) => {
+//CONSULTA PARA VIEW DE RESERVAS
+exports.listarReservasAdm = async (req, res) => {
   try {
-    const agendas = await Agenda.findAll({
+    const reservas = await Agenda.findAll({
       include: [
         { model: Sala, as: "sala" },
         { model: Usuario, as: "usuario" },
       ],
     });
-    res.json(agendas);
+    // Formata os dados para a view
+    const reservasFormatadas = reservas.map(r => ({
+      nomeUsuario: r.usuario ? r.usuario.nome : '',
+      nomeSala: r.sala ? r.sala.nome : '',
+      dataReserva: r.data,
+      horaInicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
+      horaFim: r.hora_final ? r.hora_final.slice(0,5) : ''
+    }));
+    res.render('adm/reservas', {
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isGerenciador: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Reservas', path: '/reservasadm' }
+      ],
+      reservas: reservasFormatadas
+    });
   } catch (error) {
-    res.status(500).send("Erro ao buscar agendas");
+    res.status(500).send("Erro ao buscar reservas");
   }
 };
 

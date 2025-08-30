@@ -1,3 +1,4 @@
+
 var express = require("express");
 var router = express.Router();
 const path = require("path");
@@ -8,6 +9,10 @@ const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
 const auth = require("../middlewares/auth");
+
+// Rota protegida para tela de reservas
+const agendaController = require("../controllers/agendaController");
+router.get("/reservasadm", auth, agendaController.listarReservasAdm);
 
 
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
@@ -271,6 +276,19 @@ router.get("/mais/adicionasala", (req, res) => {
       res.status(500).send("Erro ao buscar cadastro de Sala");
     });
 });
+// Rota para tela de permissões
+router.get('/permissoes', auth, (req, res) => {
+  res.render('adm/permissoes', {
+    layout: 'layout',
+    showSidebar: true,
+    showLogo: true,
+    breadcrumb: [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Permissões', path: '/permissoes' }
+    ]
+  });
+});
+
 
 //Edição de andares
 router.get("/editarAndar/:id", andarBlocoController.formEditarAndar);

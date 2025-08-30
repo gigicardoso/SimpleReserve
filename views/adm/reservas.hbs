@@ -1,1 +1,36 @@
-<h1 style="text-align: center;">Aqui vai ser o gerenciador de reservas</h1>
+
+<div class="container">
+	<div class="header">
+		<div class="title-container">
+			<h1><i class="bi bi-calendar-check"></i> Gerenciador de Reservas</h1>
+		</div>
+	</div>
+	<div class="user-table-container">
+		<table class="user-table">
+			<thead>
+				<tr>
+					<th>Usuário</th>
+					<th>Sala</th>
+					<th>Data</th>
+					  <th>Horário</th>
+							</tr>
+			</thead>
+			<tbody>
+				{{#if reservas.length}}
+					{{#each reservas}}
+						<tr>
+							<td>{{this.nomeUsuario}}</td>
+							<td>{{this.nomeSala}}</td>
+							<td>{{formatarData this.dataReserva}}</td>
+							<td>{{this.horaInicio}} - {{this.horaFim}}</td>
+						</tr>
+					{{/each}}
+				{{else}}
+					<tr><td colspan="4">Nenhuma reserva encontrada.</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
