@@ -1,4 +1,3 @@
-
 <div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
@@ -9,7 +8,8 @@
           </h2>
         </div>
         <div class="card-body">
-          <form id="formReserva" method="POST" action="reservas/nova">
+          <div id="alerta-disponibilidade" style="display:none;" class="alert"></div>
+          <form id="formReserva" method="POST" action="/reservas/nova">
             <div class="mb-3">
               <label for="eventName" class="form-label">*Nome do evento</label>
               <input type="text" id="eventName" name="nome_evento" class="form-control" required placeholder="Digite o nome do evento" />
@@ -56,3 +56,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/stylesheets/bloco.css">
+
+<script>
+document.getElementById('formReserva').addEventListener('change', async function() {
+  const id_salas = document.querySelector('[name="id_salas"]').value;
+  const data = document.querySelector('[name="data"]').value;
+  const hora_inicio = document.querySelector('[name="hora_inicio"]').value;
+  const hora_final = document.querySelector('[name="hora_final"]').value;
+
+  if (id_salas && data && hora_inicio && hora_final) {
+    const resp = await fetch('/reservas/verificar-disponibilidade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id_salas, data, hora_inicio, hora_final })
+    });
+    const result = await resp.json();
+    const alerta = document.getElementById('alerta-disponibilidade');
+    if (result.disponivel) {
+      alerta.style.display = 'block';
+      alerta.className = 'alert alert-success';
+      alerta.textContent = 'Horário disponível!';
+    } else {
+      alerta.style.display = 'block';
+      alerta.className = 'alert alert-danger';
+      alerta.textContent = 'Horário já ocupado para esta sala!';
+    }
+  }
+});
+</script>

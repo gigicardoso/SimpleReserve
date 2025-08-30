@@ -23,5 +23,6 @@ router.get('/', async (req, res) => {
 // Criar nova reserva
 router.post('/nova', agendaController.criarReserva);
 router.get("/reservasadm", auth, agendaController.listarReservasAdm);
+router.post('/verificar-disponibilidade', agendaController.verificarDisponibilidade);
 
 module.exports = router;

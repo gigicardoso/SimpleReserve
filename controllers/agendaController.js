@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Agenda = require("../models/agendaModel");
 const Sala = require("../models/salasModel");
 const Usuario = require("../models/usuariosModel");
@@ -107,5 +108,36 @@ exports.deletarReserva = async (req, res) => {
   } catch (error) {
     console.error("Erro ao deletar reserva:", error);
     res.status(500).send("Erro ao deletar agenda");
+  }
+};
+
+exports.verificarDisponibilidade = async (req, res) => {
+  const { id_salas, data, hora_inicio, hora_final } = req.body;
+
+  try {
+    const conflito = await Agenda.findOne({
+      where: {
+        id_salas,
+        data,
+        [Op.or]: [
+          {
+            hora_inicio: { [Op.between]: [hora_inicio, hora_final] }
+          },
+          {
+            hora_final: { [Op.between]: [hora_inicio, hora_final] }
+          },
+          {
+            [Op.and]: [
+              { hora_inicio: { [Op.lte]: hora_inicio } },
+              { hora_final: { [Op.gte]: hora_final } }
+            ]
+          }
+        ]
+      }
+    });
+
+    res.json({ disponivel: !conflito });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao verificar disponibilidade" });
   }
 };
