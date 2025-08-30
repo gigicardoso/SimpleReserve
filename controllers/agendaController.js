@@ -14,11 +14,14 @@ exports.listarReservasAdm = async (req, res) => {
     // Formata os dados para a view
     const reservasFormatadas = reservas.map(r => ({
       nomeUsuario: r.usuario ? r.usuario.nome : '',
-      nomeSala: r.sala ? r.sala.nome : '',
+      nomeSala: r.sala ? r.sala.nome_salas : '',
       dataReserva: r.data,
       horaInicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
-      horaFim: r.hora_final ? r.hora_final.slice(0,5) : ''
+      horaFim: r.hora_final ? r.hora_final.slice(0,5) : '',
+      nomeEvento: r.nome_evento || '',
+      descricao: r.descricao || ''
     }));
+    console.log('RESERVAS FORMATADAS:', reservasFormatadas);
     res.render('adm/reservas', {
       layout: 'layout',
       showSidebar: true,

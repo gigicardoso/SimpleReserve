@@ -21,8 +21,6 @@ const Agenda = sequelize.define('Agenda', {
   timestamps: false
 });
 
-// Relacionamentos
-Agenda.belongsTo(Sala, { foreignKey: 'id_salas', as: 'sala' });
-Agenda.belongsTo(Usuario, { foreignKey: 'id_user', as: 'usuario' });
+
 
 module.exports = Agenda;
