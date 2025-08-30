@@ -10,11 +10,6 @@ const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
 const auth = require("../middlewares/auth");
 
-// Rota protegida para tela de reservas
-const agendaController = require("../controllers/agendaController");
-router.get("/reservasadm", auth, agendaController.listarReservasAdm);
-
-
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
 router.get("/mais/adicionaUsuario", (req, res) => {
   res.render("mais/adicionaUsuario", {

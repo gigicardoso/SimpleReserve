@@ -45,7 +45,7 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
-app.use("/novareserva", agendaRouter);
+app.use("/reservas", agendaRouter);
 
 
 // catch 404 and forward to error handler

@@ -31,40 +31,78 @@ exports.listarReservasAdm = async (req, res) => {
       reservas: reservasFormatadas
     });
   } catch (error) {
-    res.status(500).send("Erro ao buscar reservas");
+    res.status(500).send("Erro ao buscar reservas", error);
+  }
+};
+
+//Renderiza o formulário de nova reserva
+exports.formNovaReserva = async (req, res) => {
+  try {
+    // Carrega as salas disponíveis para selecionar na reserva
+    const salas = await Sala.findAll();
+    res.render("novaReserva", {
+      layout: "layout",
+      salas
+      // Você pode adicionar outros dados necessários para o formulário
+    });
+  } catch (error) {
+    console.error("Erro ao carregar formulário de nova reserva:", error);
+    res.render("error", { message: "Erro ao carregar formulário de nova reserva" });
   }
 };
 
 //CRIAÇÃO
-exports.criarAgenda = async (req, res) => {
+exports.criarReserva = async (req, res) => {
   try {
-    const novaAgenda = await Agenda.create(req.body);
-    res.status(201).json(novaAgenda);
+    const { id_salas, data, hora_inicio, hora_final, nome_evento, descricao } = req.body;
+    const id_user = req.session.usuario ? req.session.usuario.id_user : null;
+
+    if (!id_user) {
+      return res.redirect("/");
+    }
+
+    await Agenda.create({
+      id_salas,
+      data,
+      hora_inicio,
+      hora_final,
+      nome_evento,
+      descricao,
+      id_user
+    });
+
+    res.redirect("/reservasadm");
   } catch (error) {
-    res.status(500).send("Erro ao criar agenda");
+    console.error("Erro ao criar reserva:", error);
+    res.render("novaReserva", {
+      layout: "layout",
+      erro: "Erro ao criar reserva. Tente novamente."
+    });
   }
 };
 
 //UPDATE
-exports.atualizarAgenda = async (req, res) => {
+exports.atualizarReserva = async (req, res) => {
   try {
     const agenda = await Agenda.findByPk(req.params.id);
-    if (!agenda) return res.status(404).send("Agenda não encontrada");
+    if (!agenda) return res.status(404).send("Reserva não encontrada");
     await agenda.update(req.body);
     res.json(agenda);
   } catch (error) {
+    console.error("Erro ao atualizar reserva:", error);
     res.status(500).send("Erro ao atualizar agenda");
   }
 };
 
 //DELETE
-exports.deletarAgenda = async (req, res) => {
+exports.deletarReserva = async (req, res) => {
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).send("Agenda não encontrada");
     await agenda.destroy();
     res.send("Agenda deletada com sucesso");
   } catch (error) {
+    console.error("Erro ao deletar reserva:", error);
     res.status(500).send("Erro ao deletar agenda");
   }
 };
