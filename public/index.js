@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
           <!-- Eventos podem ser adicionados aqui -->
         </div>
       `;
+      // Tornar dias clicáveis (exceto dias vazios)
+      dayElement.style.cursor = 'pointer';
+      dayElement.addEventListener('click', function() {
+        const dataISO = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+        window.location.href = `/novareserva?data=${dataISO}`;
+      });
       calendarDays.appendChild(dayElement);
     }
     // Calcula quantos dias faltam para completar a última semana
