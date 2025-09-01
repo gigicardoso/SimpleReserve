@@ -21,6 +21,11 @@ hbs.registerHelper('ifeq', function(a, b, options) {
   return (a == b) ? options.fn(this) : options.inverse(this);
 });
 
+hbs.registerHelper('formatarData', function(data) {
+  if (!data) return '';
+  const dt = new Date(data);
+  return dt.toLocaleDateString('pt-BR');
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -45,7 +50,7 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
-app.use("/novareserva", agendaRouter);
+app.use("/reservas", agendaRouter);
 
 
 // catch 404 and forward to error handler

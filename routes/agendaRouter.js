@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const agendaController = require('../controllers/agendaController');
 const Sala = require('../models/salasModel');
+const auth = require("../middlewares/auth");
 
 // Exibir formulário de nova reserva
 router.get('/', async (req, res) => {
@@ -20,6 +21,8 @@ router.get('/', async (req, res) => {
 });
 
 // Criar nova reserva
-router.post('/home', agendaController.criarAgenda);
+router.post('/nova', agendaController.criarReserva);
+router.get("/reservasadm", auth, agendaController.listarReservasAdm);
+router.post('/verificar-disponibilidade', agendaController.verificarDisponibilidade);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-
 <div class="container">
 	<div class="header">
 		<div class="title-container">
@@ -16,19 +15,17 @@
 							</tr>
 			</thead>
 			<tbody>
-				{{#if reservas.length}}
-					{{#each reservas}}
-						<tr>
-							<td>{{this.nomeUsuario}}</td>
-							<td>{{this.nomeSala}}</td>
-							<td>{{formatarData this.dataReserva}}</td>
-							<td>{{this.horaInicio}} - {{this.horaFim}}</td>
-						</tr>
-					{{/each}}
-				{{else}}
-					<tr><td colspan="4">Nenhuma reserva encontrada.</td></tr>
-				{{/if}}
-			</tbody>
+  {{#each reservas}}
+    <tr>
+      <td>{{this.nomeUsuario}}</td>
+      <td>{{this.nomeSala}}</td>
+      <td>{{formatarData this.dataReserva}}</td>
+      <td>{{this.horaInicio}} - {{this.horaFim}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="4">Nenhuma reserva encontrada.</td></tr>
+  {{/each}}
+</tbody>
 		</table>
 	</div>
 </div>
