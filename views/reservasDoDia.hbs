@@ -1,1 +1,39 @@
-<h1 style="text-align: center;"> Aqui estarão as minhas reservas do dia </h1>
+<div class="container">
+	<div class="header">
+		<div class="title-container">
+			<h1><i class="bi bi-list-check"></i> Minhas Reservas do Dia</h1>
+		</div>
+	</div>
+	<div class="user-table-container">
+		<table class="user-table">
+			<thead>
+				<tr>
+					<th>Nome do Evento</th>
+					<th>Sala</th>
+					<th>Data</th>
+					<th>Horário</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each reservas}}
+					<tr>
+						<td>{{this.nome_evento}}</td>
+						<td>{{this.sala.nome_salas}}</td>
+						<td>{{this.data}}</td>
+						<td>{{this.hora_inicio}} - {{this.hora_final}}</td>
+						<td>
+							<a href="/reservasDoDia/editar/{{this.id}}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Editar</a>
+							<form action="/reservasDoDia/deletar/{{this.id}}" method="POST" style="display:inline;">
+								<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Deseja apagar esta reserva?')"><i class="bi bi-trash"></i> Apagar</button>
+							</form>
+						</td>
+					</tr>
+				{{else}}
+					<tr><td colspan="5">Nenhuma reserva encontrada para o dia selecionado.</td></tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
+<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
