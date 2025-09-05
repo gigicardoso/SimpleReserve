@@ -1,3 +1,4 @@
+
 <div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
@@ -8,25 +9,23 @@
           </h2>
         </div>
         <div class="card-body">
-          <div id="alerta-disponibilidade" style="display:none;" class="alert"></div>
-          <div id="alerta-horario" style="display:none;" class="alert alert-danger"></div>
-          <form id="formReserva" method="POST" action="/reservas/nova">
+          <form id="formReserva" method="POST" action="/novareserva">
             <div class="mb-3">
               <label for="eventName" class="form-label">*Nome do evento</label>
               <input type="text" id="eventName" name="nome_evento" class="form-control" required placeholder="Digite o nome do evento" />
             </div>
             <div class="mb-3">
               <label for="campusSala" class="form-label">*Sala do campus</label>
-              <select id="campusSala" name="id_salas" class="form-select" required>
+              <select id="campusSala" name="cod_salas" class="form-select" required>
                 <option value="">Selecione uma sala</option>
                 {{#each salas}}
-                  <option value="{{id_salas}}">{{nome_salas}}</option>
+                  <option value="{{cod}}">Sala {{numero}}</option>
                 {{/each}}
               </select>
             </div>
             <div class="mb-3">
               <label for="eventDate" class="form-label">*Data do evento</label>
-              <input type="date" id="eventDate" name="data" class="form-control" required />
+              <input type="date" id="eventDate" name="date" class="form-control" required />
             </div>
             <div class="mb-3">
               <label for="eventTimeStart" class="form-label">*Hora início</label>
@@ -37,8 +36,8 @@
               <input type="time" id="eventTimeEnd" name="hora_final" class="form-control" required />
             </div>
             <div class="mb-3">
-              <label for="observations" class="form-label">Descrição</label>
-              <textarea id="observations" name="descricao" class="form-control" placeholder="Digite a descrição do evento"></textarea>
+              <label for="observations" class="form-label">Observações</label>
+              <textarea id="observations" name="obs" class="form-control" placeholder="Digite observações adicionais"></textarea>
             </div>
             <input type="hidden" name="cod_usuarios" value="1" />
             <div class="d-flex gap-2">
@@ -56,46 +55,4 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link rel="stylesheet" href="/stylesheets/bloco.css">
-
-<script>
-document.getElementById('formReserva').addEventListener('change', async function() {
-  const id_salas = document.querySelector('[name="id_salas"]').value;
-  const data = document.querySelector('[name="data"]').value;
-  const hora_inicio = document.querySelector('[name="hora_inicio"]').value;
-  const hora_final = document.querySelector('[name="hora_final"]').value;
-
-  if (id_salas && data && hora_inicio && hora_final) {
-    const resp = await fetch('/reservas/verificar-disponibilidade', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id_salas, data, hora_inicio, hora_final })
-    });
-    const result = await resp.json();
-    const alerta = document.getElementById('alerta-disponibilidade');
-    if (result.disponivel) {
-      alerta.style.display = 'block';
-      alerta.className = 'alert alert-success';
-      alerta.textContent = 'Horário disponível!';
-    } else {
-      alerta.style.display = 'block';
-      alerta.className = 'alert alert-danger';
-      alerta.textContent = 'Horário já ocupado para esta sala!';
-    }
-  }
-});
-
-document.getElementById('formReserva').addEventListener('change', function() {
-  const horaInicio = document.querySelector('[name="hora_inicio"]').value;
-  const horaFinal = document.querySelector('[name="hora_final"]').value;
-  const alerta = document.getElementById('alerta-horario');
-
-  if (horaInicio && horaFinal && horaFinal <= horaInicio) {
-    alerta.style.display = 'block';
-    alerta.textContent = 'O horário de fim deve ser maior que o horário de início!';
-  } else {
-    alerta.style.display = 'none';
-    alerta.textContent = '';
-  }
-});
-</script>
+<link rel="stylesheet" href="/stylesheets/novaReserva.css">
