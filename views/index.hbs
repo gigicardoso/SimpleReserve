@@ -269,7 +269,6 @@
             const isToday = date.getDate() === today.getDate() && 
                             date.getMonth() === today.getMonth() && 
                             date.getFullYear() === today.getFullYear();
-            
             const dayElement = document.createElement('div');
             dayElement.className = `calendar-day ${isToday ? 'today' : ''}`;
             dayElement.innerHTML = `
@@ -278,6 +277,11 @@
                 <!-- Eventos podem ser adicionados aqui -->
               </div>
             `;
+            dayElement.style.cursor = 'pointer';
+            dayElement.addEventListener('click', function() {
+              const dataISO = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+              window.location.href = `/reservas?data=${dataISO}`;
+            });
             calendarDays.appendChild(dayElement);
           }
           
