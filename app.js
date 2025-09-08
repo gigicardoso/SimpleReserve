@@ -23,8 +23,21 @@ hbs.registerHelper('ifeq', function(a, b, options) {
 
 hbs.registerHelper('formatarData', function(data) {
   if (!data) return '';
+  if (typeof data === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data)) {
+    const [ano, mes, dia] = data.split('-');
+    return `${dia}/${mes}/${ano}`;
+  }
   const dt = new Date(data);
   return dt.toLocaleDateString('pt-BR');
+});
+
+hbs.registerHelper('formatarHora', function(hora) {
+  if (!hora) return '';
+  return hora.slice(0,5);
+});
+
+hbs.registerHelper('ifCond', function (v1, v2, options) {
+  return (v1 == v2) ? options.fn(this) : options.inverse(this);
 });
 
 // view engine setup

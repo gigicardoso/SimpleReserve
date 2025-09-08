@@ -8,6 +8,7 @@ const tipoMesaController = require("../controllers/tipoMesaController");
 const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
+const reservaDiaController = require("../controllers/reservasDoDiaController");
 const auth = require("../middlewares/auth");
 
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
@@ -180,14 +181,11 @@ router.get("/salas", (req, res) => {
   });
 });
 
-router.get("/reservasDoDia", (req, res) => {
-  res.render("reservasDoDia", {
-    layout: "layout",
-    showSidebar: true,
-    showLogo: true,
-    isReservasDia: true,
-  });
-});
+//RESERVAS DO DIA
+router.get("/reservasDoDia", reservaDiaController.listarReservasDoDia);
+//router.get("/excluirReservaDia/:id", reservaDiaController.deletarReservaDia);
+router.get("/editarReservaDia/:id", reservaDiaController.formEditarReservaDia);
+router.post("/editarReservaDia/:id", reservaDiaController.editarReservaDia);
 
 // Rotas para tela de cadastro de bloco
 router.get("/adicionabloco", (req, res) => {

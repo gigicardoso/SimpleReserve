@@ -20,17 +20,17 @@
 					<tr>
 						<td>{{this.nome_evento}}</td>
 						<td>{{this.sala.nome_salas}}</td>
-						<td>{{this.data}}</td>
-						<td>{{this.hora_inicio}} - {{this.hora_final}}</td>
+						<td>{{formatarData this.data}}</td>
+						<td>{{formatarHora this.hora_inicio}} - {{formatarHora this.hora_final}}</td>
 						<td>
-							<a href="/reservasDoDia/editar/{{this.id}}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Editar</a>
-							<form action="/reservasDoDia/deletar/{{this.id}}" method="POST" style="display:inline;">
+							<a href="/editarReservaDia/{{this.id_agenda}}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Editar</a>
+							<form action="/excluirReservaDia/{{this.id_agenda}}" method="POST" style="display:inline;">
 								<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Deseja apagar esta reserva?')"><i class="bi bi-trash"></i> Apagar</button>
 							</form>
 						</td>
 					</tr>
 				{{else}}
-					<tr><td colspan="5">Nenhuma reserva encontrada para o dia selecionado.</td></tr>
+					<tr><td colspan="5">Nenhuma reserva encontrada para hoje.</td></tr>
 				{{/each}}
 			</tbody>
 		</table>

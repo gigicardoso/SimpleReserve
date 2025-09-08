@@ -91,7 +91,7 @@ exports.criarReserva = async (req, res) => {
       id_user
     });
 
-    res.redirect("/reservas/reservasadm");
+    res.redirect("/home");
   } catch (error) {
     console.error("Erro ao criar reserva:", error);
     res.render("novaReserva", {
