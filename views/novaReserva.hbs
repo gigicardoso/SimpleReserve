@@ -5,6 +5,42 @@
     if (data && !{{#if reserva}}true{{else}}false{{/if}}) {
       document.getElementById('eventDate').value = data;
     }
+    // Notificação de disponibilidade
+    function verificarDisponibilidade(data, horaInicio, horaFim) {
+      // Simulação: se hora início for antes de 12:00, disponível
+      if (!data || !horaInicio || !horaFim) return null;
+      const hora = parseInt(horaInicio.split(':')[0]);
+      return hora < 12;
+    }
+
+    function mostrarNotificacaoDisponibilidade(disponivel) {
+      const notificacao = document.getElementById('notificacaoDisponibilidade');
+      if (disponivel === null) {
+        notificacao.style.display = 'none';
+        notificacao.innerHTML = '';
+        return;
+      }
+      notificacao.style.display = 'block';
+      if (disponivel) {
+        notificacao.className = 'alert alert-success mt-3';
+        notificacao.innerHTML = '<strong>Horário disponível!</strong>';
+      } else {
+        notificacao.className = 'alert alert-danger mt-3';
+        notificacao.innerHTML = '<strong>Horário Indisponível neste dia!</strong>';
+      }
+    }
+
+    function atualizarNotificacao() {
+      const data = document.getElementById('eventDate').value;
+      const horaInicio = document.getElementById('eventTimeStart').value;
+      const horaFim = document.getElementById('eventTimeEnd').value;
+      const disponivel = verificarDisponibilidade(data, horaInicio, horaFim);
+      mostrarNotificacaoDisponibilidade(disponivel);
+    }
+
+    document.getElementById('eventDate').addEventListener('change', atualizarNotificacao);
+    document.getElementById('eventTimeStart').addEventListener('change', atualizarNotificacao);
+    document.getElementById('eventTimeEnd').addEventListener('change', atualizarNotificacao);
   });
 </script>
 
@@ -54,6 +90,8 @@
               <input type="time" id="eventTimeEnd" name="hora_final" class="form-control" required
                 value="{{#if reserva}}{{reserva.hora_final}}{{/if}}" />
             </div>
+            <!-- Notificação de disponibilidade -->
+            <div id="notificacaoDisponibilidade" style="display:none;" class="mt-3"></div>
             <div class="mb-3">
               <label for="observations" class="form-label">Observações</label>
               <textarea id="observations" name="descricao" class="form-control" placeholder="Digite a descrição do evento">{{#if reserva}}{{reserva.descricao}}{{/if}}</textarea>
