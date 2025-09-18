@@ -81,6 +81,45 @@ exports.criarReserva = async (req, res) => {
       });
     }
 
+    // Verifica conflito de reserva para a mesma sala, data e sobreposição de horário
+    const conflito = await Agenda.findOne({
+      where: {
+        id_salas,
+        data,
+        [Op.or]: [
+          {
+            hora_inicio: {
+              [Op.between]: [hora_inicio, hora_final]
+            }
+          },
+          {
+            hora_final: {
+              [Op.between]: [hora_inicio, hora_final]
+            }
+          },
+          {
+            [Op.and]: [
+              { hora_inicio: { [Op.lte]: hora_inicio } },
+              { hora_final: { [Op.gte]: hora_final } }
+            ]
+          }
+        ]
+      }
+    });
+    if (conflito) {
+      const Sala = require("../models/salasModel");
+      const salas = await Sala.findAll();
+      return res.render("novaReserva", {
+        salas,
+        layout: "layout",
+        showSidebar: true,
+        showLogo: true,
+        isNovaReserva: true,
+        erro: "Já existe uma reserva para esta sala neste horário!",
+        valores: { id_salas, data, hora_inicio, hora_final, nome_evento, descricao }
+      });
+    }
+
     await Agenda.create({
       id_salas,
       data,
