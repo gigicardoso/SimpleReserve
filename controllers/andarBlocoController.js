@@ -50,10 +50,35 @@ exports.listarAndar = async (req, res) => {
 // CRIAÇÃO
 exports.criarAndar = async (req, res) => {
   try {
-    await Andar.create({
-      descricao: req.body.descricao,
-      id_bloco: req.body.id_bloco,
+    const nome = req.body.descricao && req.body.descricao.trim();
+    const id_bloco = req.body.id_bloco;
+    const breadcrumb = [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Gerenciador de Andares', path: '/andares' },
+      { title: 'Cadastrar Andar', path: '' }
+    ];
+    if (!nome || !id_bloco) {
+      return res.render("mais/adicionaAndar", {
+        layout: "layout",
+        erro: "Nome do andar e bloco são obrigatórios!",
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    const duplicado = await Andar.findOne({
+      where: { descricao: nome, id_bloco },
     });
+    if (duplicado) {
+      return res.render("mais/adicionaAndar", {
+        layout: "layout",
+        erro: `O andar '${nome}' já foi cadastrado para este bloco!`,
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    await Andar.create({ descricao: nome, id_bloco });
     res.redirect("/andares");
   } catch (error) {
     res.status(500).send("Erro ao criar andar");

@@ -21,7 +21,32 @@ exports.listarBlocos = async (req, res) => {
 // CRIAÇÃO
 exports.criarBloco = async (req, res) => {
   try {
-    await Bloco.create(req.body);
+    const nome = req.body.descricao && req.body.descricao.trim();
+    const breadcrumb = [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Gerenciador de blocos', path: '/bloco' },
+      { title: 'Cadastrar Bloco', path: '/adicionabloco' }
+    ];
+    if (!nome) {
+      return res.render("mais/adicionabloco", {
+        layout: "layout",
+        erro: "Nome do bloco é obrigatório!",
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    const duplicado = await Bloco.findOne({ where: { descricao: nome } });
+    if (duplicado) {
+      return res.render("mais/adicionabloco", {
+        layout: "layout",
+        erro: `O bloco '${nome}' já foi cadastrado!`,
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    await Bloco.create({ descricao: nome });
     res.redirect("/bloco");
   } catch (error) {
     res.status(500).send("Erro ao criar bloco");
@@ -49,6 +74,11 @@ exports.formEditarBloco = async (req, res) => {
       showSidebar: true,
       showLogo: true,
       isGerenciarBlocos: true,
+      breadcrumb: [
+        { title: 'Gerenciador ADM', path: '/adm' },
+        { title: 'Gerenciador de blocos', path: '/bloco' },
+        { title: 'Editar Bloco', path: '' }
+      ]
     });
   } catch (error) {
     res.status(500).send("Erro ao buscar bloco para edição");
@@ -64,5 +94,17 @@ exports.deletarBloco = async (req, res) => {
     res.redirect("/bloco");
   } catch (error) {
     res.status(500).send("Erro ao deletar bloco");
+  }
+};
+
+// API para checagem de duplicidade de bloco
+exports.checkDuplicado = async (req, res) => {
+  try {
+    const nome = req.query.nome;
+    if (!nome) return res.json({ duplicado: false });
+    const bloco = await Bloco.findOne({ where: { descricao: nome } });
+    res.json({ duplicado: !!bloco });
+  } catch (err) {
+    res.json({ duplicado: false });
   }
 };

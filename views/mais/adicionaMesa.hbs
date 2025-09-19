@@ -25,6 +25,11 @@
               </button>
             </div>
           </form>
+          {{#if erro}}
+            <div class="alert alert-danger mt-3" role="alert">
+              {{erro}}
+            </div>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -34,3 +39,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="/stylesheets/bloco.css">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('tipoMesaForm');
+  if (!form) return;
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const nomeMesa = document.getElementById('descricao').value.trim();
+    try {
+      const resp = await fetch(`/api/mesas/check?nome=${encodeURIComponent(nomeMesa)}`);
+      const result = await resp.json();
+      if (result && result.duplicado) {
+        const msg = `${nomeMesa} já foi cadastrado, tem certeza que quer prosseguir?`;
+        if (!window.confirm(msg)) return;
+      }
+    } catch (err) {
+      // Se erro, deixa enviar
+    }
+    form.submit();
+  });
+});
+</script>

@@ -23,10 +23,47 @@ exports.listarTipoSalas = async (req, res) => {
 // CRIAÇÃO
 exports.criarTipoSala = async (req, res) => {
   try {
-    await TipoSala.create(req.body);
+    const nome = req.body.descricao && req.body.descricao.trim();
+    const breadcrumb = [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Gerenciador de tipo de sala', path: '/tipoSala' },
+      { title: 'Cadastrar tipo de sala', path: '' }
+    ];
+    if (!nome) {
+      return res.render("mais/adicionaSala", {
+        layout: "layout",
+        erro: "Nome do tipo de sala é obrigatório!",
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    const duplicada = await TipoSala.findOne({ where: { descricao: nome } });
+    if (duplicada) {
+      return res.render("mais/adicionaSala", {
+        layout: "layout",
+        erro: `O tipo de sala '${nome}' já foi cadastrado!`,
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    await TipoSala.create({ descricao: nome });
     res.redirect("/tipoSala");
   } catch (error) {
     res.status(500).send("Erro ao criar tipo de Sala");
+  }
+};
+
+// API para checagem de duplicidade de tipo de sala
+exports.checkDuplicado = async (req, res) => {
+  try {
+    const nome = req.query.nome;
+    if (!nome) return res.json({ duplicado: false });
+    const tipoSala = await TipoSala.findOne({ where: { descricao: nome } });
+    res.json({ duplicado: !!tipoSala });
+  } catch (err) {
+    res.json({ duplicado: false });
   }
 };
 
