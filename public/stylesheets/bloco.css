@@ -51,7 +51,7 @@
 }
 /* Fundo especial para a página de adicionar bloco */
 .container.adiciona-bloco {
-  background-color: #84925b;
+  background: transparent !important;
   border-radius: 18px;
 }
 /* Remove sublinhado dos links dos botões de adicionar */
@@ -161,7 +161,7 @@ h1 {
   border: none;
   border-radius: 10px;
   margin-bottom: 20px;
-  background: transparent !important;
+  background: #fff !important;
 }
 
 .card-body {
@@ -314,6 +314,13 @@ h1 {
 .notification.error {
   background-color: var(--error-color);
   color: white;
+}
+
+.alert-danger {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+  border-color: #f5c6cb !important;
+  box-shadow: 0 2px 8px rgba(244,67,54,0.08);
 }
 
 @keyframes fadeIn {

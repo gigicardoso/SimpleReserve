@@ -1,4 +1,49 @@
 <script>
+  // Função para mostrar alerta de reserva duplicada
+  function mostrarAlertaReservaDuplicada(msg) {
+    const alerta = document.getElementById('alertaReservaDuplicada');
+    alerta.innerText = msg;
+    alerta.style.display = 'block';
+    if (alerta._timeout) clearTimeout(alerta._timeout);
+    alerta._timeout = setTimeout(() => { alerta.style.display = 'none'; }, 5000);
+  }
+
+  // Esconde alerta ao editar campos
+  function esconderAlertaReservaDuplicada() {
+    const alerta = document.getElementById('alertaReservaDuplicada');
+    alerta.style.display = 'none';
+    if (alerta._timeout) clearTimeout(alerta._timeout);
+  }
+
+  // Função para verificar disponibilidade real no servidor
+  async function verificarDisponibilidade(salaId, data, horaInicio, horaFim) {
+    // Só verifica se todos os campos estiverem preenchidos
+    if (!salaId || !data || !horaInicio || !horaFim) return null;
+    try {
+      const resp = await fetch(`/api/verificar-disponibilidade?sala=${encodeURIComponent(salaId)}&data=${encodeURIComponent(data)}&inicio=${encodeURIComponent(horaInicio)}&fim=${encodeURIComponent(horaFim)}`);
+      const result = await resp.json();
+      // Espera resposta: { disponivel: true/false }
+      return result && result.disponivel;
+    } catch (err) {
+      // Em caso de erro, não mostra notificação
+      return null;
+    }
+  }
+
+  async function atualizarNotificacao() {
+    const salaId = document.getElementById('campusSala').value;
+    const data = document.getElementById('eventDate').value;
+    const horaInicio = document.getElementById('eventTimeStart').value;
+    const horaFim = document.getElementById('eventTimeEnd').value;
+    // Só verifica se todos os campos estiverem preenchidos
+    if (!salaId || !data || !horaInicio || !horaFim) {
+      mostrarNotificacaoDisponibilidade(null);
+      return;
+    }
+    const disponivel = await verificarDisponibilidade(salaId, data, horaInicio, horaFim);
+    mostrarNotificacaoDisponibilidade(disponivel);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
@@ -30,17 +75,31 @@
       }
     }
 
-    function atualizarNotificacao() {
+    // Adiciona listeners para esconder alerta ao editar campos
+    ['campusSala','eventDate','eventTimeStart','eventTimeEnd'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', esconderAlertaReservaDuplicada);
+    });
+
+    // Intercepta submit do formulário para verificar duplicidade
+    document.getElementById('formReserva').addEventListener('submit', async function(e) {
+      const sala = document.getElementById('campusSala').value;
       const data = document.getElementById('eventDate').value;
       const horaInicio = document.getElementById('eventTimeStart').value;
       const horaFim = document.getElementById('eventTimeEnd').value;
-      const disponivel = verificarDisponibilidade(data, horaInicio, horaFim);
-      mostrarNotificacaoDisponibilidade(disponivel);
-    }
-
-    document.getElementById('eventDate').addEventListener('change', atualizarNotificacao);
-    document.getElementById('eventTimeStart').addEventListener('change', atualizarNotificacao);
-    document.getElementById('eventTimeEnd').addEventListener('change', atualizarNotificacao);
+      // Chamada à API para verificar conflito (ajuste a rota conforme seu backend)
+      try {
+        const resp = await fetch(`/api/reservas/check?data=${encodeURIComponent(data)}&sala=${encodeURIComponent(sala)}&inicio=${encodeURIComponent(horaInicio)}&fim=${encodeURIComponent(horaFim)}`);
+        const result = await resp.json();
+        if (result && result.conflito) {
+          mostrarAlertaReservaDuplicada('Já existe uma reserva para esta sala neste horário!');
+          e.preventDefault();
+          return false;
+        }
+      } catch (err) {
+        // Se erro na API, deixa enviar normalmente
+      }
+    });
   });
 </script>
 
@@ -55,6 +114,13 @@
           </h2>
         </div>
         <div class="card-body">
+          <!-- Alerta de reserva duplicada -->
+          <div id="alertaReservaDuplicada" class="alert alert-danger mt-2" style="display:none;"></div>
+          {{#if erro}}
+            <div class="alert alert-danger mt-3" role="alert">
+              {{erro}}
+            </div>
+          {{/if}}
           <form id="formReserva" method="POST" action="{{#if isEdicao}}/editarReservaDia/{{reserva.id_agenda}}{{else}}/reservas/nova{{/if}}">
             <div class="mb-3">
               <label for="eventName" class="form-label">*Nome do evento</label>

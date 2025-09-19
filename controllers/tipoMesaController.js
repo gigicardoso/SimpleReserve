@@ -23,7 +23,32 @@ exports.listarMesas = async (req, res) => {
 // CRIAÇÃO
 exports.criarMesa = async (req, res) => {
   try {
-    await Mesa.create(req.body);
+    const nome = req.body.descricao && req.body.descricao.trim();
+    const breadcrumb = [
+      { title: 'Gerenciador ADM', path: '/adm' },
+      { title: 'Gerenciador de tipo de mesa', path: '/tipoMesa' },
+      { title: 'Cadastrar tipo de mesa', path: '' }
+    ];
+    if (!nome) {
+      return res.render("mais/adicionaMesa", {
+        layout: "layout",
+        erro: "Nome da mesa é obrigatório!",
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    const duplicada = await Mesa.findOne({ where: { descricao: nome } });
+    if (duplicada) {
+      return res.render("mais/adicionaMesa", {
+        layout: "layout",
+        erro: `O tipo de mesa '${nome}' já foi cadastrado!`,
+        showSidebar: true,
+        showLogo: true,
+        breadcrumb
+      });
+    }
+    await Mesa.create({ descricao: nome });
     res.redirect("/tipoMesa");
   } catch (error) {
     res.status(500).send("Erro ao criar mesa");

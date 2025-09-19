@@ -38,6 +38,18 @@ exports.criarSala = async (req, res) => {
     if (req.file) {
       dadosSala.imagem_sala = req.file.filename;
     }
+    // Verifica duplicidade pelo nome da sala
+    const duplicada = await Sala.findOne({
+      where: { nome_salas: dadosSala.nome_salas },
+    });
+    if (duplicada) {
+      return res.render("mais/adicionaSala", {
+        layout: "layout",
+        erro: `A sala '${dadosSala.nome_salas}' já foi cadastrada!`,
+        showSidebar: true,
+        showLogo: true,
+      });
+    }
     await Sala.create(dadosSala);
     res.redirect("/salas/gerenciarsalas");
   } catch (error) {
