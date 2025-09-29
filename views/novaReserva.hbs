@@ -47,8 +47,12 @@
   document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
+    const horaInicio = urlParams.get('hora_inicio');
     if (data && !{{#if reserva}}true{{else}}false{{/if}}) {
       document.getElementById('eventDate').value = data;
+    }
+    if (horaInicio && !{{#if reserva}}true{{else}}false{{/if}}) {
+      document.getElementById('eventTimeStart').value = horaInicio;
     }
     // Notificação de disponibilidade
     function verificarDisponibilidade(data, horaInicio, horaFim) {
