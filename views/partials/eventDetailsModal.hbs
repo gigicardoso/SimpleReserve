@@ -1,0 +1,97 @@
+<!-- Modal de Detalhes do Evento -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eventDetailsModalLabel">Detalhes do Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2"><strong>Nome do Evento:</strong> <span id="modal-event-title"></span></div>
+        <div class="mb-2"><strong>Sala:</strong> <span id="modal-event-sala"></span></div>
+        <div class="mb-2"><strong>Data:</strong> <span id="modal-event-date"></span></div>
+        <div class="mb-2"><strong>Horário:</strong> <span id="modal-event-time"></span></div>
+        <div class="mb-2"><strong>Descrição:</strong> <span id="modal-event-desc"></span></div>
+      </div>
+      <div class="modal-footer actions-flex" style="width: 100%; justify-content: center;">
+        <button type="button" class="btn-action btn-delete btn-underline" id="modal-delete-btn">
+          <i class="fa fa-trash-alt"></i>
+          <span class="btn-text">Excluir</span>
+        </button>
+        <button type="button" class="btn-action btn-edit btn-underline" id="modal-edit-btn">
+          <i class="fa fa-edit"></i>
+          <span class="btn-text">Editar</span>
+        </button>
+      </div>
+      <style>
+        .actions-flex {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+        .btn-action {
+          padding: 8px 18px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 600;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 2px 8px rgba(132,146,91,0.08);
+          background: var(--white, #fff);
+          border: 1.5px solid var(--primary-light, #a3b075);
+          outline: none;
+        }
+        .btn-action i {
+          font-size: 15px;
+          margin-right: 4px;
+        }
+        .btn-edit {
+          color: var(--warning-color, #ff9800);
+          border-color: var(--warning-color, #ff9800);
+          background: rgba(255,152,0,0.08);
+        }
+        .btn-edit:hover {
+          background: var(--warning-color, #ff9800);
+          color: var(--white, #fff);
+          border-color: var(--warning-color, #ff9800);
+        }
+        .btn-delete {
+          color: var(--error-color, #f44336);
+          border-color: var(--error-color, #f44336);
+          background: rgba(244,67,54,0.08);
+        }
+        .btn-delete:hover {
+          background: var(--error-color, #f44336);
+          color: var(--white, #fff);
+          border-color: var(--error-color, #f44336);
+        }
+        .btn-underline .btn-text {
+          text-decoration: underline;
+        }
+        /* Remove qualquer customização do btn-close */
+        .btn-close {
+          transition: none !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          opacity: 1 !important;
+          filter: none !important;
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-x' viewBox='0 0 16 16'%3e%3cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+          background-repeat: no-repeat !important;
+          background-position: center !important;
+          background-size: 1.2em 1.2em !important;
+          color: transparent !important;
+          border: none !important;
+        }
+        .btn-close:focus {
+          outline: 2px solid #84925b;
+        }
+      </style>
+    </div>
+  </div>
+</div>
