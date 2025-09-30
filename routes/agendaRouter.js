@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const agendaController = require('../controllers/agendaController');
@@ -44,6 +43,10 @@ router.get('/', async (req, res) => {
     res.status(500).send('Erro ao buscar salas');
   }
 });
+
+//Exclusão de Reserva
+router.delete('/:id', auth, agendaController.deletarReserva);
+router.get('/excluir/:id', auth, agendaController.deletarReserva);
 
 // Criar nova reserva
 router.post('/nova', agendaController.criarReserva);

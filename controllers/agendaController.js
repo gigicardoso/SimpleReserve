@@ -154,7 +154,7 @@ exports.atualizarReserva = async (req, res) => {
 };
 
 //DELETE
-exports.deletarReserva = async (req, res) => {
+/*exports.deletarReserva = async (req, res) => {
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).send("Agenda não encontrada");
@@ -164,7 +164,34 @@ exports.deletarReserva = async (req, res) => {
     console.error("Erro ao deletar reserva:", error);
     res.status(500).send("Erro ao deletar agenda");
   }
+};*/
+
+exports.deletarReserva = async (req, res) => {
+  try {
+    const agenda = await Agenda.findByPk(req.params.id);
+    if (!agenda) {
+      // Para GET, pode redirecionar para uma página de erro
+      if (req.method === "GET") {
+        //return res.redirect("/reservasDoDia?erro=Reserva não encontrada");
+      }
+      // Para DELETE, responde JSON
+      return res.status(404).json({ erro: "Reserva não encontrada" });
+    }
+    await agenda.destroy();
+    // Se for GET, redireciona para a listagem
+    if (req.method === "GET") {
+      return res.redirect("/reservasDoDia");
+    }
+    // Se for DELETE, responde JSON
+    res.status(200).json({ sucesso: true });
+  } catch (error) {
+    if (req.method === "GET") {
+      return res.redirect("/reservasDoDia?erro=Erro ao deletar reserva");
+    }
+    res.status(500).json({ erro: "Erro ao deletar reserva" });
+  }
 };
+
 
 exports.verificarDisponibilidade = async (req, res) => {
   const { id_salas, data, hora_inicio, hora_final } = req.body;
