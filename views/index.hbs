@@ -41,7 +41,7 @@
       .calendar-container {
         max-width: 1050px;
         width: 100%;
-        margin: 48px auto 0 auto;
+        margin: 48px auto 32px auto;
       }
       #calendar {
         background: white;
@@ -223,11 +223,11 @@
         </div>
         <div class="calendar-stats">
           <div class="stat">
-            <div class="stat-value">7</div>
+            <div class="stat-value" id="event-count">0</div>
             <div class="stat-label">Eventos</div>
           </div>
           <div class="stat">
-            <div class="stat-value">12h</div>
+            <div class="stat-value" id="event-hours">0h</div>
             <div class="stat-label">Esta semana</div>
           </div>
         </div>
@@ -301,5 +301,42 @@
           }
         });
         calendar.render();
+
+        // Função para atualizar estatísticas do rodapé
+        function updateFooterStats(events) {
+          // Filtrar eventos da semana visível
+          const view = calendar.view;
+          const start = view.activeStart;
+          const end = view.activeEnd;
+          let weekEvents = events.filter(ev => {
+            const evStart = new Date(ev.start);
+            return evStart >= start && evStart < end;
+          });
+          // Contar eventos
+          document.getElementById('event-count').textContent = weekEvents.length;
+          // Somar horas
+          let totalMinutes = 0;
+          weekEvents.forEach(ev => {
+            if(ev.start && ev.end) {
+              const start = new Date(ev.start);
+              const end = new Date(ev.end);
+              totalMinutes += (end - start) / 60000;
+            }
+          });
+          const totalHours = Math.floor(totalMinutes / 60);
+          const restMinutes = Math.round(totalMinutes % 60);
+          document.getElementById('event-hours').textContent = totalHours + (restMinutes > 0 ? (':' + String(restMinutes).padStart(2, '0')) : '') + 'h';
+        }
+
+        // Atualizar ao carregar eventos e ao mudar de semana
+        calendar.on('eventsSet', function(events) {
+          updateFooterStats(events);
+        });
+        calendar.on('datesSet', function() {
+          updateFooterStats(calendar.getEvents().map(e => ({
+            start: e.start,
+            end: e.end
+          })));
+        });
       });
     </script>
