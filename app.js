@@ -63,6 +63,9 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
+
+// Disponibiliza a API de eventos globalmente para o FullCalendar
+app.use("/agenda", agendaRouter);
 app.use("/reservas", agendaRouter);
 
 
