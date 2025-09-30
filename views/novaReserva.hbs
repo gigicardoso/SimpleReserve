@@ -52,11 +52,15 @@
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
     const horaInicio = urlParams.get('hora_inicio');
+    const horaFim = urlParams.get('hora_fim');
     if (data && !{{#if reserva}}true{{else}}false{{/if}}) {
       document.getElementById('eventDate').value = data;
     }
     if (horaInicio && !{{#if reserva}}true{{else}}false{{/if}}) {
       document.getElementById('eventTimeStart').value = horaInicio;
+    }
+    if (horaFim && !{{#if reserva}}true{{else}}false{{/if}}) {
+      document.getElementById('eventTimeEnd').value = horaFim;
     }
     // Notificação de disponibilidade
     function verificarDisponibilidade(data, horaInicio, horaFim) {

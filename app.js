@@ -56,7 +56,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(session({
   secret: 'simpleReserveSecret',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { maxAge: 2 * 60 * 60 * 1000 } 
 }));
 
 

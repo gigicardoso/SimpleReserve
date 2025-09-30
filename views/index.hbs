@@ -16,6 +16,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
     <style>
+  .fc-highlight,
+  .fc-timegrid-bg-harness .fc-highlight,
+  .fc-timegrid-bg .fc-highlight,
+  .fc .fc-highlight {
+    background: #84925b !important;
+    opacity: 0.3 !important;
+    box-shadow: none !important;
+  }
+  /* Remove gradiente azul do FullCalendar v5 */
+  .fc-highlight {
+    background-image: none !important;
+  }
+</style>
+    <style>
       :root {
         --primary-color: #84925b;
         --primary-light: #a3b075;
@@ -187,6 +201,18 @@
         font-size: 0.8rem;
         color: var(--text-light);
       }
+      .fc-highlight {
+        background: #84925b !important;
+        opacity: 0.3 !important;
+        /* Remove qualquer box-shadow azul */
+        box-shadow: none !important;
+      }
+
+      .fc-timegrid-bg-harness .fc-highlight {
+        background: #84925b !important;
+        opacity: 0.3 !important;
+        box-shadow: none !important;
+      }
       @media (max-width: 768px) {
         .calendar-footer {
           flex-direction: column;
@@ -246,8 +272,8 @@
           locale: 'pt-br',
           slotMinTime: "08:00:00",
           slotMaxTime: "22:00:00",
-          slotDuration: "00:30:00",
-          slotLabelInterval: "00:30:00",
+          slotDuration: "00:45:00",
+          slotLabelInterval: "00:45:00",
           slotLabelFormat: {
             hour: '2-digit',
             minute: '2-digit',
@@ -262,20 +288,39 @@
           },
           events: '/agenda/api/eventos',
           selectable: true,
+          selectMirror: true,
+          selectAllow: function(selectInfo) {
+            return true;
+          },
           select: function(info) {
-  const agora = new Date();
-  const dataSelecionada = info.start;
-  // Se a data/hora selecionada for antes do momento atual, bloqueia!
-  if (dataSelecionada < agora) {
-    alert('Não é possível reservar para datas ou horários passados!');
-    return;
-  }
-  const data = info.startStr.split('T')[0];
-  const hora = info.startStr.split('T')[1]?.slice(0,5);
-  let url = '/reservas?data=' + encodeURIComponent(data);
-  if (hora) url += '&hora_inicio=' + encodeURIComponent(hora);
-  window.location.href = url;
-},
+            const agora = new Date();
+            const dataSelecionada = info.start;
+            if (dataSelecionada < agora) {
+              alert('Não é possível reservar para datas ou horários passados!');
+              return;
+            }
+            const data = info.startStr.split('T')[0];
+            const horaInicio = info.startStr.split('T')[1]?.slice(0,5);
+            let horaFim = info.endStr.split('T')[1]?.slice(0,5);
+
+            // Se o usuário selecionou apenas um bloco de 45 minutos
+            if (info.end - info.start <= 45 * 60 * 1000) {
+              // Calcula o horário final automaticamente
+              const startDate = new Date(info.start);
+              startDate.setMinutes(startDate.getMinutes() + 45);
+              horaFim = startDate.toTimeString().slice(0,5);
+            }
+
+            let url = '/reservas?data=' + encodeURIComponent(data);
+            if (horaInicio) url += '&hora_inicio=' + encodeURIComponent(horaInicio);
+            if (horaFim) url += '&hora_fim=' + encodeURIComponent(horaFim);
+            window.location.href = url;
+          },
+          selectConstraint: {
+            // Garante que o bloco selecionado fique verde igual aos eventos
+            backgroundColor: '#84925b',
+            borderColor: '#84925b'
+          },
           eventClick: function(info) {
             // Preenche o modal com os dados do evento
             const event = info.event;
