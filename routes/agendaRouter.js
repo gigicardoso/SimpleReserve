@@ -8,7 +8,9 @@ const auth = require("../middlewares/auth");
 router.get('/api/eventos', async (req, res) => {
   try {
     const Agenda = require('../models/agendaModel');
-    const reservas = await Agenda.findAll();
+    const reservas = await Agenda.findAll({
+      include: [{ model: Sala, as: 'sala' }]
+    });
     // Formatar para o formato do FullCalendar
     const eventos = reservas.map(r => ({
       id: r.id_agenda,
@@ -18,7 +20,7 @@ router.get('/api/eventos', async (req, res) => {
       backgroundColor: '#84925b',
       borderColor: '#84925b',
       extendedProps: {
-        sala: r.id_salas,
+        sala: r.sala ? r.sala.nome_salas : '',
         descricao: r.descricao
       }
     }));
