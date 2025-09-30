@@ -45,6 +45,10 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    // Impede datas passadas no input
+    const hoje = new Date().toISOString().slice(0, 10);
+    document.getElementById('eventDate').setAttribute('min', hoje);
+
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
     const horaInicio = urlParams.get('hora_inicio');
@@ -102,6 +106,23 @@
         }
       } catch (err) {
         // Se erro na API, deixa enviar normalmente
+      }
+
+      // Validação extra no submit
+      const horaFinal = document.getElementById('eventTimeEnd').value;
+      const agora = new Date();
+      const hojeStr = agora.toISOString().slice(0, 10);
+      const horaAgora = agora.toTimeString().slice(0,5);
+
+      if (data < hojeStr || (data === hojeStr && horaInicio < horaAgora)) {
+        alert('Não é possível reservar para o passado!');
+        e.preventDefault();
+        return false;
+      }
+      if (horaFinal <= horaInicio) {
+        alert('O horário de fim deve ser maior que o horário de início!');
+        e.preventDefault();
+        return false;
       }
     });
   });

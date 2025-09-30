@@ -48,9 +48,14 @@ router.get('/', async (req, res) => {
 router.delete('/:id', auth, agendaController.deletarReserva);
 router.get('/excluir/:id', auth, agendaController.deletarReserva);
 
+// Edição de Reserva
+router.get('/editar/:id', auth, agendaController.formEditarReserva);
+router.post('/editar/:id', auth, agendaController.editarReserva);
+
 // Criar nova reserva
 router.post('/nova', agendaController.criarReserva);
 router.get("/reservasadm", auth, agendaController.listarReservasAdm);
 router.post('/verificar-disponibilidade', agendaController.verificarDisponibilidade);
+
 
 module.exports = router;

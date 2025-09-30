@@ -80,6 +80,20 @@ exports.criarReserva = async (req, res) => {
         valores: { id_salas, data, hora_inicio, hora_final, nome_evento, descricao }
       });
     }
+    //Validação: data não pode ser no passado
+    const hoje = new Date().toISOString().slice(0, 10);
+if (data < hoje) {
+  const salas = await Sala.findAll();
+  return res.render("novaReserva", {
+    salas,
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isNovaReserva: true,
+    erro: "Não é possível reservar para uma data passada!",
+    valores: { id_salas, data, hora_inicio, hora_final, nome_evento, descricao }
+  });
+}
 
     // Verifica conflito de reserva para a mesma sala, data e sobreposição de horário
     const conflito = await Agenda.findOne({
@@ -221,5 +235,70 @@ exports.verificarDisponibilidade = async (req, res) => {
     res.json({ disponivel: !conflito });
   } catch (error) {
     res.status(500).json({ erro: "Erro ao verificar disponibilidade" });
+  }
+};
+
+// Renderiza o formulário de edição
+exports.formEditarReserva = async (req, res) => {
+  try {
+    const agenda = await Agenda.findByPk(req.params.id);
+    if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
+    const salas = await Sala.findAll();
+    res.render('novaReserva', {
+      reserva: agenda,
+      salas,
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isEdicao: true,
+      erro: null
+    });
+  } catch (error) {
+    console.error('Erro ao carregar formulário de edição:', error);
+    res.render('error', { message: 'Erro ao carregar formulário de edição' });
+  }
+};
+
+// Atualiza a reserva
+exports.editarReserva = async (req, res) => {
+  try {
+    const { nome_evento, id_salas, data, hora_inicio, hora_final, descricao } = req.body;
+    const agenda = await Agenda.findByPk(req.params.id);
+    if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
+
+    // Validação: não permitir reserva no passado
+    const hoje = new Date().toISOString().slice(0, 10);
+    if (data < hoje) {
+      const salas = await Sala.findAll();
+      return res.render('novaReserva', {
+        reserva: { ...agenda.dataValues, nome_evento, id_salas, data, hora_inicio, hora_final, descricao },
+        salas,
+        layout: 'layout',
+        showSidebar: true,
+        showLogo: true,
+        isEdicao: true,
+        erro: 'Não é possível reservar para uma data passada!'
+      });
+    }
+
+    // Validação: horário final deve ser maior que o inicial
+    if (hora_final <= hora_inicio) {
+      const salas = await Sala.findAll();
+      return res.render('novaReserva', {
+        reserva: { ...agenda.dataValues, nome_evento, id_salas, data, hora_inicio, hora_final, descricao },
+        salas,
+        layout: 'layout',
+        showSidebar: true,
+        showLogo: true,
+        isEdicao: true,
+        erro: 'O horário de fim deve ser maior que o horário de início!'
+      });
+    }
+
+    await agenda.update({ nome_evento, id_salas, data, hora_inicio, hora_final, descricao });
+    res.redirect('/home');
+  } catch (error) {
+    console.error('Erro ao editar reserva:', error);
+    res.render('error', { message: 'Erro ao editar reserva' });
   }
 };

@@ -263,12 +263,19 @@
           events: '/agenda/api/eventos',
           selectable: true,
           select: function(info) {
-            const data = info.startStr.split('T')[0];
-            const hora = info.startStr.split('T')[1]?.slice(0,5);
-            let url = '/reservas?data=' + encodeURIComponent(data);
-            if (hora) url += '&hora_inicio=' + encodeURIComponent(hora);
-            window.location.href = url;
-          },
+  const agora = new Date();
+  const dataSelecionada = info.start;
+  // Se a data/hora selecionada for antes do momento atual, bloqueia!
+  if (dataSelecionada < agora) {
+    alert('Não é possível reservar para datas ou horários passados!');
+    return;
+  }
+  const data = info.startStr.split('T')[0];
+  const hora = info.startStr.split('T')[1]?.slice(0,5);
+  let url = '/reservas?data=' + encodeURIComponent(data);
+  if (hora) url += '&hora_inicio=' + encodeURIComponent(hora);
+  window.location.href = url;
+},
           eventClick: function(info) {
             // Preenche o modal com os dados do evento
             const event = info.event;
@@ -340,3 +347,5 @@
         });
       });
     </script>
+  </body>
+</html>
