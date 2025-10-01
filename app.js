@@ -13,6 +13,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const agendaRouter = require('./routes/agendaRouter');
 const salasRouter = require('./routes/salasRouter');
+const permissoesRouter = require('./routes/permissoesRouter');
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
+app.use("/permissoes", permissoesRouter);
 
 // Disponibiliza a API de eventos globalmente para o FullCalendar
 app.use("/agenda", agendaRouter);
