@@ -11,19 +11,106 @@
 					<th>Usuário</th>
 					<th>Sala</th>
 					<th>Data</th>
-					  <th>Horário</th>
-							</tr>
+					<th>Horário</th>
+					<th>Ações</th>
+				</tr>
 			</thead>
 			<tbody>
-  {{#each reservas}}
-    <tr>
-      <td>{{this.nomeUsuario}}</td>
-      <td>{{this.nomeSala}}</td>
-      <td>{{formatarData this.dataReserva}}</td>
-      <td>{{this.horaInicio}} - {{this.horaFim}}</td>
-    </tr>
+	{{#each reservas}}
+		<tr>
+			<td>{{this.nomeUsuario}}</td>
+			<td>{{this.nomeSala}}</td>
+			<td>{{formatarData this.dataReserva}}</td>
+			<td>{{this.horaInicio}} - {{this.horaFim}}</td>
+			<td>
+				<div class="actions-flex" style="width: 100%; justify-content: center;">
+																	<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
+																		<a href="/agenda/editar/{{this.id_agenda}}" class="btn-action btn-edit btn-underline" style="width:120px; padding:8px 18px; font-size:14px;">
+																			<i class="fa fa-edit btn-underline" style="text-decoration: underline;"></i>
+																			<span class="btn-text">Editar</span>
+																		</a>
+															
+														</a>
+																		<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete btn-underline" style="width:120px; padding:8px 18px; font-size:14px;" onclick="return confirm('Deseja apagar esta reserva?')">
+																			<i class="bi bi-trash btn-underline" style="text-decoration: underline;"></i>
+																			  <span class="btn-text" style="text-decoration: underline;">Excluir</span>
+																		</button>
+																		<form id="form-excluir-{{this.id_agenda}}" action="/agenda/excluir/{{this.id_agenda}}" method="GET" style="display:none;"></form>
+																	</div>
+				</div>
+			</td>
+		</tr>
   {{else}}
-    <tr><td colspan="4">Nenhuma reserva encontrada.</td></tr>
+	<tr><td colspan="5">Nenhuma reserva encontrada.</td></tr>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+:root {
+  --primary-light: #84925b;
+  --white: #fff;
+  --warning-color: #ff9800;
+  --error-color: #f44336;
+}
+.actions-flex {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+.btn-action {
+	padding: 8px 18px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	transition: all 0.2s;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	box-shadow: 0 2px 8px rgba(132,146,91,0.08);
+	background: var(--white);
+	border: 1.5px solid var(--primary-light);
+	outline: none;
+}
+.btn-action i {
+	font-size: 15px;
+	margin-right: 4px;
+}
+.btn-edit {
+	color: var(--warning-color);
+	border-color: var(--warning-color);
+	background: rgba(255,152,0,0.08);
+}
+.btn-edit:hover {
+	background: var(--warning-color);
+	color: var(--white);
+	border-color: var(--warning-color);
+}
+.btn-delete {
+	color: var(--error-color);
+	border-color: var(--error-color);
+	background: rgba(244,67,54,0.08);
+}
+.btn-delete:hover {
+	background: var(--error-color);
+	color: var(--white);
+	border-color: var(--error-color);
+}
+.btn-underline .btn-text {
+	text-decoration: underline;
+}
+@media (max-width: 768px) {
+	.btn-action {
+		padding: 6px 8px;
+		font-size: 12px;
+	}
+	.btn-action i {
+		display: none;
+	}
+}
+</style>
   {{/each}}
 </tbody>
 		</table>
