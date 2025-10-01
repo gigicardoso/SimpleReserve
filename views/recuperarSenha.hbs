@@ -1,0 +1,7 @@
+<!-- views/recuperarSenha.hbs -->
+<form method="POST" action="/recuperar-senha">
+  <input type="email" name="email" placeholder="Seu e-mail" required>
+  <button type="submit">Recuperar senha</button>
+  {{#if erro}}<div>{{erro}}</div>{{/if}}
+  {{#if sucesso}}<div>{{sucesso}}</div>{{/if}}
+</form>

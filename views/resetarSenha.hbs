@@ -1,0 +1,8 @@
+<!-- views/resetarSenha.hbs -->
+<form method="POST" action="/resetar-senha">
+  <input type="hidden" name="email" value="{{email}}">
+  <input type="hidden" name="token" value="{{token}}">
+  <input type="password" name="senha" placeholder="Nova senha" required>
+  <button type="submit">Redefinir senha</button>
+  {{#if erro}}<div>{{erro}}</div>{{/if}}
+</form>
