@@ -33,6 +33,10 @@ const Usuario = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    token_login: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     tableName: "usuarios",

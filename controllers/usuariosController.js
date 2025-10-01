@@ -91,9 +91,10 @@ exports.deletarUsuario = async (req, res) => {
   }
 };
 
-//teste login
+//login
 exports.login = async (req, res) => {
   const { email, senha } = req.body;
+  const stayConnected = req.body.stayConnected === 'on';
   try {
     const usuario = await Usuario.findOne({ where: { email } });
     if (!usuario) {
@@ -101,7 +102,6 @@ exports.login = async (req, res) => {
     }
     const senhaOk = await bcrypt.compare(senha, usuario.senha);
     if (!senhaOk) {
-      console.log(senhaOk, senha, usuario.senha);
       return res.render("login", { erro: "Senha inválida" });
     }
     req.session.usuario = {
@@ -110,15 +110,38 @@ exports.login = async (req, res) => {
       email: usuario.email,
       id_permissao: usuario.id_permissao,
     };
+
+    if (stayConnected) {
+      // Gere um token seguro
+      const token = Math.random().toString(36).substr(2) + Date.now();
+      usuario.token_login = token;
+      await usuario.save();
+      res.cookie('rememberMe', token, {
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dias
+        httpOnly: true,
+        secure: false 
+      });
+    }
+
     res.redirect("/home");
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
     res.render("login", { erro: "Erro ao fazer login" });
   }
 };
 
-exports.logout = (req, res) => {
+exports.logout = async (req, res) => {
+  if (req.session.usuario) {
+    const Usuario = require("../models/usuariosModel");
+    const usuario = await Usuario.findByPk(req.session.usuario.id_user);
+    if (usuario) {
+      usuario.token_login = null;
+      await usuario.save();
+    }
+  }
+  res.clearCookie('rememberMe');
   req.session.destroy(() => {
     res.redirect("/");
   });
 };
+
+
