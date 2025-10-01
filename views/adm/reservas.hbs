@@ -1,10 +1,14 @@
 <div class="container">
-	<div class="header">
-		<div class="title-container">
-			<h1><i class="bi bi-calendar-check"></i> Gerenciador de Reservas</h1>
+	<div class="header" style="margin-left: 40px; margin-right: 0; margin-top: 16px; margin-bottom: 0;">
+	  <div class="title-container" style="display: flex; align-items: flex-end; justify-content: flex-start;">
+	    <h1 style="margin: 0; margin-top: 12px;"><i class="bi bi-calendar-check"></i> Gerenciador de Reservas</h1>
+	    <button onclick="exportarHistoricoPDF()" style="font-size: 16px; padding: 8px 18px; border-radius: 8px; display: flex; align-items: center; gap: 8px; background: #84925b; color: #fff; border: none; font-weight: 600;">
+	      <i class="fas fa-file-pdf"></i> Emitir histórico em PDF
+	    </button>
+	  </div>
 		</div>
 	</div>
-	<div class="user-table-container">
+	<div class="user-table-container" style="margin-left: 140px; margin-right: 140px;">
 		<table class="user-table">
 			<thead>
 				<tr>
@@ -114,7 +118,52 @@
   {{/each}}
 </tbody>
 		</table>
+		 <!-- Tabela oculta para exportação PDF (sem coluna de ações) -->
+		 <table id="tabelaHistoricoPDF" style="display:none;">
+			 <thead>
+				 <tr>
+					 <th>Usuário</th>
+					 <th>Sala</th>
+					 <th>Data</th>
+					 <th>Horário</th>
+				 </tr>
+			 </thead>
+			 <tbody>
+				 {{#each reservas}}
+				 <tr>
+					 <td>{{this.nomeUsuario}}</td>
+					 <td>{{this.nomeSala}}</td>
+					 <td>{{formatarData this.dataReserva}}</td>
+					 <td>{{this.horaInicio}} - {{this.horaFim}}</td>
+				 </tr>
+				 {{else}}
+				 <tr><td colspan="4">Nenhuma reserva encontrada.</td></tr>
+				 {{/each}}
+			 </tbody>
+		 </table>
 	</div>
 </div>
 
 <link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+function exportarHistoricoPDF() {
+	if (typeof jspdf === 'undefined' || typeof window.jspdf === 'undefined') {
+		alert('Erro: Biblioteca jsPDF não carregada!');
+		return;
+	}
+	const { jsPDF } = window.jspdf;
+	const doc = new jsPDF();
+	doc.setFontSize(16);
+	doc.text('Histórico de Reservas', 105, 15, { align: 'center' });
+	doc.autoTable({
+		html: '#tabelaHistoricoPDF',
+		startY: 25,
+		styles: { fontSize: 10, cellPadding: 3 },
+		headStyles: { fillColor: [76, 175, 80], textColor: 255, fontStyle: 'bold' },
+		alternateRowStyles: { fillColor: [245, 245, 245] }
+	});
+	doc.save('historico.pdf');
+}
+</script>
