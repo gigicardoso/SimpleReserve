@@ -715,3 +715,9 @@ input[type="checkbox"] {
     }
 }
 
+/* Estilização do título do modal de detalhes do evento */
+#eventDetailsModal .modal-title {
+  color: #84925b !important;
+  font-weight: bold;
+}
+

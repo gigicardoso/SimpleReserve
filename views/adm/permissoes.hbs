@@ -1,1 +1,48 @@
-//NÃO É PRA DELETAR ESSA TELA. ME AJUDA. AINDA VOU USAR ELA
+<div class="container">
+	<div class="header" style="margin-bottom: 10px;">
+		<div class="title-container">
+			<h1 style="margin-bottom: 10px;"><i class="bi bi-award"></i> Gerenciador de Permissões</h1>
+							<a href="/mais/adicionaPermissao" class="btn-add" id="btnAddPermissao" title="Adicionar permissão" style="text-decoration: none;">
+								<i class="bi bi-plus" style="font-size: 2rem;"></i>
+							</a>
+		</div>
+	</div>
+		<div class="user-table-container" style="margin-top: 18px;">
+		<table class="user-table">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#if permissoes.length}}
+					{{#each permissoes}}
+						<tr>
+							<td>{{this.nome}}</td>
+							<td class="actions">
+								<a href="/editarPermissao/{{id_permissao}}" class="btn-action btn-edit">
+									<i class="bi bi-plus"></i>
+									<span>Editar</span>
+								</a>
+								<a href="/excluirPermissao/{{id_permissao}}" class="btn-action btn-delete">
+									<i class="bi bi-plus"></i>
+									<span>Excluir</span>
+								</a>
+							</td>
+						</tr>
+					{{/each}}
+				{{else}}
+					<tr class="empty-message-row">
+									<td colspan="2" class="empty-message">
+										Nenhuma permissão cadastrada. Clique no botão <i class="bi bi-plus" style="font-size: 1.2rem;"></i> para adicionar.
+									</td>
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+	</div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
+<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
