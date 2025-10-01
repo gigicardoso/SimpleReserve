@@ -1,119 +1,123 @@
-<body id="cadSala">
-    <nav class="breadcrumb-nav">
-      <ol class="breadcrumb-list">
-        <li class="breadcrumb-item"><a href="/adm">Gerenciador ADM</a></li>
-        <span class="breadcrumb-separator"> &gt; </span>
-        <li class="breadcrumb-item"><a href="/salas/gerenciarsalas">Gerenciar Salas</a></li>
-        <span class="breadcrumb-separator"> &gt; </span>
-        <li class="breadcrumb-item"><a href="#">Cadastro de Sala</a></li>
-      </ol>
-    </nav>
-    <div class="area">
+<div class="container py-4 cadastro-bloco-tema">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card shadow">
+        <div class="card-header" style="background-color: #84925b; color: #fff; border-radius: 10px 10px 0 0;">
+          <h2 class="mb-0">
+            <i class="bi bi-door-open me-2"></i>
+            {{#if sala}}Editar Sala{{else}}Cadastro de Salas{{/if}}
+          </h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{{#if sala}}/salas/editar/{{sala.id_salas}}{{else}}/salas/cadastrosala{{/if}}" enctype="multipart/form-data">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h5 class="fw-bold text-secondary border-bottom pb-2 mb-3"><i class="bi bi-info-circle me-2"></i>Informações Básicas</h5>
+                <div class="mb-3">
+                  <label for="numero" class="form-label">*Nome da Sala:</label>
+                  <input type="text" id="numero" name="nome_salas" class="form-control" value="{{#if sala}}{{sala.nome_salas}}{{/if}}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="tipo_sala" class="form-label">*Tipo de Sala:</label>
+                  <select id="tipo_sala" name="id_tipo" class="form-select" required>
+                    {{#each tiposSala}}
+                      <option value="{{id_tipo}}" {{#if ../sala}}{{#ifeq id_tipo ../sala.id_tipo}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="bloco" class="form-label">*Bloco:</label>
+                  <select id="bloco" name="id_bloco" class="form-select" required>
+                    {{#each blocos}}
+                      <option value="{{id_bloco}}" {{#if ../sala}}{{#ifeq id_bloco ../sala.andarSala.id_bloco}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="andar" class="form-label">*Andar:</label>
+                  <select id="andar" name="id_andar" class="form-select" required>
+                    {{#each andares}}
+                      <option value="{{id_andar}}" {{#if ../sala}}{{#ifeq id_andar ../sala.id_andar}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="capacidade" class="form-label">*Capacidade:</label>
+                  <input min="0" type="number" id="capacidade" name="capacidade" class="form-control" value="{{#if sala}}{{sala.capacidade}}{{/if}}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="tipo_mesa" class="form-label">*Tipo de Mesa:</label>
+                  <select id="tipo_mesa" name="id_mesa" class="form-select" required>
+                    <option value="">Selecione o tipo de mesa</option>
+                    {{#each tiposMesa}}
+                      <option value="{{id_mesa}}" {{#if ../sala}}{{#ifeq id_mesa ../sala.id_mesa}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="descricao" class="form-label">Descrição:</label>
+                  <textarea id="descricao" name="descricao" class="form-control" rows="3">{{#if sala}}{{sala.descricao}}{{/if}}</textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="imagem_sala" class="form-label">Imagem da Sala:</label>
+                  <input type="file" id="imagem_sala" name="imagem_sala" class="form-control" accept="image/*" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h5 class="fw-bold text-secondary border-bottom pb-2 mb-3"><i class="bi bi-tools me-2"></i>Infraestrutura</h5>
+                <div class="mb-3">
+                  <label for="arcondicionado" class="form-label">*Ar-condicionado:</label>
+                  <select id="arcondicionado" name="ar_cond" class="form-select" required>
+                    <option value="1" {{#if sala}}{{#ifeq sala.ar_cond 1}}selected{{/ifeq}}{{/if}}>Sim</option>
+                    <option value="0" {{#if sala}}{{#ifeq sala.ar_cond 0}}selected{{/ifeq}}{{/if}}>Não</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="projetor" class="form-label">*Projetor:</label>
+                  <select id="projetor" name="projetor" class="form-select" required>
+                    <option value="1" {{#if sala}}{{#ifeq sala.projetor 1}}selected{{/ifeq}}{{/if}}>Sim</option>
+                    <option value="0" {{#if sala}}{{#ifeq sala.projetor 0}}selected{{/ifeq}}{{/if}}>Não</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="quadro" class="form-label">*Quadro Branco:</label>
+                  <select id="quadro" name="quadro" class="form-select" required>
+                    <option value="1" {{#if sala}}{{#ifeq sala.quadro 1}}selected{{/ifeq}}{{/if}}>Sim</option>
+                    <option value="0" {{#if sala}}{{#ifeq sala.quadro 0}}selected{{/ifeq}}{{/if}}>Não</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="computador" class="form-label">*Computadores:</label>
+                  <input type="number" min="0" id="computador" name="computador" class="form-control" value="{{#if sala}}{{sala.computador}}{{/if}}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="mesa_canhoto" class="form-label">*Mesas de canhoto:</label>
+                  <input type="number" min="0" id="mesa_canhoto" name="mesa_canhoto" class="form-control" value="{{#if sala}}{{sala.mesa_canhoto}}{{/if}}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="acessibilidade" class="form-label">*A sala é acessível?:</label>
+                  <select id="acessibilidade" name="acess" class="form-select" required>
+                    <option value="1" {{#if sala}}{{#ifeq sala.acess 1}}selected{{/ifeq}}{{/if}}>Sim</option>
+                    <option value="0" {{#if sala}}{{#ifeq sala.acess 0}}selected{{/ifeq}}{{/if}}>Não</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="mesa_acess" class="form-label">*Mesas acessíveis:</label>
+                  <input type="number" min="0" id="mesa_acess" name="mesa_acess" class="form-control" value="{{#if sala}}{{sala.mesa_acess}}{{/if}}" required />
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn w-100 mt-4" style="background-color: #84925b; color: #fff; border-radius: 10px">
+              <i class="bi bi-floppy-fill"></i>
+              {{#if sala}}Salvar Alterações{{else}}Cadastrar Sala{{/if}}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="conteudo-principal">
-    <h1 class="tituloSala"> {{#if sala}}Editar Sala{{else}}Cadastro de Salas{{/if}}</h1>
-    <form method="POST" action="{{#if sala}}/salas/editar/{{sala.id_salas}}{{else}}/salas/cadastrosala{{/if}}" enctype="multipart/form-data">
-      <div class="linha-form">
-        <div class="basico-Sala">
-          <div class="input-group-cadSala">
-            <label for="numero">*Nome da Sala:</label>
-            <input type="text" id="numero" name="nome_salas" value="{{#if sala}}{{sala.nome_salas}}{{/if}}" required />
-          </div>
-          <div class="input-group-cadSala">
-            <label for="tipo_sala">*Tipo de Sala:</label>
-            <select id="tipo_sala" name="id_tipo" required>
-              {{#each tiposSala}}
-                <option value="{{id_tipo}}" {{#if ../sala}}{{#ifeq id_tipo ../sala.id_tipo}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="bloco">*Bloco:</label>
-            <select id="bloco" name="id_bloco" required>
-              {{#each blocos}}
-                <option value="{{id_bloco}}" {{#if ../sala}}{{#ifeq id_bloco ../sala.andarSala.id_bloco}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="andar">*Andar:</label>
-            <select id="andar" name="id_andar" required>
-              {{#each andares}}
-                <option value="{{id_andar}}" {{#if ../sala}}{{#ifeq id_andar ../sala.id_andar}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="capacidade">*Capacidade:</label>
-            <input min="0" type="number" id="capacidade" name="capacidade" value="{{#if sala}}{{sala.capacidade}}{{/if}}" required />
-          </div>
-        </div>
-        <div class="infra-sala">
-          <div class="input-group-cadSala">
-            <label for="tipo_mesa">*Tipo de Mesa:</label>
-            <select id="tipo_mesa" name="id_mesa" required>
-              {{#each tiposMesa}}
-                <option value="{{id_mesa}}" {{#if ../sala}}{{#ifeq id_mesa ../sala.id_mesa}}selected{{/ifeq}}{{/if}}>{{descricao}}</option>
-              {{/each}}
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="arcondicionado">*Ar-condicionado:</label>
-            <select id="arcondicionado" name="ar_cond" required>
-              <option value="1" {{#if sala}}{{#ifeq sala.ar_cond "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
-              <option value="0" {{#if sala}}{{#ifeq sala.ar_cond "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="projetor">*Projetor:</label>
-            <select id="projetor" name="projetor" required>
-              <option value="1" {{#if sala}}{{#ifeq sala.projetor "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
-              <option value="0" {{#if sala}}{{#ifeq sala.projetor "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="quadro">*Quadro Branco:</label>
-            <select id="quadro" name="quadro" required>
-              <option value="1" {{#if sala}}{{#ifeq sala.quadro "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
-              <option value="0" {{#if sala}}{{#ifeq sala.quadro "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="computador">*Computadores:</label>
-            <input min="0" type="number" id="computador" name="computador" value="{{#if sala}}{{sala.computador}}{{/if}}" required />
-          </div>
-        </div>
-      </div>
-      <div class="linha-form">
-        <div class="acess-sala">
-          <div class="input-group-cadSala">
-            <label for="mesa_canhoto">*Mesas de canhoto:</label>
-            <input min="0" type="number" id="mesa_canhoto" name="mesa_canhoto" value="{{#if sala}}{{sala.mesa_canhoto}}{{/if}}" required />
-          </div>
-          <div class="input-group-cadSala">
-            <label for="acessibilidade">*A sala é acessível?:</label>
-            <select id="acessibilidade" name="acess" required>
-              <option value="1" {{#if sala}}{{#ifeq sala.acess "sim"}}selected{{/ifeq}}{{/if}}>Sim</option>
-              <option value="0" {{#if sala}}{{#ifeq sala.acess "nao"}}selected{{/ifeq}}{{/if}}>Não</option>
-            </select>
-          </div>
-          <div class="input-group-cadSala">
-            <label for="qtdade_mesa_acessivel">*Mesas acessíveis:</label>
-            <input min="0" type="number" id="mesa_acess" name="mesa_acess" value="{{#if sala}}{{sala.mesa_acess}}{{/if}}" required />
-          </div>
-          <div class="input-group-cadSala">
-            <label for="imagem_sala">Imagem da Sala:</label> <br>
-            <input type="file" id="imagem_sala" name="imagem_sala" accept="image/*" class="input-grande" />
-          </div>
-        </div>
-        <div class="extra-sala">
-          <div class="input-group-cadSala">
-            <label for="descricao">Descrição:</label> <br>
-            <textarea id="descricao" name="descricao" class="input-grande">{{#if sala}}{{sala.descricao}}{{/if}}</textarea>
-          </div>
-          
-      </div>
-      <button class="cadSala-Button" type="submit">{{#if sala}}Salvar Alterações{{else}}Cadastrar{{/if}}</button>
+</div>
+           
   </div>
   </form>
 <script>
