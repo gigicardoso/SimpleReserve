@@ -1,15 +1,40 @@
-
 var express = require("express");
 var router = express.Router();
 const path = require("path");
 const db = require("../db/db");
 const tipoSalaController = require("../controllers/tipoSalaController");
 const tipoMesaController = require("../controllers/tipoMesaController");
+// Rota para histórico de reservas
+router.get("/historico", (req, res) => {
+  // Aqui deve vir a consulta real do banco, exemplo:
+  // db.query(...).then(reservas => {
+  //   res.render("historico", { layout: "layout", reservas });
+  // });
+  res.render("historico", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true
+  });
+});
 const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
-const reservaDiaController = require("../controllers/reservasDoDiaController");
 const auth = require("../middlewares/auth");
+
+// Rota protegida para tela de reservas
+router.get("/reservasadm", auth, (req, res) => {
+  res.render("adm/reservas", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isGerenciador: true,
+    breadcrumb: [
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Reservas", path: "/reservasadm" },
+    ],
+  });
+});
+
 
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
 router.get("/mais/adicionaUsuario", (req, res) => {
@@ -43,6 +68,9 @@ router.get("/", (req, res) => {
     showLogo: false,
   });
 });
+
+// API para checagem de duplicidade de tipo de sala
+router.get("/api/tipoSala/check", tipoSalaController.checkDuplicado);
 
 //teste login
 router.post("/login", usuariosController.login);
@@ -181,11 +209,8 @@ router.get("/salas", (req, res) => {
   });
 });
 
-//RESERVAS DO DIA
-router.get("/reservasDoDia", reservaDiaController.listarReservasDoDia);
-//router.get("/excluirReservaDia/:id", reservaDiaController.deletarReservaDia);
-router.get("/editarReservaDia/:id", reservaDiaController.formEditarReservaDia);
-router.post("/editarReservaDia/:id", reservaDiaController.editarReservaDia);
+const reservasDoDiaController = require("../controllers/reservasDoDiaController");
+router.get("/reservasDoDia", reservasDoDiaController.listarReservasDoDia);
 
 // Rotas para tela de cadastro de bloco
 router.get("/adicionabloco", (req, res) => {
@@ -295,5 +320,8 @@ router.post("/editarBloco/:id", blocosController.atualizarBloco);
 router.post("/tipoSala", tipoSalaController.criarTipoSala);
 router.post("/tipoMesa", tipoMesaController.criarMesa);
 router.post("/bloco", blocosController.criarBloco);
+
+// API para checagem de duplicidade de bloco
+router.get('/api/blocos/check', blocosController.checkDuplicado);
 
 module.exports = router;

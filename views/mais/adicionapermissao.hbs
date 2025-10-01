@@ -1,0 +1,78 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header" style="background-color: #84925b; color: #fff; border-radius: 10px 10px 0 0;">
+          <h2 class="mb-0 flex-grow-1"><i class="fas fa-award me-2"></i>Cadastrar Permissão</h2>
+        </div>
+        <div class="card-body">
+          <form id="permissaoForm" action="/permissoes/cadastrar" method="POST">
+            <div class="mb-3">
+              <label for="descricao" class="form-label">Nome da Permissão</label>
+              <input
+                type="text"
+                id="descricao"
+                name="descricao"
+                class="form-control"
+                required
+                placeholder="Ex: Administrador, Moderador, Usuário Básico"
+                value="{{#if permissao}}{{permissao.descricao}}{{/if}}"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Permissões</label>
+              <div class="row g-2">
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="cadSala" name="cadSala" value="1" {{#if permissao.cadSala}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="cadSala" style="margin-bottom:0;">Cadastrar Sala</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="cadUser" name="cadUser" value="1" {{#if permissao.cadUser}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="cadUser" style="margin-bottom:0;">Cadastrar Usuário</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="edUser" name="edUser" value="1" {{#if permissao.edUser}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="edUser" style="margin-bottom:0;">Editar Usuário</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="edSalas" name="edSalas" value="1" {{#if permissao.edSalas}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="edSalas" style="margin-bottom:0;">Editar Salas</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="arqUser" name="arqUser" value="1" {{#if permissao.arqUser}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="arqUser" style="margin-bottom:0;">Arquivar Usuário</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input class="form-check-input me-3" type="checkbox" id="arqSala" name="arqSala" value="1" {{#if permissao.arqSala}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="arqSala" style="margin-bottom:0;">Arquivar Sala</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="/permissoes" class="btn w-100" style="background-color: #f0f0f0; color: #333; border: none; font-weight: 600;">Cancelar</a>
+              <button type="submit" class="btn w-100" style="background-color: #84925b; color: #fff; border: none; font-weight: 600;">
+                <i class="fas fa-save me-2"></i>Cadastrar Permissão
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
