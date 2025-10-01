@@ -29,6 +29,10 @@ const Usuario = sequelize.define(
         key: "id_permissao",
       },
     },
+    token_recuperacao: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     tableName: "usuarios",

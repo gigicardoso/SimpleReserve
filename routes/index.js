@@ -307,7 +307,6 @@ router.get('/permissoes', auth, (req, res) => {
   });
 });
 
-
 //Edição de andares
 router.get("/editarAndar/:id", andarBlocoController.formEditarAndar);
 router.post("/editarAndar/:id", andarBlocoController.atualizarAndar);
@@ -323,5 +322,61 @@ router.post("/bloco", blocosController.criarBloco);
 
 // API para checagem de duplicidade de bloco
 router.get('/api/blocos/check', blocosController.checkDuplicado);
+
+// Rota para resetar senha
+router.get('/resetar-senha', async (req, res) => {
+  const { token, email } = req.query;
+  const usuario = await require('../models/usuariosModel').findOne({ where: { email, token_recuperacao: token } });
+  if (!usuario) return res.render('resetarSenha', { erro: 'Token inválido', layout: 'layout' });
+  res.render('resetarSenha', { email, token, layout: 'layout' });
+});
+
+router.post('/resetar-senha', async (req, res) => {
+  const { email, token, senha } = req.body;
+  const usuario = await require('../models/usuariosModel').findOne({ where: { email, token_recuperacao: token } });
+  if (!usuario) return res.render('resetarSenha', { erro: 'Token inválido', layout: 'layout' });
+  usuario.senha = require('bcrypt').hashSync(senha, 10);
+  usuario.token_recuperacao = null;
+  await usuario.save();
+  res.redirect('/');
+});
+
+router.get('/recuperar-senha', (req, res) => {
+  res.render('recuperarSenha', { layout: 'layout' });
+});
+
+router.post('/recuperar-senha', async (req, res) => {
+  const { email } = req.body;
+  const usuario = await require('../models/usuariosModel').findOne({ where: { email } });
+  if (!usuario) return res.render('recuperarSenha', { erro: 'E-mail não cadastrado', layout: 'layout' });
+
+  // Gere um token simples (ideal: use JWT ou UUID)
+  const token = Math.random().toString(36).substr(2);
+  usuario.token_recuperacao = token;
+  await usuario.save();
+
+  // Envie o e-mail
+  const nodemailer = require('nodemailer');
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.GMAIL_USER,
+      clientId: process.env.GMAIL_CLIENT_ID,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+      accessToken: process.env.GMAIL_ACCESS_TOKEN
+    }
+  });
+  const link = `http://localhost:3000/resetar-senha?token=${token}&email=${email}`;
+  await transporter.sendMail({
+    from: 'SEU_EMAIL@gmail.com',
+    to: email,
+    subject: 'Recuperação de Senha',
+    html: `<p>Para redefinir sua senha, clique <a href="${link}">aqui</a>.</p>`
+  });
+
+  res.render('recuperarSenha', { sucesso: 'E-mail enviado!', layout: 'layout' });
+});
 
 module.exports = router;
