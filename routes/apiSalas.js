@@ -26,7 +26,14 @@ router.get('/salas', async (req, res) => {
       capacidade: sala.capacidade,
       tipo_mesa: sala.mesaSala ? sala.mesaSala.descricao : '',
       descricao: sala.descricao,
-      imagem_url: sala.imagem_sala ? `/uploads/salas/${sala.imagem_sala}` : ''
+      imagem_url: sala.imagem_sala ? `/uploads/salas/${sala.imagem_sala}` : '',
+      ar_cond: sala.ar_cond,
+      projetor: sala.projetor,
+      quadro: sala.quadro,
+      computador: sala.computador,
+      mesa_canhoto: sala.mesa_canhoto,
+      acess: sala.acess,
+      mesa_acess: sala.mesa_acess
     }));
     res.json(resultado);
   } catch (error) {
