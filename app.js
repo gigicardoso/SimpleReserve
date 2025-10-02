@@ -65,6 +65,8 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/salas", salasRouter);
+const apiSalasRouter = require('./routes/apiSalas');
+app.use('/api', apiSalasRouter);
 app.use("/permissoes", permissoesRouter);
 
 // Disponibiliza a API de eventos globalmente para o FullCalendar

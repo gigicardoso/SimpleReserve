@@ -1,0 +1,237 @@
+:root {
+    --cor-primaria: #84925b;
+    --cor-secundaria: #6a774a;
+    --cor-destaque: #e74c3c;
+    --cor-texto: #333;
+    --cor-fundo: #f5f7fa;
+    --cor-borda: #ddd;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 30px;
+    gap: 15px;
+    flex-wrap: wrap;
+    position: relative;
+    padding-left: 32px;
+}
+
+.search-wrapper {
+    flex: 0 0 340px;
+    min-width: 240px;
+    max-width: 340px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+.search-input:focus, .search-input:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 16px rgba(132,146,91,0.18);
+    transform: scale(1.04);
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+    pointer-events: none;
+}
+
+.filter-select {
+    padding: 12px 15px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(132,146,91,0.08);
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+.filter-select:focus, .filter-select:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 16px rgba(132,146,91,0.18);
+    transform: scale(1.04);
+}
+
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.room-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    border-left: 4px solid var(--cor-secundaria);
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.room-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.room-info {
+    padding: 20px;
+}
+
+.room-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--cor-primaria);
+}
+
+.room-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.room-features {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.feature-tag {
+    background-color: #e8f4fd;
+    color: var(--cor-secundaria);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.modal-body {
+    padding: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.modal-image {
+    width: 100%;
+    border-radius: 8px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #7f8c8d;
+}
+
+.detail-value {
+    font-weight: 600;
+    color: var(--cor-primaria);
+    text-align: right;
+    max-width: 60%;
+}
+
+.description {
+    margin-top: 10px;
+    line-height: 1.5;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+    .rooms-grid {
+        grid-template-columns: 1fr;
+    }
+}

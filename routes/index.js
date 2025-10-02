@@ -1,5 +1,26 @@
 var express = require("express");
 var router = express.Router();
+// Rota para tela de pesquisa de salas
+const Sala = require("../models/salasModel");
+const AndarBloco = require("../models/andarBlocoModel");
+const Bloco = require("../models/blocosModel");
+router.get("/pesquisar", async (req, res) => {
+  // Busca blocos e andares cadastrados
+  const blocos = await Bloco.findAll();
+  const andares = await AndarBloco.findAll();
+  res.render("pesquisar", {
+    layout: "layout",
+    showSidebar: true,
+    showLogo: true,
+    isPesquisar: true,
+    breadcrumb: [
+      { title: "Gerenciador ADM", path: "/adm" },
+      { title: "Pesquisa de Salas", path: "/pesquisar" }
+    ],
+    blocos: blocos.map(b => b.descricao),
+    andares: andares.map(a => a.descricao)
+  });
+});
 const path = require("path");
 const db = require("../db/db");
 const tipoSalaController = require("../controllers/tipoSalaController");
