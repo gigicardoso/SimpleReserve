@@ -3,10 +3,38 @@ const AndarBloco = require("../models/andarBlocoModel");
 const Mesa = require("../models/tipoMesaModel");
 const SalaTipo = require("../models/tipoSalaModel");
 const Bloco = require("../models/blocosModel");
+const Permissao = require("../models/permissaoModel");
+
+async function getPerm(req) {
+  const u = req.session && req.session.usuario;
+  if (!u) return null;
+  const p = await Permissao.findByPk(u.id_permissao);
+  return p ? (p.get ? p.get({ plain: true }) : p) : null;
+}
+
+// Checagem granular por ação
+async function requireSalaPerm(req, res, campo) {
+  try {
+    const p = await getPerm(req);
+    const isAdm = !!(p && p.adm);
+    const ok = !!(p && (campo ? p[campo] : p.cadSala || p.edSalas || p.arqSala));
+    if (!p || (!isAdm && !ok)) {
+      res.status(403).render("error", { message: "Você não tem acesso a essa função", alert: true });
+      return true;
+    }
+    return false;
+  } catch (e) {
+    res.status(500).render("error", { message: "Erro ao verificar permissão", alert: true });
+    return true;
+  }
+}
 
 // CONSULTA
 exports.listarSalas = async (req, res) => {
+  if (await requireSalaPerm(req, res, null)) return;
   try {
+    const p = await getPerm(req);
+    const podeCadastrarSala = !!(p && (p.adm || p.cadSala));
     const salas = await Sala.findAll({
       include: [
         {
@@ -20,6 +48,7 @@ exports.listarSalas = async (req, res) => {
     });
     res.render("gerenciarSalas", {
       salas,
+      podeCadastrarSala,
       layout: "layout",
       showSidebar: true,
       showLogo: true,
@@ -33,6 +62,7 @@ exports.listarSalas = async (req, res) => {
 
 // CRIAÇÃO
 exports.criarSala = async (req, res) => {
+  if (await requireSalaPerm(req, res, "cadSala")) return;
   try {
     const dadosSala = req.body;
     if (req.file) {
@@ -60,6 +90,7 @@ exports.criarSala = async (req, res) => {
 
 //UPDATE
 exports.atualizarSala = async (req, res) => {
+  if (await requireSalaPerm(req, res, "edSalas")) return;
   try {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
@@ -74,6 +105,7 @@ exports.atualizarSala = async (req, res) => {
 };
 
 exports.formEditarSala = async (req, res) => {
+  if (await requireSalaPerm(req, res, "edSalas")) return;
   try {
     const sala = await Sala.findByPk(req.params.id, {
       include: [
@@ -112,6 +144,7 @@ exports.formEditarSala = async (req, res) => {
 
 //DELETE
 exports.deletarSala = async (req, res) => {
+  if (await requireSalaPerm(req, res, "arqSala")) return;
   try {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
@@ -124,6 +157,7 @@ exports.deletarSala = async (req, res) => {
 
 // Exibir formulário de cadastro de sala
 exports.formCadastroSala = async (req, res) => {
+  if (await requireSalaPerm(req, res, "cadSala")) return;
   try {
     const tiposSala = await SalaTipo.findAll();
     const tiposMesa = await Mesa.findAll();

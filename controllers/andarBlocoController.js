@@ -1,7 +1,46 @@
 const Bloco = require("../models/blocosModel");
 const Andar = require("../models/andarBlocoModel");
+const Permissao = require("../models/permissaoModel");
+
+// Helpers
+async function getPerm(req) {
+  const u = req.session && req.session.usuario;
+  if (!u) return null;
+  const p = await Permissao.findByPk(u.id_permissao);
+  return p ? (p.get ? p.get({ plain: true }) : p) : null;
+}
+
+// Checagem granular por ação
+async function requireAndarPerm(req, res, campo) {
+  try {
+    const p = await getPerm(req);
+    const isAdm = !!(p && p.adm);
+    const ok = !!(p && (campo ? p[campo] : (p.cadAndares || p.edAndares || p.arqAndares)));
+    if (!p || (!isAdm && !ok)) {
+      res.status(403).render("error", { message: "Você não tem acesso a essa função", alert: true });
+      return true;
+    }
+    return false;
+  } catch (e) {
+    res.status(500).render("error", { message: "Erro ao verificar permissão", alert: true });
+    return true;
+  }
+}
+
+function permsCtx(req) {
+  const u = (req.session && req.session.usuario) || {};
+  return {
+    podeBlocos: !!u.permissaoBlocos,
+    podeAndares: !!u.permissaoAndares,
+    podeTipoMesa: !!u.permissaoTipoMesa,
+    podeTipoSala: !!u.permissaoTipoSala,
+    podePermissoes: !!u.permissaoPermissoes,
+    temAcessoAdm: !!u.temAcessoAdm,
+  };
+}
 
 exports.formCadastroAndar = async (req, res) => {
+  if (requireAndares(req, res)) return;
   const blocos = await Bloco.findAll();
   res.render("adm/andar", {
     blocos,
@@ -9,11 +48,13 @@ exports.formCadastroAndar = async (req, res) => {
     showSidebar: true,
     showLogo: true,
     isGerenciador: true,
+    ...permsCtx(req),
   });
 };
 
 //Exibe os andares de um bloco específico
 exports.getAndaresPorBloco = async (req, res) => {
+  if (requireAndares(req, res)) return;
   const { id_bloco } = req.params;
   const Andar = require("../models/andarBlocoModel");
   const andares = await Andar.findAll({ where: { id_bloco } });
@@ -22,6 +63,7 @@ exports.getAndaresPorBloco = async (req, res) => {
 
 //CONSULTA
 exports.listarAndar = async (req, res) => {
+  if (await requireAndarPerm(req, res, null)) return;
   try {
     const andar = await Andar.findAll({
       include: [
@@ -40,6 +82,7 @@ exports.listarAndar = async (req, res) => {
       isGerenciador: true,
       andares: andar,
       blocos,
+      ...permsCtx(req),
     });
   } catch (error) {
     console.error("Erro ao buscar andares:", error);
@@ -49,6 +92,7 @@ exports.listarAndar = async (req, res) => {
 
 // CRIAÇÃO
 exports.criarAndar = async (req, res) => {
+  if (await requireAndarPerm(req, res, 'cadAndares')) return;
   try {
     const nome = req.body.descricao && req.body.descricao.trim();
     const id_bloco = req.body.id_bloco;
@@ -63,7 +107,8 @@ exports.criarAndar = async (req, res) => {
         erro: "Nome do andar e bloco são obrigatórios!",
         showSidebar: true,
         showLogo: true,
-        breadcrumb
+        breadcrumb,
+        ...permsCtx(req),
       });
     }
     const duplicado = await Andar.findOne({
@@ -75,7 +120,8 @@ exports.criarAndar = async (req, res) => {
         erro: `O andar '${nome}' já foi cadastrado para este bloco!`,
         showSidebar: true,
         showLogo: true,
-        breadcrumb
+        breadcrumb,
+        ...permsCtx(req),
       });
     }
     await Andar.create({ descricao: nome, id_bloco });
@@ -85,8 +131,9 @@ exports.criarAndar = async (req, res) => {
   }
 };
 
-//UPDATE
+// UPDATE
 exports.atualizarAndar = async (req, res) => {
+  if (await requireAndarPerm(req, res, 'edAndares')) return;
   try {
     const andar = await Andar.findByPk(req.params.id);
     if (!andar) return res.status(404).send("Andar não encontrado");
@@ -97,8 +144,9 @@ exports.atualizarAndar = async (req, res) => {
   }
 };
 
-//DELETE
+// DELETE
 exports.deletarAndar = async (req, res) => {
+  if (await requireAndarPerm(req, res, 'arqAndares')) return;
   try {
     const andar = await Andar.findByPk(req.params.id);
     if (!andar) return res.status(404).send("Andar não encontrado");
@@ -109,8 +157,9 @@ exports.deletarAndar = async (req, res) => {
   }
 };
 
-//EDIÇÃO
+// EDIÇÃO
 exports.formEditarAndar = async (req, res) => {
+  if (await requireAndarPerm(req, res, 'edAndares')) return;
   try {
     const andar = await Andar.findByPk(req.params.id, {
       include: [{ model: Bloco, as: "blocoAndar" }],
@@ -125,6 +174,7 @@ exports.formEditarAndar = async (req, res) => {
       showSidebar: true,
       showLogo: true,
       isGerenciador: true,
+      ...permsCtx(req),
     });
   } catch (error) {
     console.error("Erro ao buscar andar:", error);

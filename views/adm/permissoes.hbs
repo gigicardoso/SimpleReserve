@@ -7,11 +7,18 @@
 			</a>
 		</div>
 	</div>
-		<div class="user-table-container" style="margin-top: 18px;">
+	<div class="user-table-container" style="margin-top: 18px;">
 		<table class="user-table">
 			<thead>
 				<tr>
 					<th>Nome</th>
+					<th>Administrador</th>
+					<th>Cadastrar Sala</th>
+					<th>Editar Salas</th>
+					<th>Arquivar Sala</th>
+					<th>Cadastrar Usuário</th>
+					<th>Editar Usuário</th>
+					<th>Arquivar Usuário</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
@@ -19,14 +26,21 @@
 				{{#if permissoes.length}}
 					{{#each permissoes}}
 						<tr>
-							<td>{{this.nome}}</td>
+							<td>{{this.descricao}}</td>
+							<td>{{#if this.adm}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.cadSala}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.edSalas}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.arqSala}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.cadUser}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.edUser}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.arqUser}}Sim{{else}}Não{{/if}}</td>
 							<td class="actions">
 								<a href="/editarPermissao/{{id_permissao}}" class="btn-action btn-edit">
-									<i class="bi bi-plus"></i>
+									<i class="bi bi-pencil"></i>
 									<span>Editar</span>
 								</a>
 								<a href="/excluirPermissao/{{id_permissao}}" class="btn-action btn-delete">
-									<i class="bi bi-plus"></i>
+									<i class="bi bi-trash"></i>
 									<span>Excluir</span>
 								</a>
 							</td>
@@ -34,9 +48,9 @@
 					{{/each}}
 				{{else}}
 					<tr class="empty-message-row">
-									<td colspan="2" class="empty-message">
-										Nenhuma permissão cadastrada. Clique no botão <i class="bi bi-plus" style="font-size: 1.2rem;"></i> para adicionar.
-									</td>
+						<td colspan="9" class="empty-message">
+							Nenhuma permissão cadastrada. Clique no botão <i class="bi bi-plus" style="font-size: 1.2rem;"></i> para adicionar.
+						</td>
 					</tr>
 				{{/if}}
 			</tbody>
@@ -44,5 +58,4 @@
 	</div>
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
 <link rel="stylesheet" href="/stylesheets/usuariosAdm.css">

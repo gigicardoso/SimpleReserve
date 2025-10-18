@@ -227,11 +227,19 @@
                 <h1 style="margin: 0; font-size: 2rem; display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-door-open"></i> Gerenciar Salas
                 </h1>
-                <a href="/salas/cadastrosala" title="Adicionar sala" style="display: flex; align-items: center;">
-                    <button type="button" style="width: 50px; height: 50px; border-radius: 50%; background: var(--primary-color); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(132,146,91,0.10); transition: background 0.2s;">
-                        <i class="fas fa-plus" style="color: #fff; font-size: 1.5rem;"></i>
-                    </button>
-                </a>
+                {{#if podeCadastrarSala}}
+                  <a href="/salas/cadastrosala" title="Adicionar sala" style="display: flex; align-items: center; text-decoration: none;">
+                      <button type="button" style="width: 50px; height: 50px; border-radius: 50%; background: var(--primary-color); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(132,146,91,0.10); transition: background 0.2s; outline: none;">
+                          <i class="fas fa-plus" style="color: #fff; font-size: 1.5rem;"></i>
+                      </button>
+                  </a>
+                {{else}}
+                  <a href="#" id="btnAddSalaBlocked" title="Sem permissão" style="display: flex; align-items: center; text-decoration: none;">
+                      <button type="button" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(132,146,91,.5); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(132,146,91,0.10); outline: none;">
+                          <i class="fas fa-plus" style="color: #fff; font-size: 1.5rem;"></i>
+                      </button>
+                  </a>
+                {{/if}}
             </div>
         </div>
     
@@ -289,6 +297,14 @@
     </div>
 
     <script>
+                // Bloqueio no clique (front) para quem não tem permissão
+                const blockedBtn = document.getElementById('btnAddSalaBlocked');
+                if (blockedBtn) {
+                    blockedBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('Você não tem permissão para cadastrar salas.');
+                    });
+                }
         // Confirmação antes de excluir
         document.querySelectorAll('.btn-delete').forEach(btn => {
             btn.addEventListener('click', function(e) {

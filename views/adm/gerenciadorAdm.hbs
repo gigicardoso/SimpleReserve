@@ -14,13 +14,13 @@
             </div>
         </a>
         <!-- Linha 2 -->
-        <a href="/bloco">
+        <a href="/bloco" {{#unless permissaoBlocos}}disabled{{/unless}}>
             <div class="icon-item">
                 <div class="icon"><i class="i bi-building-gear"></i></div>
                 <div class="icon-label">Blocos</div>
             </div>
         </a>
-        <a href="/andares">
+        <a href="/andares" {{#unless permissaoAndares}}disabled{{/unless}}>
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-layers"></i></div>
                 <div class="icon-label">Andares</div>
@@ -34,21 +34,21 @@
                 <div class="icon-label">Reservas</div>
             </div>
         </a>
-        <a href="/permissoes">
+        <a href="/permissoes" {{#unless permissaoPermissoes}}disabled{{/unless}}>
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-award"></i></div>
                 <div class="icon-label">Permissões</div>
             </div>
         </a>
                 <!-- Linha 4 - Novos itens -->
-        <a href="/tipoMesa">
+        <a href="/tipoMesa" {{#unless permissaoTipoMesa}}disabled{{/unless}}>
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-collection"></i></div>
                 <div class="icon-label">Tipo de Mesa</div>
             </div>
         </a>
-        
-        <a href="/tipoSala">
+
+        <a href="/tipoSala" {{#unless permissaoTipoSala}}disabled{{/unless}}>
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-door-closed"></i></div>
                 <div class="icon-label">Tipo de Sala</div>

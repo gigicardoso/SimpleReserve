@@ -41,6 +41,7 @@ const blocosController = require("../controllers/blocosController");
 const andarBlocoController = require("../controllers/andarBlocoController");
 const usuariosController = require("../controllers/usuariosController");
 const auth = require("../middlewares/auth");
+const { verificarPermissao } = require("../middlewares/auth");
 
 // Rota protegida para tela de reservas
 router.get("/reservasadm", auth, (req, res) => {
@@ -58,11 +59,13 @@ router.get("/reservasadm", auth, (req, res) => {
 
 
 // Rota para tela dedicada de cadastro de usuário (em /mais/adicionaUsuario)
-router.get("/mais/adicionaUsuario", (req, res) => {
+router.get("/mais/adicionaUsuario", verificarPermissao('cadUser'), async (req, res) => {
+  const permissoes = await require("../models/permissaoModel").findAll({ order: [["descricao", "ASC"]] });
   res.render("mais/adicionaUsuario", {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
+    permissoes,
     breadcrumb: [
       { title: 'Gerenciador ADM', path: '/adm' },
       { title: 'Gerenciador de Usuários', path: '/usuariosadm' },
@@ -100,12 +103,14 @@ router.post("/login", usuariosController.login);
 router.get("/logout", usuariosController.logout);
 
 // Rota para cadastro de usuário
-router.get("/cadastrousuario", (req, res) => {
+router.get("/cadastrousuario", async (req, res) => {
+  const permissoes = await require("../models/permissaoModel").findAll({ order: [["descricao", "ASC"]] });
   res.render("cadastroUsuarios", {
     layout: "layout",
     showSidebar: false, 
     showLogo: false,    
     isCadastroUsuario: true,
+    permissoes
   });
 });
 
@@ -125,29 +130,77 @@ router.get("/adm", auth, (req, res) => {
 });
 
 // Listagem de tipos de mesa
-router.get("/tipoMesa", tipoMesaController.listarMesas);
+router.get("/tipoMesa", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Tipo de Mesa.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoMesaController.listarMesas);
 
 // Exclusão de tipo de mesa
-router.get("/excluirMesa/:id", tipoMesaController.deletarMesa);
+router.get("/excluirMesa/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para excluir Tipo de Mesa.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoMesaController.deletarMesa);
 
 // Edição de tipo de mesa
-router.get("/editarMesa/:id", tipoMesaController.formEditarMesa);
-router.post("/editarMesa/:id", tipoMesaController.atualizarMesa);
+router.get("/editarMesa/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para editar Tipo de Mesa.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoMesaController.formEditarMesa);
+router.post("/editarMesa/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para editar Tipo de Mesa.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoMesaController.atualizarMesa);
 
 // Listagem de tipos de sala
-router.get("/tipoSala", tipoSalaController.listarTipoSalas);
+router.get("/tipoSala", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Tipo de Sala.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoSalaController.listarTipoSalas);
 
 // Exclusão de tipo de sala
-router.get("/excluirTipoSala/:id", tipoSalaController.deletarTipoSala);
+router.get("/excluirTipoSala/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para excluir Tipo de Sala.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoSalaController.deletarTipoSala);
 
 // Edição de tipo de sala
-router.get("/editarTipoSala/:id", tipoSalaController.formEditarTipoSala);
-router.post("/editarTipoSala/:id", tipoSalaController.atualizarTipoSala);
+router.get("/editarTipoSala/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para editar Tipo de Sala.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoSalaController.formEditarTipoSala);
+router.post("/editarTipoSala/:id", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para editar Tipo de Sala.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, tipoSalaController.atualizarTipoSala);
 
 //Listagem de blocos
-router.get("/bloco", blocosController.listarBlocos);
+router.get("/bloco", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Blocos.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, blocosController.listarBlocos);
 // Gerenciador de blocos
-router.get("/bloco", (req, res) => {
+router.get("/bloco", auth, (req, res) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Gerenciador de Blocos.", layout: "layout", showSidebar: true, showLogo: true });
+  }
   res.render("adm/bloco", {
     layout: "layout",
     showSidebar: true,
@@ -167,9 +220,17 @@ router.get("/editarBloco/:id", blocosController.formEditarBloco);
 router.post("/editarBloco/:id", blocosController.atualizarBloco);
 
 //Listagem de andares
-router.get("/andares", andarBlocoController.listarAndar);
+router.get("/andares", auth, (req, res, next) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Andares.", layout: "layout", showSidebar: true, showLogo: true });
+  }
+  next();
+}, andarBlocoController.listarAndar);
 // Gerenciador de andares
-router.get("/andares", (req, res) => {
+router.get("/andares", auth, (req, res) => {
+  if (!req.session.usuario.isAdm) {
+    return res.render("error", { message: "Você não tem permissão para acessar Gerenciador de Andares.", layout: "layout", showSidebar: true, showLogo: true });
+  }
   res.render("adm/andar", {
     layout: "layout",
     showSidebar: true,
@@ -218,12 +279,19 @@ router.get("/reservasadm", (req, res) => {
   });
 });
 
-router.get("/salas", (req, res) => {
+router.get("/salas", auth, (req, res) => {
+  // Permissão: somente ADM ou quem tem alguma permissão de sala (cadSala/edSalas/arqSala)
+  const u = req.session && req.session.usuario;
+  if (!u || !(u.isAdm || u.permissaoTipoSala)) {
+    return res.render('error', { message: 'Você não tem permissão para acessar Gerenciador de Salas.', layout: 'layout', showSidebar: true, showLogo: true });
+  }
+  const podeGerenciarSala = !!(u && (u.isAdm || u.permissaoTipoSala));
   res.render("adm/salas", {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
     isGerenciador: true,
+    podeGerenciarSala,
     breadcrumb: [
       { title: "Gerenciador ADM", path: "/adm" },
       { title: "Salas", path: "/salas" },
@@ -251,7 +319,11 @@ router.get("/adicionabloco", (req, res) => {
 
 const { sequelize } = require("../db/db");
 
-router.get("/mais/adicionaandar", (req, res) => {
+router.get("/mais/adicionasala", auth, (req, res) => {
+  const u = req.session && req.session.usuario;
+  if (!u || !(u.isAdm || u.permissaoTipoSala)) {
+    return res.render('error', { message: 'Você não tem permissão para cadastrar tipos de sala.', layout: 'layout', showSidebar: true, showLogo: true });
+  }
   sequelize
     .query("SELECT * FROM blocos", { type: sequelize.QueryTypes.SELECT })
     .then((results) => {
@@ -318,15 +390,11 @@ router.get("/mais/adicionasala", (req, res) => {
 });
 // Rota para tela de permissões
 router.get('/permissoes', auth, (req, res) => {
-  res.render('adm/permissoes', {
-    layout: 'layout',
-    showSidebar: true,
-    showLogo: true,
-    breadcrumb: [
-      { title: 'Gerenciador ADM', path: '/adm' },
-      { title: 'Permissões', path: '/permissoes' }
-    ]
-  });
+  if (!req.session.usuario.isAdm) {
+    return res.render('error', { message: 'Você não tem permissão para acessar o Gerenciador de Permissões.', layout: 'layout', showSidebar: true, showLogo: true });
+  }
+  // Redireciona para o controller, que já popula as permissões
+  require('../controllers/permissaoController').listarPermissoes(req, res);
 });
 
 //Edição de andares

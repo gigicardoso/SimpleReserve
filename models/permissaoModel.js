@@ -36,6 +36,10 @@ const Permissao = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    adm:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    }
   },
   {
     tableName: "permissao",

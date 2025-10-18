@@ -24,6 +24,16 @@
           <input type="password" placeholder="Confirme sua senha" name="senha2" required>
         </div>
 
+        <div class="mb-3">
+          <label for="id_permissao" class="form-label">Permissão do Usuário</label>
+          <select id="id_permissao" name="id_permissao" class="form-select" required>
+            <option value="" disabled selected>Selecione uma permissão</option>
+            {{#each permissoes}}
+              <option value="{{this.id_permissao}}">{{this.descricao}}</option>
+            {{/each}}
+          </select>
+        </div>
+
         <button type="submit" class="btn-cadastrar">Cadastrar</button>
 
         <div class="links">

@@ -2,9 +2,39 @@ const { Op } = require("sequelize");
 const Agenda = require("../models/agendaModel");
 const Sala = require("../models/salasModel");
 const Usuario = require("../models/usuariosModel");
+const Permissao = require("../models/permissaoModel");
+
+// Helper granular
+async function getPerm(req) {
+  const u = req.session && req.session.usuario;
+  if (!u) return null;
+  const p = await Permissao.findByPk(u.id_permissao);
+  return p ? (p.get ? p.get({ plain: true }) : p) : null;
+}
+async function requireReservaPerm(req, res, campo) {
+  try {
+    const p = await getPerm(req);
+    const isAdm = !!(p && p.adm);
+    const ok = !!(p && (campo ? p[campo] : (p.cadReserva || p.edReserva || p.arqReserva)));
+    if (!p || (!isAdm && !ok)) {
+      res.status(403).render("error", { message: "Você não tem acesso a essa função", alert: true });
+      return true;
+    }
+    return false;
+  } catch (e) {
+    res.status(500).render("error", { message: "Erro ao verificar permissão", alert: true });
+    return true;
+  }
+}
 
 //CONSULTA PARA VIEW DE RESERVAS
 exports.listarReservasAdm = async (req, res) => {
+  if (await requireReservaPerm(req, res, null)) return;
+  // bloquear acesso ao gerenciador ADM se não possuir nenhuma permissão
+  const u = req.session && req.session.usuario;
+  if (!u || !u.temAcessoAdm) {
+    return res.status(403).render("error", { message: "Você não tem acesso a essa função" });
+  }
   try {
     const reservas = await Agenda.findAll({
       include: [
@@ -35,7 +65,7 @@ exports.listarReservasAdm = async (req, res) => {
       reservas: reservasFormatadas
     });
   } catch (error) {
-    res.status(500).send("Erro ao buscar reservas", error);
+    res.status(500).send("Erro ao buscar reservas: " + (error && error.message ? error.message : 'Erro desconhecido'));
   }
 };
 
@@ -57,6 +87,7 @@ exports.formNovaReserva = async (req, res) => {
 
 //CRIAÇÃO
 exports.criarReserva = async (req, res) => {
+  if (await requireReservaPerm(req, res, 'cadReserva')) return;
   try {
     const { id_salas, data, hora_inicio, hora_final, nome_evento, descricao } = req.body;
     const id_user = req.session.usuario ? req.session.usuario.id_user : null;
@@ -156,6 +187,7 @@ if (data < hoje) {
 
 //UPDATE
 exports.atualizarReserva = async (req, res) => {
+  if (await requireReservaPerm(req, res, 'edReserva')) return;
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).send("Reserva não encontrada");
@@ -181,6 +213,7 @@ exports.atualizarReserva = async (req, res) => {
 };*/
 
 exports.deletarReserva = async (req, res) => {
+  if (await requireReservaPerm(req, res, 'arqReserva')) return;
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) {
@@ -240,6 +273,7 @@ exports.verificarDisponibilidade = async (req, res) => {
 
 // Renderiza o formulário de edição
 exports.formEditarReserva = async (req, res) => {
+  if (await requireReservaPerm(req, res, 'edReserva')) return;
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });

@@ -1,10 +1,87 @@
 const Permissao = require("../models/permissaoModel");
 
-// CONSULTA
-exports.listarPermissaos = async (req, res) => {
+// +++ NOVO: mapa de chaves legadas -> flags da sessão
+function mapKeyToSessionFlag(key) {
+  const map = {
+    // chaves legadas que podem estar nas rotas
+    cadUser: "permissaoPermissoes",
+    cadSala: "permissaoTipoSala",
+    edUser: "permissaoPermissoes",
+    arqUser: "permissaoPermissoes",
+    arqSala: "permissaoTipoSala",
+    edSalas: "permissaoTipoSala",
+    // chaves atuais
+    cadBlocos: "permissaoBlocos",
+    cadAndares: "permissaoAndares",
+    cadTipoMesa: "permissaoTipoMesa",
+    cadTipoSala: "permissaoTipoSala",
+    cadPermissoes: "permissaoPermissoes",
+  };
+  return map[key] || key;
+}
+
+// +++ NOVO: middleware exportado para uso nas rotas
+exports.verificarPermissao = (chave) => (req, res, next) => {
+  const u = req.session && req.session.usuario;
+  const flag = mapKeyToSessionFlag(chave);
+  if (!u || !u[flag]) {
+    return res.status(403).render("error", { message: "Você não tem acesso a essa função" });
+  }
+  next();
+};
+
+// +++ NOVO: helpers para validar e para contexto nas views
+// Ajuste: retornar true quando bloquear (após render), false quando permitir
+async function requirePermissoes(req, res) {
   try {
-    const permissao = await Permissao.findAll();
-    res.render("permissao", { permissao });
+    const u = req.session && req.session.usuario;
+    if (!u) {
+      res.status(403).render("error", { message: "Você não tem acesso a essa função", alert: true });
+      return true;
+    }
+    const pInst = await Permissao.findByPk(u.id_permissao);
+    const p = pInst && (pInst.get ? pInst.get({ plain: true }) : pInst);
+    const permitido = !!(p && (p.adm || p.cadUser || p.edUser || p.arqUser));
+    if (!permitido) {
+      res.status(403).render("error", { message: "Você não tem acesso a essa função", alert: true });
+      return true;
+    }
+    return false;
+  } catch (e) {
+    res.status(500).render("error", { message: "Erro ao verificar permissão", alert: true });
+    return true;
+  }
+}
+function permsCtx(req) {
+  const u = (req.session && req.session.usuario) || {};
+  return {
+    podeBlocos: !!u.permissaoBlocos,
+    podeAndares: !!u.permissaoAndares,
+    podeTipoMesa: !!u.permissaoTipoMesa,
+    podeTipoSala: !!u.permissaoTipoSala,
+    podePermissoes: !!u.permissaoPermissoes,
+    temAcessoAdm: !!u.temAcessoAdm,
+  };
+}
+
+// CONSULTA
+exports.listarPermissoes = async (req, res) => {
+  // Bloqueio por permissão
+  if (await requirePermissoes(req, res)) return;
+  try {
+    const permissoes = await Permissao.findAll({ order: [['descricao', 'ASC']] });
+    // Renderiza a tela única de permissões
+    res.render("adm/permissoes", {
+      permissoes,
+      layout: "layout",
+      showSidebar: true,
+      showLogo: true,
+      breadcrumb: [
+        { title: "Gerenciador ADM", path: "/adm" },
+        { title: "Permissões", path: "/permissoes" },
+      ],
+      ...permsCtx(req),
+    });
   } catch (error) {
     res.status(500).send("Erro ao buscar permissao");
   }
@@ -12,51 +89,73 @@ exports.listarPermissaos = async (req, res) => {
 
 // CRIAÇÃO
 exports.criarPermissao = async (req, res) => {
+  // Bloqueio por permissão
+  if (await requirePermissoes(req, res)) return;
   try {
-    await Permissao.create(req.body);
-    res.redirect("/permissao");
+    const { descricao } = req.body;
+    const isAdm = !!req.body.adm; // toggle "Adm"
+    const novaPermissao = {
+      descricao,
+      cadSala: isAdm ? 1 : (req.body.cadSala ? 1 : 0),
+      cadUser: isAdm ? 1 : (req.body.cadUser ? 1 : 0),
+      edUser:  isAdm ? 1 : (req.body.edUser ? 1 : 0),
+      arqUser: isAdm ? 1 : (req.body.arqUser ? 1 : 0),
+      arqSala: isAdm ? 1 : (req.body.arqSala ? 1 : 0),
+      edSalas: isAdm ? 1 : (req.body.edSalas ? 1 : 0),
+      ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: isAdm ? 1 : 0 } : {})
+    };
+    await Permissao.create(novaPermissao);
+    return res.redirect('/permissoes'); // <- volta para a rota base do router
   } catch (error) {
-    res.status(500).send("Erro ao criar permissao");
+    res.status(500).send('Erro ao criar permissão');
   }
 };
 
-// Atualizar permissões de um usuário
+// UPDATE
 exports.atualizarPermissao = async (req, res) => {
+  // Bloqueio por permissão
+  if (await requirePermissoes(req, res)) return;
   try {
     const { id_permissao } = req.params;
-    const {
-      cadSala = 0,
-      cadUser = 0,
-      edUser = 0,
-      arqUser = 0,
-      arqSala = 0,
-      edSalas = 0,
-    } = req.body;
+    const isAdm = !!req.body.adm;
 
     await Permissao.update(
-      {
-        cadSala: cadSala ? 1 : 0,
-        cadUser: cadUser ? 1 : 0,
-        edUser: edUser ? 1 : 0,
-        arqUser: arqUser ? 1 : 0,
-        arqSala: arqSala ? 1 : 0,
-        edSalas: edSalas ? 1 : 0,
-      },
+      isAdm
+        ? {
+            cadSala: 1,
+            cadUser: 1,
+            edUser: 1,
+            arqUser: 1,
+            arqSala: 1,
+            edSalas: 1,
+            ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: 1 } : {})
+          }
+        : {
+            cadSala: req.body.cadSala ? 1 : 0,
+            cadUser: req.body.cadUser ? 1 : 0,
+            edUser:  req.body.edUser ? 1 : 0,
+            arqUser: req.body.arqUser ? 1 : 0,
+            arqSala: req.body.arqSala ? 1 : 0,
+            edSalas: req.body.edSalas ? 1 : 0,
+            ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: 0 } : {})
+          },
       { where: { id_permissao } }
     );
-    res.redirect("/adm/usuariosAdm");
+    return res.redirect("/permissoes"); // <- volta para a rota base do router
   } catch (error) {
-    res.render("error", { message: "Erro ao atualizar permissões", error });
+    res.render("error", { message: "Erro ao atualizar permissões", error, alert: true });
   }
 };
 
-//DELETE
+// DELETE
 exports.deletarPermissao = async (req, res) => {
+  // Bloqueio por permissão
+  if (await requirePermissoes(req, res)) return;
   try {
     const permissao = await Permissao.findByPk(req.params.id);
     if (!permissao) return res.status(404).send("Permissao não encontrada");
     await permissao.destroy();
-    res.send("Permissao deletada com sucesso");
+    return res.redirect('/permissoes'); // <- volta para a rota base do router
   } catch (error) {
     res.status(500).send("Erro ao deletar permissao");
   }
