@@ -3,12 +3,18 @@ const router = express.Router();
 const agendaController = require('../controllers/agendaController');
 const Sala = require('../models/salasModel');
 const auth = require("../middlewares/auth");
+const { verificarGerenciadorAdm } = require("../middlewares/auth");
 
-// API para buscar reservas para o calendário
-router.get('/api/eventos', async (req, res) => {
+// API para buscar reservas para o calendário (somente do usuário logado)
+router.get('/api/eventos', auth, async (req, res) => {
   try {
+    const u = req.session && req.session.usuario;
+    if (!u) {
+      return res.status(401).json({ erro: 'Não autenticado' });
+    }
     const Agenda = require('../models/agendaModel');
     const reservas = await Agenda.findAll({
+      where: { id_user: u.id_user },
       include: [{ model: Sala, as: 'sala' }]
     });
     // Formatar para o formato do FullCalendar
@@ -56,7 +62,7 @@ router.post('/editar/:id', auth, agendaController.editarReserva);
 
 // Criar nova reserva
 router.post('/nova', agendaController.criarReserva);
-router.get("/reservasadm", auth, agendaController.listarReservasAdm);
+router.get("/reservasadm", auth, verificarGerenciadorAdm, agendaController.listarReservasAdm);
 router.post('/verificar-disponibilidade', agendaController.verificarDisponibilidade);
 
 

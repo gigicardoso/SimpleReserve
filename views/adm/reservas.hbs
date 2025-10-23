@@ -28,19 +28,21 @@
 			<td>{{this.horaInicio}} - {{this.horaFim}}</td>
 			<td>
 				<div class="actions-flex" style="width: 100%; justify-content: center;">
-																	<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
-																		<a href="/agenda/editar/{{this.id_agenda}}" class="btn-action btn-edit btn-underline" style="width:120px; padding:8px 18px; font-size:14px;">
-																			<i class="fa fa-edit btn-underline" style="text-decoration: underline;"></i>
-																			<span class="btn-text">Editar</span>
-																		</a>
-															
-														</a>
-																		<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete btn-underline" style="width:120px; padding:8px 18px; font-size:14px;" onclick="return confirm('Deseja apagar esta reserva?')">
-																			<i class="bi bi-trash btn-underline" style="text-decoration: underline;"></i>
-																			  <span class="btn-text" style="text-decoration: underline;">Excluir</span>
-																		</button>
-																		<form id="form-excluir-{{this.id_agenda}}" action="/agenda/excluir/{{this.id_agenda}}" method="GET" style="display:none;"></form>
-																	</div>
+					<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
+						{{#if ../podeEditarReserva}}
+						<a href="/agenda/editar/{{this.id_agenda}}" class="btn-action btn-edit btn-underline" style="width:120px; padding:8px 18px; font-size:14px;">
+							<i class="fa fa-edit btn-underline" style="text-decoration: underline;"></i>
+							<span class="btn-text">Editar</span>
+						</a>
+						{{/if}}
+						{{#if ../podeExcluirReserva}}
+						<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete btn-underline" style="width:120px; padding:8px 18px; font-size:14px;" onclick="return confirm('Deseja apagar esta reserva?')">
+							<i class="bi bi-trash btn-underline" style="text-decoration: underline;"></i>
+							<span class="btn-text" style="text-decoration: underline;">Excluir</span>
+						</button>
+						<form id="form-excluir-{{this.id_agenda}}" action="/agenda/excluir/{{this.id_agenda}}" method="GET" style="display:none;"></form>
+						{{/if}}
+					</div>
 				</div>
 			</td>
 		</tr>

@@ -2,54 +2,7 @@ const Permissao = require('../models/permissaoModel');
 
 // Substitui a exportação anônima por uma função nomeada para poder anexar propriedades
 async function auth(req, res, next) {
-  if (!req.session.usuario && req.cookies.rememberMe) {
-    console.log('Tentando restaurar sessão pelo cookie...');
-    const Usuario = require("../models/usuariosModel");
-    const usuario = await Usuario.findOne({ where: { token_login: req.cookies.rememberMe } });
-    if (usuario) {
-      req.session.usuario = {
-        id_user: usuario.id_user,
-        nome: usuario.nome,
-        email: usuario.email,
-        id_permissao: usuario.id_permissao,
-      };
-
-      // Carrega a permissão e popula as flags na sessão
-      const permissao = await Permissao.findByPk(usuario.id_permissao);
-      if (permissao) {
-        const p = permissao.get ? permissao.get({ plain: true }) : permissao;
-
-        // Deriva "admin" e flags de sessão a partir dos campos de sala/usuário
-        const isAdm = !!p.adm || !!(p.cadSala && p.cadUser && p.edUser && p.arqUser && p.arqSala && p.edSalas);
-        req.session.usuario.isAdm = isAdm;
-
-        if (isAdm) {
-          req.session.usuario.permissaoBlocos = true;
-          req.session.usuario.permissaoAndares = true;
-          req.session.usuario.permissaoTipoMesa = true;
-          req.session.usuario.permissaoTipoSala = true;
-          req.session.usuario.permissaoPermissoes = true;
-        } else {
-          req.session.usuario.permissaoTipoSala = !!(p.cadSala || p.edSalas || p.arqSala);
-          req.session.usuario.permissaoPermissoes = !!(p.cadUser || p.edUser || p.arqUser);
-          req.session.usuario.permissaoBlocos = false;
-          req.session.usuario.permissaoAndares = false;
-          req.session.usuario.permissaoTipoMesa = false;
-        }
-
-        req.session.usuario.temAcessoAdm = !!(
-          req.session.usuario.permissaoBlocos ||
-          req.session.usuario.permissaoAndares ||
-          req.session.usuario.permissaoTipoMesa ||
-          req.session.usuario.permissaoTipoSala ||
-          req.session.usuario.permissaoPermissoes
-        );
-      }
-      console.log('Sessão restaurada:', req.session.usuario);
-    } else {
-      console.log('Token inválido no cookie!');
-    }
-  }
+  // Funcionalidade "mantenha-me conectado" removida: não restaura sessão por cookie
   if (!req.session.usuario) {
     return res.redirect('/');
   }
@@ -66,23 +19,25 @@ async function auth(req, res, next) {
       const p = pInst && (pInst.get ? pInst.get({ plain: true }) : pInst);
       const isAdm = !!(p && p.adm);
 
-      // Detecta ação pela rota/método
-      const isDeleteAction =
-        method === 'DELETE' ||
-        /excluir|delete|deletar|arquivar|remover/i.test(path);
-
-      const isEditAction =
-        method === 'PUT' || method === 'PATCH' ||
-        /editar|update/i.test(path);
-
-      const isCreateAction =
-        method === 'POST' &&
-        !isDeleteAction && !isEditAction;
+      // Detecta ação pela rota/método de forma mais precisa
+      const isDeleteAction = path.includes('/excluir/') || path.includes('/delete/') || path.includes('/deletar/');
+      
+      const isEditAction = (path.includes('/editar/') || path.includes('/update/')) && !path.includes('/cadastro');
+      
+      const isCreateAction = path.includes('/cadastro') || (method === 'POST' && path.includes('/cadastrosala'));
+      
+      const isListOrView = path.includes('/gerenciar') || path.includes('/detalhes/');
 
       // Validações por ação
       if (!p) {
         return res.status(403).render('error', { message: 'Você não tem acesso a essa função' });
       }
+      
+      // Não bloqueia listagem/visualização
+      if (isListOrView) {
+        return next();
+      }
+      
       if (isDeleteAction && !isAdm && !p.arqSala) {
         return res.status(403).render('error', { message: 'Você não tem acesso a essa função' });
       }

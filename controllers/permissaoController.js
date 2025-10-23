@@ -64,6 +64,12 @@ function permsCtx(req) {
   };
 }
 
+// Normalizador de boolean vindos do form (hidden + checkbox podem gerar array ou "on")
+function normBool(v) {
+  const val = Array.isArray(v) ? v[v.length - 1] : v;
+  return val === '1' || val === 'on' || val === 1 || val === true;
+}
+
 // CONSULTA
 exports.listarPermissoes = async (req, res) => {
   // Bloqueio por permissão
@@ -93,16 +99,15 @@ exports.criarPermissao = async (req, res) => {
   if (await requirePermissoes(req, res)) return;
   try {
     const { descricao } = req.body;
-    const isAdm = !!req.body.adm; // toggle "Adm"
     const novaPermissao = {
       descricao,
-      cadSala: isAdm ? 1 : (req.body.cadSala ? 1 : 0),
-      cadUser: isAdm ? 1 : (req.body.cadUser ? 1 : 0),
-      edUser:  isAdm ? 1 : (req.body.edUser ? 1 : 0),
-      arqUser: isAdm ? 1 : (req.body.arqUser ? 1 : 0),
-      arqSala: isAdm ? 1 : (req.body.arqSala ? 1 : 0),
-      edSalas: isAdm ? 1 : (req.body.edSalas ? 1 : 0),
-      ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: isAdm ? 1 : 0 } : {})
+      cadSala: normBool(req.body.cadSala),
+      cadUser: normBool(req.body.cadUser),
+      edUser:  normBool(req.body.edUser),
+      arqUser: normBool(req.body.arqUser),
+      arqSala: normBool(req.body.arqSala),
+      edSalas: normBool(req.body.edSalas),
+      ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: normBool(req.body.adm) } : {})
     };
     await Permissao.create(novaPermissao);
     return res.redirect('/permissoes'); // <- volta para a rota base do router
@@ -117,33 +122,42 @@ exports.atualizarPermissao = async (req, res) => {
   if (await requirePermissoes(req, res)) return;
   try {
     const { id_permissao } = req.params;
-    const isAdm = !!req.body.adm;
+    const { descricao } = req.body;
+    const isAdmPosted = normBool(req.body.adm);
 
-    await Permissao.update(
-      isAdm
-        ? {
-            cadSala: 1,
-            cadUser: 1,
-            edUser: 1,
-            arqUser: 1,
-            arqSala: 1,
-            edSalas: 1,
-            ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: 1 } : {})
-          }
-        : {
-            cadSala: req.body.cadSala ? 1 : 0,
-            cadUser: req.body.cadUser ? 1 : 0,
-            edUser:  req.body.edUser ? 1 : 0,
-            arqUser: req.body.arqUser ? 1 : 0,
-            arqSala: req.body.arqSala ? 1 : 0,
-            edSalas: req.body.edSalas ? 1 : 0,
-            ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: 0 } : {})
-          },
-      { where: { id_permissao } }
-    );
-    return res.redirect("/permissoes"); // <- volta para a rota base do router
+    // Monta os dados de atualização de forma determinística
+    const updateData = {
+      // Sempre atualiza a descrição (trim), se vier
+      ...(typeof descricao === 'string' ? { descricao: descricao.trim() } : {}),
+    };
+
+    // Salva exatamente o que veio do formulário, sem forçar tudo com base no "adm"
+    Object.assign(updateData, {
+      cadSala: normBool(req.body.cadSala),
+      cadUser: normBool(req.body.cadUser),
+      edUser: normBool(req.body.edUser),
+      arqUser: normBool(req.body.arqUser),
+      arqSala: normBool(req.body.arqSala),
+      edSalas: normBool(req.body.edSalas),
+    });
+    if (typeof Permissao.rawAttributes?.adm !== 'undefined') updateData.adm = isAdmPosted;
+
+    // Força um UPDATE no banco mesmo que valores não sejam considerados "mudados" pelo Sequelize
+    const [qtde] = await Permissao.update(updateData, { where: { id_permissao } });
+
+    // Como fallback, se nada foi atualizado (qtde==0), tentamos via instância (caso o SGBD não detecte alteração)
+    if (!qtde) {
+      const p = await Permissao.findByPk(id_permissao);
+      if (!p) {
+        return res.status(404).render('error', { message: 'Permissão não encontrada' });
+      }
+      p.set(updateData);
+      await p.save();
+    }
+
+    return res.redirect('/permissoes');
   } catch (error) {
-    res.render("error", { message: "Erro ao atualizar permissões", error, alert: true });
+    res.render('error', { message: 'Erro ao atualizar permissões', error, alert: true });
   }
 };
 

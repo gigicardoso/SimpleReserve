@@ -35,6 +35,8 @@ exports.listarSalas = async (req, res) => {
   try {
     const p = await getPerm(req);
     const podeCadastrarSala = !!(p && (p.adm || p.cadSala));
+    const podeEditarSala = !!(p && (p.adm || p.edSalas));
+    const podeExcluirSala = !!(p && (p.adm || p.arqSala));
     const salas = await Sala.findAll({
       include: [
         {
@@ -49,6 +51,8 @@ exports.listarSalas = async (req, res) => {
     res.render("gerenciarSalas", {
       salas,
       podeCadastrarSala,
+  podeEditarSala,
+  podeExcluirSala,
       layout: "layout",
       showSidebar: true,
       showLogo: true,

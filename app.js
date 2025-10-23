@@ -7,6 +7,7 @@ const path = require('path');
 const { sequelize } = require('./db/db');
 require('./models/relacionamento.js');
 const session = require('express-session');
+const Permissao = require('./models/permissaoModel');
  
 
 var indexRouter = require("./routes/index");
@@ -61,6 +62,27 @@ app.use(session({
   cookie: { maxAge: 2 * 60 * 60 * 1000 } 
 }));
 
+// Disponibiliza o usuário da sessão em todas as views (para condicionar o botão ADM)
+app.use(async (req, res, next) => {
+  try {
+    if (req.session && req.session.usuario) {
+      // Recalcula dinamicamente o temAcessoAdm com base no banco a cada request
+      const pInst = await Permissao.findByPk(req.session.usuario.id_permissao);
+      const p = pInst && (pInst.get ? pInst.get({ plain: true }) : pInst);
+      const temAcessoAdm = !!(p && (p.adm || p.cadSala || p.edSalas || p.arqSala || p.cadUser || p.edUser || p.arqUser));
+      // Atualiza também o isAdm para evitar uso de flag desatualizada em rotas que checam admin estrito
+      req.session.usuario.isAdm = !!(p && p.adm);
+      req.session.usuario.temAcessoAdm = temAcessoAdm;
+      res.locals.usuario = req.session.usuario;
+    } else {
+      res.locals.usuario = null;
+    }
+  } catch (e) {
+    // Em caso de erro, não quebra as páginas públicas
+    res.locals.usuario = req.session && req.session.usuario ? req.session.usuario : null;
+  }
+  next();
+});
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

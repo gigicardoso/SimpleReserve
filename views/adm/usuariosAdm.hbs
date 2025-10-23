@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <tr>
           <th>Nome</th>
           <th>E-mail</th>
-          <th>Senha</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -41,16 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
             <tr>
               <td>{{this.nome}}</td>
               <td>{{this.email}}</td>
-              <td><input type="password" value="{{this.senha}}" readonly style="border:none; background:transparent; width:100px;" /></td>
               <td class="actions">
+                {{#if ../podeEditarUsuario}}
                 <a href="/editarUsuario/{{id_user}}" class="btn-action btn-edit">
-                            <i class="fas fa-edit"></i>
-                            <span>Editar</span>
-                        </a>
-                        <a href="/excluirUsuario/{{id_user}}" class="btn-action btn-delete" >
-                            <i class="fas fa-trash-alt"></i>
-                            <span>Excluir</span>
-                        </a>
+                  <i class="fas fa-edit"></i>
+                  <span>Editar</span>
+                </a>
+                {{/if}}
+                {{#if ../podeExcluirUsuario}}
+                <a href="/excluirUsuario/{{id_user}}" class="btn-action btn-delete">
+                  <i class="fas fa-trash-alt"></i>
+                  <span>Excluir</span>
+                </a>
+                {{/if}}
               </td>
             </tr>
           {{/each}}

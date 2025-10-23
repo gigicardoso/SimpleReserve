@@ -1,64 +1,87 @@
 <div class="dashboard">
     <div class="icon-grid">
-        <!-- Linha 1 -->
-        <a href="usuariosadm"> <!-- vou colocar um hiperlink pra a página de gerenciar usuarios aqui --> 
+        <!-- Usuários: precisa de cadUser/edUser/arqUser ou adm -->
+        {{#if podeUsuarios}}
+        <a href="usuariosadm">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-people-fill"></i></div>
                 <div class="icon-label">Usuários</div>
             </div>
         </a>
+        {{/if}}
+        
+        <!-- Salas: precisa de cadSala/edSalas/arqSala ou adm -->
+        {{#if podeSalas}}
         <a href="/salas/gerenciarsalas">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-door-open"></i></div>
                 <div class="icon-label">Salas</div>
             </div>
         </a>
-        <!-- Linha 2 -->
-        <a href="/bloco" {{#unless permissaoBlocos}}disabled{{/unless}}>
+        {{/if}}
+        
+        <!-- Blocos: apenas adm -->
+        {{#if isAdm}}
+        <a href="/bloco">
             <div class="icon-item">
-                <div class="icon"><i class="i bi-building-gear"></i></div>
+                <div class="icon"><i class="bi bi-building-gear"></i></div>
                 <div class="icon-label">Blocos</div>
             </div>
         </a>
-        <a href="/andares" {{#unless permissaoAndares}}disabled{{/unless}}>
+        {{/if}}
+        
+        <!-- Andares: apenas adm -->
+        {{#if isAdm}}
+        <a href="/andares">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-layers"></i></div>
                 <div class="icon-label">Andares</div>
             </div>
         </a>
+        {{/if}}
 
-        <!-- Linha 3 -->
+        <!-- Reservas: todos com acesso ao ADM -->
+        {{#if podeReservas}}
         <a href="/reservas/reservasadm">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-calendar-check"></i></div>
                 <div class="icon-label">Reservas</div>
             </div>
         </a>
-        <a href="/permissoes" {{#unless permissaoPermissoes}}disabled{{/unless}}>
+        {{/if}}
+        
+        <!-- Permissões: apenas adm -->
+        {{#if isAdm}}
+        <a href="/permissoes">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-award"></i></div>
                 <div class="icon-label">Permissões</div>
             </div>
         </a>
-                <!-- Linha 4 - Novos itens -->
-        <a href="/tipoMesa" {{#unless permissaoTipoMesa}}disabled{{/unless}}>
+        {{/if}}
+        
+        <!-- Tipo de Mesa: apenas adm -->
+        {{#if isAdm}}
+        <a href="/tipoMesa">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-collection"></i></div>
                 <div class="icon-label">Tipo de Mesa</div>
             </div>
         </a>
+        {{/if}}
 
-        <a href="/tipoSala" {{#unless permissaoTipoSala}}disabled{{/unless}}>
+        <!-- Tipo de Sala: apenas adm -->
+        {{#if isAdm}}
+        <a href="/tipoSala">
             <div class="icon-item">
                 <div class="icon"><i class="bi bi-door-closed"></i></div>
                 <div class="icon-label">Tipo de Sala</div>
             </div>
         </a>
+        {{/if}}
         
-    </div>
-</div>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    </div>
+</div><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="/stylesheets/bloco.css">
 <script src="/javascripts/bloco.js"></script>

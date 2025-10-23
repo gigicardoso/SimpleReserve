@@ -1,7 +1,37 @@
-<!-- views/recuperarSenha.hbs -->
-<form method="POST" action="/recuperar-senha">
-  <input type="email" name="email" placeholder="Seu e-mail" required>
-  <button type="submit">Recuperar senha</button>
-  {{#if erro}}<div>{{erro}}</div>{{/if}}
-  {{#if sucesso}}<div>{{sucesso}}</div>{{/if}}
-</form>
+<div id="bodyCadastroUsuarios">
+  <div class="login-container cadastro-container">
+    <div class="login-box">
+      <div class="logo">
+        <img src="./images/logoLogin.png" alt="Simple Reserve Logo" class="logofoto">
+      </div>
+      <br>
+      <h2 class="bemvindo">Recuperar senha</h2>
+      <form method="POST" action="/recuperar-senha">
+        <div class="input-group">
+          <input type="email" name="email" placeholder="Seu e-mail" required>
+        </div>
+        <button type="submit" class="btn-cadastrar">Recuperar senha</button>
+        <div class="links">
+          <a href="/">Voltar ao login</a>
+        </div>
+        {{#if erro}}
+          <div class="alert alert-danger">{{erro}}</div>
+        {{/if}}
+        {{#if sucesso}}
+          <div class="alert alert-success">{{sucesso}}</div>
+        {{/if}}
+        {{#if link}}
+          <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: #84925b;">Copie o link abaixo:</p>
+            <input type="text" value="{{link}}" readonly 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 12px;"
+                   onclick="this.select()">
+            <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
+              Clique no campo acima para copiar o link e cole no navegador para redefinir sua senha.
+            </p>
+          </div>
+        {{/if}}
+      </form>
+    </div>
+  </div>
+</div>

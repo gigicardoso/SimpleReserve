@@ -27,10 +27,9 @@ async function requireReservaPerm(req, res, campo) {
   }
 }
 
-//CONSULTA PARA VIEW DE RESERVAS
+//CONSULTA PARA VIEW DE RESERVAS (ADM)
 exports.listarReservasAdm = async (req, res) => {
-  if (await requireReservaPerm(req, res, null)) return;
-  // bloquear acesso ao gerenciador ADM se não possuir nenhuma permissão
+  // Acesso liberado para todos com pelo menos uma permissão = 1 (via middleware e/ou temAcessoAdm)
   const u = req.session && req.session.usuario;
   if (!u || !u.temAcessoAdm) {
     return res.status(403).render("error", { message: "Você não tem acesso a essa função" });
@@ -42,8 +41,8 @@ exports.listarReservasAdm = async (req, res) => {
         { model: Usuario, as: "usuario" },
       ],
     });
-    // Formata os dados para a view
     const reservasFormatadas = reservas.map(r => ({
+      id_agenda: r.id_agenda,
       nomeUsuario: r.usuario ? r.usuario.nome : '',
       nomeSala: r.sala ? r.sala.nome_salas : '',
       dataReserva: r.data,
@@ -52,7 +51,7 @@ exports.listarReservasAdm = async (req, res) => {
       nomeEvento: r.nome_evento || '',
       descricao: r.descricao || ''
     }));
-    console.log('RESERVAS FORMATADAS:', reservasFormatadas);
+    const isAdm = !!(u && u.isAdm);
     res.render('adm/reservas', {
       layout: 'layout',
       showSidebar: true,
@@ -62,10 +61,58 @@ exports.listarReservasAdm = async (req, res) => {
         { title: 'Gerenciador ADM', path: '/adm' },
         { title: 'Reservas', path: '/reservasadm' }
       ],
-      reservas: reservasFormatadas
+      reservas: reservasFormatadas,
+      podeEditarReserva: isAdm,
+      podeExcluirReserva: isAdm,
+      isAdm
     });
   } catch (error) {
     res.status(500).send("Erro ao buscar reservas: " + (error && error.message ? error.message : 'Erro desconhecido'));
+  }
+};
+
+//CONSULTA PARA VIEW DE AGENDAMENTOS DO USUÁRIO (HOME)
+exports.listarReservasUsuario = async (req, res) => {
+  const u = req.session && req.session.usuario;
+  if (!u) {
+    return res.redirect('/');
+  }
+  try {
+    // Busca permissão real do usuário
+    const permissao = await Permissao.findByPk(u.id_permissao);
+    
+    // Na tela inicial (home), TODOS os usuários veem apenas suas próprias reservas
+    const reservas = await Agenda.findAll({
+      where: { id_user: u.id_user },
+      include: [
+        { model: Sala, as: "sala" },
+        { model: Usuario, as: "usuario" },
+      ],
+      order: [['data', 'DESC'], ['hora_inicio', 'DESC']]
+    });
+    const reservasFormatadas = reservas.map(r => ({
+      id_agenda: r.id_agenda,
+      nomeUsuario: r.usuario ? r.usuario.nome : '',
+      nomeSala: r.sala ? r.sala.nome_salas : '',
+      dataReserva: r.data,
+      horaInicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
+      horaFim: r.hora_final ? r.hora_final.slice(0,5) : '',
+      nomeEvento: r.nome_evento || '',
+      descricao: r.descricao || ''
+    }));
+    const isAdm = !!(permissao && permissao.adm);
+    res.render('index', {
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isAgenda: true,
+      usuario: u,
+      reservas: reservasFormatadas,
+      podeEditarReserva: isAdm,
+      podeExcluirReserva: isAdm
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao buscar agendamentos: " + (error && error.message ? error.message : 'Erro desconhecido'));
   }
 };
 
@@ -87,7 +134,7 @@ exports.formNovaReserva = async (req, res) => {
 
 //CRIAÇÃO
 exports.criarReserva = async (req, res) => {
-  if (await requireReservaPerm(req, res, 'cadReserva')) return;
+  // Cadastro de reserva é público, não exige permissão administrativa
   try {
     const { id_salas, data, hora_inicio, hora_final, nome_evento, descricao } = req.body;
     const id_user = req.session.usuario ? req.session.usuario.id_user : null;
@@ -213,7 +260,14 @@ exports.atualizarReserva = async (req, res) => {
 };*/
 
 exports.deletarReserva = async (req, res) => {
-  if (await requireReservaPerm(req, res, 'arqReserva')) return;
+  const u = req.session && req.session.usuario;
+  const isAdm = !!(u && u.isAdm);
+  if (!isAdm) {
+    if (req.method === 'GET') {
+      return res.status(403).render('error', { message: 'Somente administradores podem excluir reservas.' });
+    }
+    return res.status(403).json({ erro: 'Somente administradores podem excluir reservas.' });
+  }
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) {
@@ -273,7 +327,11 @@ exports.verificarDisponibilidade = async (req, res) => {
 
 // Renderiza o formulário de edição
 exports.formEditarReserva = async (req, res) => {
-  if (await requireReservaPerm(req, res, 'edReserva')) return;
+  const u = req.session && req.session.usuario;
+  const isAdm = !!(u && u.isAdm);
+  if (!isAdm) {
+    return res.status(403).render('error', { message: 'Somente administradores podem editar reservas.' });
+  }
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
@@ -295,6 +353,11 @@ exports.formEditarReserva = async (req, res) => {
 
 // Atualiza a reserva
 exports.editarReserva = async (req, res) => {
+  const u = req.session && req.session.usuario;
+  const isAdm = !!(u && u.isAdm);
+  if (!isAdm) {
+    return res.status(403).render('error', { message: 'Somente administradores podem editar reservas.' });
+  }
   try {
     const { nome_evento, id_salas, data, hora_inicio, hora_final, descricao } = req.body;
     const agenda = await Agenda.findByPk(req.params.id);
@@ -334,5 +397,46 @@ exports.editarReserva = async (req, res) => {
   } catch (error) {
     console.error('Erro ao editar reserva:', error);
     res.render('error', { message: 'Erro ao editar reserva' });
+  }
+};
+
+// Listar histórico de reservas do usuário logado
+exports.listarHistoricoUsuario = async (req, res) => {
+  const u = req.session && req.session.usuario;
+  if (!u) {
+    return res.redirect('/');
+  }
+  try {
+    // Busca apenas as reservas do usuário logado (sem exceção para admin aqui)
+    const reservas = await Agenda.findAll({
+      where: { id_user: u.id_user },
+      include: [
+        { model: Sala, as: "sala" },
+        { model: Usuario, as: "usuario" },
+      ],
+      order: [['data', 'DESC'], ['hora_inicio', 'DESC']]
+    });
+    
+    const reservasFormatadas = reservas.map(r => ({
+      id_agenda: r.id_agenda,
+      nomeUsuario: r.usuario ? r.usuario.nome : '',
+      nomeSala: r.sala ? r.sala.nome_salas : '',
+      dataReserva: r.data,
+      horaInicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
+      horaFim: r.hora_final ? r.hora_final.slice(0,5) : '',
+      nomeEvento: r.nome_evento || '',
+      descricao: r.descricao || ''
+    }));
+    
+    res.render('historico', {
+      layout: 'layout',
+      showSidebar: true,
+      showLogo: true,
+      isHistorico: true,
+      reservas: reservasFormatadas
+    });
+  } catch (error) {
+    console.error('Erro ao buscar histórico:', error);
+    res.status(500).send("Erro ao buscar histórico: " + (error && error.message ? error.message : 'Erro desconhecido'));
   }
 };

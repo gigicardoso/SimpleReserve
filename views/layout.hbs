@@ -67,13 +67,7 @@
           </a>
         </div>
 
-          <a href="#">
-          <div>
-          <li class="{{#if isConta}}active{{/if}}">
-            <i class="bi bi-person-circle"></i> <span>Minha Conta</span>
-          </li>
-          </a>
-          </div>
+          
 
 
 
@@ -84,6 +78,7 @@
 
           <div class="sidebar-divider"></div>
     
+          {{#if usuario.temAcessoAdm}}
            <a href="/adm">
           <div>
           <li class="{{#if isGerenciador}}active{{/if}}">
@@ -91,6 +86,7 @@
           </li>
           </a>
           </div>
+          {{/if}}
         </ul>
       </div>
     {{/if}}

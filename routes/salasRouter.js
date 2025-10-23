@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const salasController = require("../controllers/salasController");
+const auth = require("../middlewares/auth");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -12,19 +13,19 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post("/cadastrosala", upload.single("imagem_sala"), salasController.criarSala);
-router.post("/editar/:id", upload.single("imagem_sala"), salasController.atualizarSala);
+// Protege todas as rotas de salas com autenticação
+router.use(auth);
 
 // Listar todas as salas (tela de gerenciamento)
 router.get("/gerenciarsalas", salasController.listarSalas);
 
 // Criar nova sala
 router.get("/cadastrosala", salasController.formCadastroSala);
-router.post("/cadastrosala", salasController.criarSala);
+router.post("/cadastrosala", upload.single("imagem_sala"), salasController.criarSala);
 
 // Atualizar sala
 router.get("/editar/:id", salasController.formEditarSala);
-router.post("/editar/:id", salasController.atualizarSala);
+router.post("/editar/:id", upload.single("imagem_sala"), salasController.atualizarSala);
 
 // Deletar sala
 router.get("/excluir/:id", salasController.deletarSala);

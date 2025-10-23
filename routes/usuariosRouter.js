@@ -11,6 +11,7 @@ router.get('/cadastroUsuarios', verificarPermissao('cadUser'), async (req, res) 
     showSidebar: true,
     showLogo: true,
     permissoes,
+    // NÃO passa objeto 'usuario', indicando que é cadastro (não edição)
     breadcrumb: [
       { title: 'Gerenciador ADM', path: '/adm' },
       { title: 'Usuários', path: '/usuariosadm' },

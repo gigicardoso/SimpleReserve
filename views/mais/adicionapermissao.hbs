@@ -3,10 +3,10 @@
     <div class="col-12 col-md-8 col-lg-6">
       <div class="card shadow">
         <div class="card-header" style="background-color: #84925b; color: #fff; border-radius: 10px 10px 0 0;">
-          <h2 class="mb-0 flex-grow-1"><i class="fas fa-award me-2"></i>Cadastrar Permissão</h2>
+          <h2 class="mb-0 flex-grow-1"><i class="fas fa-award me-2"></i>{{#if permissao}}Editar Permissão{{else}}Cadastrar Permissão{{/if}}</h2>
         </div>
         <div class="card-body">
-          <form id="permissaoForm" action="/permissoes" method="POST">
+          <form id="permissaoForm" action="{{#if permissao}}/permissoes/editarPermissao/{{permissao.id_permissao}}{{else}}/permissoes{{/if}}" method="POST">
             <div class="mb-3">
               <label for="descricao" class="form-label">Nome da Permissão</label>
               <input
@@ -25,6 +25,8 @@
                 <!-- Usuário Administrador -->
                 <div class="col-12">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <!-- garante envio de 0 quando desmarcado -->
+                    <input type="hidden" name="adm" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="adm" name="adm" value="1" {{#if permissao.adm}}checked{{/if}}>
                     <label class="form-check-label w-100" for="adm" style="margin-bottom:0;">Usuário Administrador</label>
                   </div>
@@ -33,6 +35,7 @@
                 <!-- Cadastrar Sala -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="cadSala" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="cadSala" name="cadSala" value="1" {{#if permissao.cadSala}}checked{{/if}}>
                     <label class="form-check-label w-100" for="cadSala" style="margin-bottom:0;">Cadastrar Sala</label>
                   </div>
@@ -41,6 +44,7 @@
                 <!-- Arquivar Sala -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="arqSala" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="arqSala" name="arqSala" value="1" {{#if permissao.arqSala}}checked{{/if}}>
                     <label class="form-check-label w-100" for="arqSala" style="margin-bottom:0;">Arquivar Sala</label>
                   </div>
@@ -49,6 +53,7 @@
                 <!-- Editar Salas -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="edSalas" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="edSalas" name="edSalas" value="1" {{#if permissao.edSalas}}checked{{/if}}>
                     <label class="form-check-label w-100" for="edSalas" style="margin-bottom:0;">Editar Salas</label>
                   </div>
@@ -57,6 +62,7 @@
                 <!-- Cadastrar Usuário -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="cadUser" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="cadUser" name="cadUser" value="1" {{#if permissao.cadUser}}checked{{/if}}>
                     <label class="form-check-label w-100" for="cadUser" style="margin-bottom:0;">Cadastrar Usuário</label>
                   </div>
@@ -65,6 +71,7 @@
                 <!-- Editar Usuário -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="edUser" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="edUser" name="edUser" value="1" {{#if permissao.edUser}}checked{{/if}}>
                     <label class="form-check-label w-100" for="edUser" style="margin-bottom:0;">Editar Usuário</label>
                   </div>
@@ -73,6 +80,7 @@
                 <!-- Arquivar Usuário -->
                 <div class="col-12 col-sm-6">
                   <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="arqUser" value="0">
                     <input class="form-check-input me-3" type="checkbox" id="arqUser" name="arqUser" value="1" {{#if permissao.arqUser}}checked{{/if}}>
                     <label class="form-check-label w-100" for="arqUser" style="margin-bottom:0;">Arquivar Usuário</label>
                   </div>
@@ -82,7 +90,7 @@
             <div class="d-flex gap-2">
               <a href="/permissoes" class="btn w-100" style="background-color: #f0f0f0; color: #333; border: none; font-weight: 600;">Cancelar</a>
               <button type="submit" class="btn w-100" style="background-color: #84925b; color: #fff; border: none; font-weight: 600;">
-                <i class="fas fa-save me-2"></i>Cadastrar Permissão
+                <i class="fas fa-save me-2"></i>{{#if permissao}}Salvar Alterações{{else}}Cadastrar Permissão{{/if}}
               </button>
             </div>
           </form>
