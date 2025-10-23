@@ -295,31 +295,49 @@ exports.deletarReserva = async (req, res) => {
 
 
 exports.verificarDisponibilidade = async (req, res) => {
-  const { id_salas, data, hora_inicio, hora_final } = req.body;
+  const { id_salas, data, hora_inicio, hora_final } = req.body || {};
 
   try {
-    const conflito = await Agenda.findOne({
+    if (!id_salas || !data || !hora_inicio || !hora_final) {
+      return res.status(400).json({ erro: 'Parâmetros insuficientes' });
+    }
+
+    // Busca TODAS as reservas que se sobrepõem ao intervalo informado
+    const conflitos = await Agenda.findAll({
       where: {
         id_salas,
         data,
         [Op.or]: [
-          {
-            hora_inicio: { [Op.between]: [hora_inicio, hora_final] }
-          },
-          {
-            hora_final: { [Op.between]: [hora_inicio, hora_final] }
-          },
-          {
-            [Op.and]: [
+          { hora_inicio: { [Op.between]: [hora_inicio, hora_final] } },
+          { hora_final: { [Op.between]: [hora_inicio, hora_final] } },
+          { [Op.and]: [
               { hora_inicio: { [Op.lte]: hora_inicio } },
               { hora_final: { [Op.gte]: hora_final } }
             ]
           }
         ]
-      }
+      },
+      order: [['hora_inicio','ASC']]
     });
 
-    res.json({ disponivel: !conflito });
+    if (!conflitos || conflitos.length === 0) {
+      return res.json({ disponivel: true });
+    }
+
+    // Calcula o intervalo efetivamente sobreposto (para o primeiro conflito)
+    const c = conflitos[0];
+    const overlapInicio = (hora_inicio > c.hora_inicio ? hora_inicio : c.hora_inicio).slice(0,5);
+    const overlapFim = (hora_final < c.hora_final ? hora_final : c.hora_final).slice(0,5);
+
+    return res.json({
+      disponivel: false,
+      conflitos: conflitos.map(r => ({
+        id_agenda: r.id_agenda,
+        inicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
+        fim: r.hora_final ? r.hora_final.slice(0,5) : ''
+      })),
+      sobreposicao: { inicio: overlapInicio, fim: overlapFim }
+    });
   } catch (error) {
     res.status(500).json({ erro: "Erro ao verificar disponibilidade" });
   }

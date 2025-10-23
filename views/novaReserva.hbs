@@ -1,47 +1,91 @@
 <script>
-  // Função para mostrar alerta de reserva duplicada
-  function mostrarAlertaReservaDuplicada(msg) {
+  // Exibe uma mensagem de alerta persistente
+  function mostrarAlerta(msg, tipo = 'danger') {
     const alerta = document.getElementById('alertaReservaDuplicada');
     alerta.innerText = msg;
+    alerta.className = `alert alert-${tipo} mt-2`;
     alerta.style.display = 'block';
-    if (alerta._timeout) clearTimeout(alerta._timeout);
-    alerta._timeout = setTimeout(() => { alerta.style.display = 'none'; }, 5000);
   }
 
-  // Esconde alerta ao editar campos
-  function esconderAlertaReservaDuplicada() {
+  function limparAlerta() {
     const alerta = document.getElementById('alertaReservaDuplicada');
     alerta.style.display = 'none';
-    if (alerta._timeout) clearTimeout(alerta._timeout);
+    alerta.innerText = '';
   }
 
-  // Função para verificar disponibilidade real no servidor
-  async function verificarDisponibilidade(salaId, data, horaInicio, horaFim) {
-    // Só verifica se todos os campos estiverem preenchidos
-    if (!salaId || !data || !horaInicio || !horaFim) return null;
-    try {
-      const resp = await fetch(`/api/verificar-disponibilidade?sala=${encodeURIComponent(salaId)}&data=${encodeURIComponent(data)}&inicio=${encodeURIComponent(horaInicio)}&fim=${encodeURIComponent(horaFim)}`);
-      const result = await resp.json();
-      // Espera resposta: { disponivel: true/false }
-      return result && result.disponivel;
-    } catch (err) {
-      // Em caso de erro, não mostra notificação
-      return null;
+  // Mostra card de disponibilidade (verde/vermelho)
+  function mostrarNotificacaoDisponibilidade(payload) {
+    const notificacao = document.getElementById('notificacaoDisponibilidade');
+    // Se o container não existir, não exibe a notificação secundária
+    if (!notificacao) return;
+    if (payload === null) {
+      notificacao.style.display = 'none';
+      notificacao.innerHTML = '';
+      return;
+    }
+
+    notificacao.style.display = 'block';
+    if (payload.disponivel) {
+      notificacao.className = 'alert alert-success mt-3';
+      notificacao.innerHTML = '<strong>Horário disponível!</strong>';
+    } else {
+      const salaSel = document.getElementById('campusSala');
+      const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
+      const ini = payload.sobreposicao && payload.sobreposicao.inicio ? payload.sobreposicao.inicio : '';
+      const fim = payload.sobreposicao && payload.sobreposicao.fim ? payload.sobreposicao.fim : '';
+      notificacao.className = 'alert alert-danger mt-3';
+      notificacao.innerHTML = `<strong>${salaNome}</strong> ocupada de <strong>${ini}</strong> até <strong>${fim}</strong>. Selecione outra sala ou troque o horário!`;
     }
   }
 
-  async function atualizarNotificacao() {
+  // Chama backend para verificar disponibilidade e detalhar sobreposição
+  let _debounceTimer;
+  async function checarDisponibilidadeLive() {
     const salaId = document.getElementById('campusSala').value;
     const data = document.getElementById('eventDate').value;
     const horaInicio = document.getElementById('eventTimeStart').value;
     const horaFim = document.getElementById('eventTimeEnd').value;
-    // Só verifica se todos os campos estiverem preenchidos
+
     if (!salaId || !data || !horaInicio || !horaFim) {
+      limparAlerta();
       mostrarNotificacaoDisponibilidade(null);
       return;
     }
-    const disponivel = await verificarDisponibilidade(salaId, data, horaInicio, horaFim);
-    mostrarNotificacaoDisponibilidade(disponivel);
+
+    // Validações básicas locais
+    if (horaFim <= horaInicio) {
+      mostrarAlerta('O horário de fim deve ser maior que o horário de início!');
+      mostrarNotificacaoDisponibilidade({ disponivel: false, sobreposicao: { inicio: horaInicio, fim: horaFim } });
+      return;
+    }
+
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(async () => {
+      try {
+        const resp = await fetch('/reservas/verificar-disponibilidade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id_salas: salaId, data, hora_inicio: horaInicio, hora_final: horaFim })
+        });
+        const result = await resp.json();
+        if (result && result.disponivel === false) {
+          const salaSel = document.getElementById('campusSala');
+          const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
+          const ini = result.sobreposicao?.inicio || '';
+          const fim = result.sobreposicao?.fim || '';
+          mostrarAlerta(`${salaNome} ocupada das ${ini} às ${fim}. Selecione outra sala ou troque o horário!`);
+        } else if (result && result.disponivel === true) {
+          // Mostra também alerta positivo no topo
+          mostrarAlerta('Horário disponível!', 'success');
+        } else {
+          // Caso não haja payload válido, limpa
+          limparAlerta();
+        }
+        mostrarNotificacaoDisponibilidade(result);
+      } catch (err) {
+        // Silencia erros transitórios
+      }
+    }, 300);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -49,86 +93,58 @@
     const hoje = new Date().toISOString().slice(0, 10);
     document.getElementById('eventDate').setAttribute('min', hoje);
 
+    // Pré-preenche a partir da URL (quando vindo do calendário)
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
     const horaInicio = urlParams.get('hora_inicio');
     const horaFim = urlParams.get('hora_fim');
-    if (data && !{{#if reserva}}true{{else}}false{{/if}}) {
-      document.getElementById('eventDate').value = data;
-    }
-    if (horaInicio && !{{#if reserva}}true{{else}}false{{/if}}) {
-      document.getElementById('eventTimeStart').value = horaInicio;
-    }
-    if (horaFim && !{{#if reserva}}true{{else}}false{{/if}}) {
-      document.getElementById('eventTimeEnd').value = horaFim;
-    }
-    // Notificação de disponibilidade
-    function verificarDisponibilidade(data, horaInicio, horaFim) {
-      // Simulação: se hora início for antes de 12:00, disponível
-      if (!data || !horaInicio || !horaFim) return null;
-      const hora = parseInt(horaInicio.split(':')[0]);
-      return hora < 12;
-    }
+    if (data && !{{#if reserva}}true{{else}}false{{/if}}) document.getElementById('eventDate').value = data;
+    if (horaInicio && !{{#if reserva}}true{{else}}false{{/if}}) document.getElementById('eventTimeStart').value = horaInicio;
+    if (horaFim && !{{#if reserva}}true{{else}}false{{/if}}) document.getElementById('eventTimeEnd').value = horaFim;
 
-    function mostrarNotificacaoDisponibilidade(disponivel) {
-      const notificacao = document.getElementById('notificacaoDisponibilidade');
-      if (disponivel === null) {
-        notificacao.style.display = 'none';
-        notificacao.innerHTML = '';
-        return;
-      }
-      notificacao.style.display = 'block';
-      if (disponivel) {
-        notificacao.className = 'alert alert-success mt-3';
-        notificacao.innerHTML = '<strong>Horário disponível!</strong>';
-      } else {
-        notificacao.className = 'alert alert-danger mt-3';
-        notificacao.innerHTML = '<strong>Horário Indisponível!</strong>';
-      }
-    }
-
-    // Adiciona listeners para esconder alerta ao editar campos
+    // Listeners para checagem em tempo real
     ['campusSala','eventDate','eventTimeStart','eventTimeEnd'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.addEventListener('input', esconderAlertaReservaDuplicada);
+      if (!el) return;
+      el.addEventListener('change', checarDisponibilidadeLive);
+      el.addEventListener('input', checarDisponibilidadeLive);
     });
 
-    // Intercepta submit do formulário para verificar duplicidade
+    // Validação no submit: impede envio se estiver ocupado
     document.getElementById('formReserva').addEventListener('submit', async function(e) {
-      const sala = document.getElementById('campusSala').value;
+      const salaId = document.getElementById('campusSala').value;
       const data = document.getElementById('eventDate').value;
       const horaInicio = document.getElementById('eventTimeStart').value;
       const horaFim = document.getElementById('eventTimeEnd').value;
-      // Chamada à API para verificar conflito (ajuste a rota conforme seu backend)
+      if (!salaId || !data || !horaInicio || !horaFim) return; // HTML5 já bloqueia
+      if (horaFim <= horaInicio) {
+        e.preventDefault();
+        mostrarAlerta('O horário de fim deve ser maior que o horário de início!');
+        return false;
+      }
       try {
-        const resp = await fetch(`/api/reservas/check?data=${encodeURIComponent(data)}&sala=${encodeURIComponent(sala)}&inicio=${encodeURIComponent(horaInicio)}&fim=${encodeURIComponent(horaFim)}`);
+        const resp = await fetch('/reservas/verificar-disponibilidade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id_salas: salaId, data, hora_inicio: horaInicio, hora_final: horaFim })
+        });
         const result = await resp.json();
-        if (result && result.conflito) {
-          mostrarAlertaReservaDuplicada('Já existe uma reserva para esta sala neste horário!');
+        if (result && result.disponivel === false) {
           e.preventDefault();
+          const ini = result.sobreposicao?.inicio || '';
+          const fim = result.sobreposicao?.fim || '';
+          const salaSel = document.getElementById('campusSala');
+          const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
+          mostrarAlerta(`${salaNome} ocupada das ${ini} às ${fim}. Selecione outra sala ou troque o horário!`);
           return false;
         }
       } catch (err) {
-        // Se erro na API, deixa enviar normalmente
-      }
-
-      // Validação extra no submit
-      const horaFinal = document.getElementById('eventTimeEnd').value;
-      const agora = new Date();
-      const hojeStr = agora.toISOString().slice(0, 10);
-      const horaAgora = agora.toTimeString().slice(0,5);
-
-      if (data < hojeStr || (data === hojeStr && horaInicio < horaAgora)) {
-        alert('Não é possível reservar para o passado!');
-        e.preventDefault();
-        return false;
-      }
-      if (horaFinal <= horaInicio) {
-        alert('O horário de fim deve ser maior que o horário de início!');
-        e.preventDefault();
-        return false;
+        // Em caso de erro na checagem, permite envio para validação server-side
       }
     });
+
+    // Checa imediatamente após carregar (se vier com dados por query)
+    checarDisponibilidadeLive();
   });
 </script>
 
@@ -185,8 +201,6 @@
               <input type="time" id="eventTimeEnd" name="hora_final" class="form-control" required
                 value="{{#if reserva}}{{reserva.hora_final}}{{/if}}" />
             </div>
-            <!-- Notificação de disponibilidade -->
-            <div id="notificacaoDisponibilidade" style="display:none;" class="mt-3"></div>
             <div class="mb-3">
               <label for="observations" class="form-label">Observações</label>
               <textarea id="observations" name="descricao" class="form-control" placeholder="Digite a descrição do evento">{{#if reserva}}{{reserva.descricao}}{{/if}}</textarea>
