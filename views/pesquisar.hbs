@@ -21,13 +21,13 @@
       <select class="filter-select" id="floor-filter">
         <option value="">Todos os andares</option>
         {{#each andares}}
-          <option value="{{this}}">{{this}}º Andar</option>
+          <option value="{{this}}">{{this}}º</option>
         {{/each}}
       </select>
       <select class="filter-select" id="block-filter">
         <option value="">Todos os blocos</option>
         {{#each blocos}}
-          <option value="{{this}}">Bloco {{this}}</option>
+          <option value="{{this}}">{{this}}</option>
         {{/each}}
       </select>
     </div>
@@ -148,8 +148,8 @@
           <div class="room-info">
             <h3 class="room-name">${room.nome}</h3>
             <div class="room-details">
-              <span>${room.andar}º Andar</span>
-              <span>Bloco ${room.bloco}</span>
+              <span>${room.andar}º</span>
+              <span>${room.bloco}</span>
             </div>
             <div class="room-features">
               <span class="feature-tag">${room.capacidade} lugares</span>
@@ -166,8 +166,8 @@
   document.getElementById('modal-room-name').textContent = room.nome;
   document.getElementById('modal-room-image').src = room.imagem_url || '/images/logo.png';
   document.getElementById('modal-type').textContent = room.tipo_sala;
-  document.getElementById('modal-floor').textContent = `${room.andar}º Andar`;
-  document.getElementById('modal-block').textContent = `Bloco ${room.bloco}`;
+  document.getElementById('modal-floor').textContent = `${room.andar}º`;
+  document.getElementById('modal-block').textContent = `${room.bloco}`;
   document.getElementById('modal-capacity').textContent = `${room.capacidade} pessoas`;
   document.getElementById('modal-table').textContent = room.tipo_mesa;
   document.getElementById('modal-description').textContent = room.descricao;
