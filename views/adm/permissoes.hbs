@@ -5,20 +5,12 @@
 			<a href="/permissoes/adicionapermissao" class="btn-add" id="btnAddPermissao" title="Adicionar permissão" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
 				<i class="bi bi-plus" style="font-size: 2rem; vertical-align: middle;"></i>
 			</a>
+			<!-- Info button: opens modal with permission explanation -->
+			<button id="btnPermInfo" class="btn-add" title="Informações sobre permissões" style="margin-left:8px; display:flex; align-items:center; justify-content:center;">
+			  <i class="bi bi-patch-question" style="font-size:1.6rem; vertical-align: middle;"></i>
+			</button>
 		</div>
-		<div class="alert alert-info" role="alert" style="margin-top:15px; padding:15px; border-left: 4px solid #0dcaf0; background-color: #cff4fc;">
-			<h6 style="margin:0 0 10px 0; font-weight:600;"><i class="bi bi-info-circle"></i> Como funcionam as permissões:</h6>
-			<ul style="margin:0; padding-left:20px; font-size:0.9rem;">
-				<li><strong>Administrador = Sim:</strong> acesso total a Blocos, Andares, Tipos de Mesa/Sala, Permissões, Usuários e Salas (ignora as outras colunas)</li>
-				<li><strong>Administrador = Não:</strong> acesso apenas aos módulos com permissões específicas marcadas:
-					<ul>
-						<li><strong>Usuários:</strong> precisa de "Cadastrar/Editar/Arquivar Usuário"</li>
-						<li><strong>Salas:</strong> precisa de "Cadastrar/Editar/Arquivar Sala"</li>
-						<li><strong>Reservas:</strong> visível para todos com acesso ao Gerenciador ADM</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+		<!-- explanatory alert removed; content moved to modal triggered by the info button -->
 	</div>
 	<div class="user-table-container" style="margin-top: 18px;">
 		<table class="user-table">
@@ -72,6 +64,24 @@
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
+<!-- Modal for permissions info -->
+<div class="modal" id="permInfoModal" style="display:none;">
+	<div class="modal-content" style="max-width:640px;">
+		<div class="modal-header">
+			<h2>Como funcionam as permissões</h2>
+			<span class="close" id="permInfoClose">&times;</span>
+		</div>
+		<div class="modal-body" style="padding:18px 10px 24px;">
+			<p style="margin-top:0;">Administrador = Sim: acesso total a Blocos, Andares, Tipos de Mesa/Sala, Permissões, Usuários e Salas (ignora as outras colunas)</p>
+			<p>Administrador = Não: acesso apenas aos módulos com permissões específicas marcadas:</p>
+			<ul>
+				<li><strong>Usuários:</strong> precisa de 'Cadastrar/Editar/Arquivar Usuário'</li>
+				<li><strong>Salas:</strong> precisa de 'Cadastrar/Editar/Arquivar Sala'</li>
+				<li><strong>Reservas:</strong> visível para todos com acesso ao Gerenciador ADM</li>
+			</ul>
+		</div>
+	</div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.btn-delete').forEach(function(btn) {
@@ -81,5 +91,23 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+	// Modal open/close logic for permissions info
+	const infoBtn = document.getElementById('btnPermInfo');
+	const modal = document.getElementById('permInfoModal');
+	const modalClose = document.getElementById('permInfoClose');
+	if (infoBtn && modal) {
+		infoBtn.addEventListener('click', function() {
+			modal.style.display = 'flex';
+			modal.style.alignItems = 'center';
+			modal.style.justifyContent = 'center';
+		});
+	}
+	if (modalClose) modalClose.addEventListener('click', function() { modal.style.display = 'none'; });
+	// close when clicking outside modal-content
+	if (modal) {
+		modal.addEventListener('click', function(e) {
+			if (e.target === modal) modal.style.display = 'none';
+		});
+	}
 });
 </script>

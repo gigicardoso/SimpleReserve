@@ -15,10 +15,6 @@ router.get("/pesquisar", async (req, res) => {
     showSidebar: true,
     showLogo: true,
     isPesquisar: true,
-    breadcrumb: [
-      { title: "Gerenciador ADM", path: "/adm" },
-      { title: "Pesquisa de Salas", path: "/pesquisar" }
-    ],
     blocos: blocos.map(b => b.descricao),
     andares: andares.map(a => a.descricao)
   });
