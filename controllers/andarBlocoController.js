@@ -40,7 +40,7 @@ function permsCtx(req) {
 }
 
 exports.formCadastroAndar = async (req, res) => {
-  if (requireAndares(req, res)) return;
+  if (await requireAndarPerm(req, res, null)) return;
   const blocos = await Bloco.findAll();
   res.render("adm/andar", {
     blocos,
@@ -54,7 +54,7 @@ exports.formCadastroAndar = async (req, res) => {
 
 //Exibe os andares de um bloco específico
 exports.getAndaresPorBloco = async (req, res) => {
-  if (requireAndares(req, res)) return;
+  if (await requireAndarPerm(req, res, null)) return;
   const { id_bloco } = req.params;
   const Andar = require("../models/andarBlocoModel");
   const andares = await Andar.findAll({ where: { id_bloco } });
