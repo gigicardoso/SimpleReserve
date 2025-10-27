@@ -184,8 +184,7 @@ body {
     justify-content: center;
     position: fixed;
     top: 20px;
-    right: 20px;
-    left: auto;
+    left: 20px; /* show hamburger on the top-left on small screens */
     z-index: 1100;
     background: var(--primary-color);
     color: #fff;
@@ -236,7 +235,8 @@ body {
   .sidebar.active:hover {
     left: 0;
   }
+  /* Hide the desktop logo on small screens and rely on the hamburger toggle */
   .logoSala {
-    margin-left: 60px;
+    display: none;
   }
 }
