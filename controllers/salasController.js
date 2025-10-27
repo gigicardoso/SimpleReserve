@@ -140,6 +140,11 @@ exports.formEditarSala = async (req, res) => {
       tiposMesa,
       blocos,
       andares,
+      breadcrumb: [
+        { title: "Gerenciador ADM", path: "/adm" },
+        { title: "Gerenciador de Salas", path: "/salas/gerenciarsalas" },
+        { title: "Editar Sala", path: `/salas/editar/${sala.id_salas}` },
+      ],
     });
   } catch (error) {
     res.status(500).send("Erro ao carregar formulário de atualização de sala");
@@ -182,6 +187,11 @@ exports.formCadastroSala = async (req, res) => {
       tiposMesa,
       blocos,
       andares,
+      breadcrumb: [
+        { title: "Gerenciador ADM", path: "/adm" },
+        { title: "Gerenciador de Salas", path: "/salas/gerenciarsalas" },
+        { title: "Cadastrar Sala", path: "/salas/cadastrosala" },
+      ],
     });
   } catch (error) {
     res.status(500).send("Erro ao carregar formulário de cadastro de sala");
