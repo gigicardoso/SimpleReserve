@@ -52,6 +52,12 @@ exports.listarReservasAdm = async (req, res) => {
       descricao: r.descricao || ''
     }));
     const isAdm = !!(u && u.isAdm);
+    // Carrega listas para os filtros (usuários e salas)
+    const usuariosListRaw = await Usuario.findAll({ attributes: ['nome'], order: [['nome','ASC']] });
+    const salasListRaw = await Sala.findAll({ attributes: ['nome_salas'], order: [['nome_salas','ASC']] });
+    const usuariosList = usuariosListRaw.map(x => x.nome);
+    const salasList = salasListRaw.map(x => x.nome_salas);
+
     res.render('adm/reservas', {
       layout: 'layout',
       showSidebar: true,
@@ -62,6 +68,8 @@ exports.listarReservasAdm = async (req, res) => {
         { title: 'Reservas', path: '/reservasadm' }
       ],
       reservas: reservasFormatadas,
+      usuarios: usuariosList,
+      salas: salasList,
       podeEditarReserva: isAdm,
       podeExcluirReserva: isAdm,
       isAdm
