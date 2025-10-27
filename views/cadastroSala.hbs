@@ -61,6 +61,10 @@
                 <div class="mb-3">
                   <label for="imagem_sala" class="form-label">Imagem da Sala:</label>
                   <input type="file" id="imagem_sala" name="imagem_sala" class="form-control" accept="image/*" />
+                  <!-- Botão para limpar o campo de upload; visível apenas quando existir um arquivo selecionado -->
+                  <div class="mt-2" id="clear-image-wrap" style="display:none;">
+                    <button type="button" id="btnClearImage" class="btn" style="background-color: #f5f7f0; color: #333; border-radius: 8px; border: 1px solid #ddd; padding: 6px 12px;">Limpar Campo</button>
+                  </div>
                 </div>
               </div>
               <div class="col-md-6">
@@ -107,10 +111,12 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn w-100 mt-4" style="background-color: #84925b; color: #fff; border-radius: 10px">
-              <i class="bi bi-floppy-fill"></i>
-              {{#if sala}}Salvar Alterações{{else}}Cadastrar Sala{{/if}}
-            </button>
+            <div class="d-flex justify-content-center mt-4 submit-center">
+              <button type="submit" class="btn" style="background-color: #84925b; color: #fff; border-radius: 10px; padding: 10px 28px; font-weight:600;">
+                <i class="bi bi-floppy-fill"></i>
+                {{#if sala}}Salvar Alterações{{else}}Cadastrar Sala{{/if}}
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -140,6 +146,42 @@ document.getElementById('bloco').addEventListener('change', function() {
         });
       }
     });
+});
+</script>
+
+<script>
+// Mostrar/ocultar botão 'Limpar Campo' e limpar input de imagem
+document.addEventListener('DOMContentLoaded', function() {
+  const imgInput = document.getElementById('imagem_sala');
+  const clearWrap = document.getElementById('clear-image-wrap');
+  const btnClear = document.getElementById('btnClearImage');
+
+  function updateClearVisibility() {
+    if (!imgInput) return;
+    const hasFile = imgInput.files && imgInput.files.length > 0;
+    if (clearWrap) clearWrap.style.display = hasFile ? 'block' : 'none';
+  }
+
+  if (imgInput) {
+    imgInput.addEventListener('change', updateClearVisibility);
+    // initialize
+    updateClearVisibility();
+  }
+
+  if (btnClear) {
+    btnClear.addEventListener('click', function() {
+      if (imgInput) {
+        try {
+          imgInput.value = '';
+          // for older browsers, reset the input by replacing it
+        } catch (e) {
+          const newInput = imgInput.cloneNode(true);
+          imgInput.parentNode.replaceChild(newInput, imgInput);
+        }
+        updateClearVisibility();
+      }
+    });
+  }
 });
 </script>
 
