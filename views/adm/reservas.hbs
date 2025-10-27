@@ -1,12 +1,33 @@
 <div class="container">
 	<div class="header" style="margin-left: 40px; margin-right: 0; margin-top: 16px; margin-bottom: 0;">
 	  <div class="title-container" style="display: flex; align-items: flex-end; justify-content: flex-start;">
-	    <h1 style="margin: 0; margin-top: 12px;"><i class="bi bi-calendar-check"></i> Gerenciador de Reservas</h1>
-	    <button onclick="exportarHistoricoPDF()" style="font-size: 16px; padding: 8px 18px; border-radius: 8px; display: flex; align-items: center; gap: 8px; background: #84925b; color: #fff; border: none; font-weight: 600;">
-	      <i class="fas fa-file-pdf"></i> Emitir Relatório em PDF
-	    </button>
-	  </div>
-		</div>
+			<h1 style="margin: 0; margin-top: 12px;"><i class="bi bi-calendar-check"></i> Gerenciador de Reservas</h1>
+			<!-- Bootstrap Icons for the PDF icon -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+				<button id="btnEmitirHistorico" onclick="exportarHistoricoPDF()" style="font-size: 16px; padding: 8px 18px; border-radius: 8px; display: flex; align-items: center; gap: 8px; background: #84925b; color: #fff; border: none; font-weight: 600;">
+					<i class="bi bi-file-earmark-pdf"></i> Emitir Relatório em PDF
+				</button>
+			</div>
+
+			<!-- Filters (copied markup/classes from /pesquisar to match exact style) -->
+			<div class="search-container" style="margin-top:12px; margin-bottom:12px;">
+				<select id="filter-user" class="filter-select">
+					<option value="">Todos os usuários</option>
+					{{#each usuarios}}
+						<option value="{{this}}">{{this}}</option>
+					{{/each}}
+				</select>
+				<select id="filter-sala" class="filter-select">
+					<option value="">Todas as salas</option>
+					{{#each salas}}
+						<option value="{{this}}">{{this}}</option>
+					{{/each}}
+				</select>
+				<input id="filter-date" type="date" class="filter-select" />
+				<input id="filter-start" type="time" class="filter-select" />
+				<input id="filter-end" type="time" class="filter-select" />
+			</div>
+				</div>
 	</div>
 	<div class="user-table-container" style="margin-left: 140px; margin-right: 140px;">
 		<table class="user-table">
@@ -21,11 +42,11 @@
 			</thead>
 			<tbody>
 	{{#each reservas}}
-		<tr>
-			<td>{{this.nomeUsuario}}</td>
-			<td>{{this.nomeSala}}</td>
-			<td>{{formatarData this.dataReserva}}</td>
-			<td>{{this.horaInicio}} - {{this.horaFim}}</td>
+			<tr data-user="{{this.nomeUsuario}}" data-sala="{{this.nomeSala}}" data-date="{{this.dataReserva}}" data-start="{{this.horaInicio}}" data-end="{{this.horaFim}}">
+				<td>{{this.nomeUsuario}}</td>
+				<td>{{this.nomeSala}}</td>
+				<td>{{formatarData this.dataReserva}}</td>
+				<td>{{this.horaInicio}} - {{this.horaFim}}</td>
 			<td>
 				<div class="actions-flex" style="width: 100%; justify-content: center;">
 					<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
@@ -147,9 +168,72 @@
 </div>
 
 <link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
+<link rel="stylesheet" href="/stylesheets/pesquisarSalas.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script>
+// Utility to parse HH:MM into minutes
+function timeToMinutes(t) {
+	if (!t) return null;
+	const parts = t.split(':');
+	if (parts.length < 2) return null;
+	return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+}
+
+function applyFilters() {
+	const userSel = document.getElementById('filter-user');
+	const salaSel = document.getElementById('filter-sala');
+	const dateInput = document.getElementById('filter-date');
+	const startInput = document.getElementById('filter-start');
+	const endInput = document.getElementById('filter-end');
+
+	const u = (userSel && userSel.value) || '';
+	const s = (salaSel && salaSel.value) || '';
+	const d = (dateInput && dateInput.value) || '';
+	const startFilter = (startInput && startInput.value) || '';
+	const endFilter = (endInput && endInput.value) || '';
+
+	const rows = document.querySelectorAll('.user-table tbody tr');
+	rows.forEach(r => {
+		// Skip rows that are not data rows
+		const rowUser = (r.getAttribute('data-user') || '').toLowerCase();
+		const rowSala = (r.getAttribute('data-sala') || '').toLowerCase();
+		const rowDate = r.getAttribute('data-date') || '';
+		const rowStart = r.getAttribute('data-start') || '';
+		const rowEnd = r.getAttribute('data-end') || '';
+
+		let show = true;
+		if (u && rowUser.indexOf(u.toLowerCase()) === -1) show = false;
+		if (s && rowSala.indexOf(s.toLowerCase()) === -1) show = false;
+		if (d && rowDate !== d) show = false;
+
+		// Time overlap check: hide if reservation ends before startFilter OR starts after endFilter
+		const rowStartMin = timeToMinutes(rowStart);
+		const rowEndMin = timeToMinutes(rowEnd);
+		const filterStartMin = timeToMinutes(startFilter);
+		const filterEndMin = timeToMinutes(endFilter);
+
+		if (startFilter && rowEndMin !== null && filterStartMin !== null && rowEndMin < filterStartMin) show = false;
+		if (endFilter && rowStartMin !== null && filterEndMin !== null && rowStartMin > filterEndMin) show = false;
+
+		r.style.display = show ? '' : 'none';
+	});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	const userSel = document.getElementById('filter-user');
+	const salaSel = document.getElementById('filter-sala');
+	const dateInput = document.getElementById('filter-date');
+	const startInput = document.getElementById('filter-start');
+	const endInput = document.getElementById('filter-end');
+
+	if (userSel) userSel.addEventListener('change', applyFilters);
+	if (salaSel) salaSel.addEventListener('change', applyFilters);
+	if (dateInput) dateInput.addEventListener('change', applyFilters);
+	if (startInput) startInput.addEventListener('change', applyFilters);
+	if (endInput) endInput.addEventListener('change', applyFilters);
+});
+
 function exportarHistoricoPDF() {
 	if (typeof jspdf === 'undefined' || typeof window.jspdf === 'undefined') {
 		alert('Erro: Biblioteca jsPDF não carregada!');
@@ -159,13 +243,30 @@ function exportarHistoricoPDF() {
 	const doc = new jsPDF();
 	doc.setFontSize(16);
 	doc.text('Histórico de Reservas', 105, 15, { align: 'center' });
+
+	const rows = Array.from(document.querySelectorAll('.user-table tbody tr'))
+		.filter(r => r.style.display !== 'none')
+		.map(r => {
+			const cols = r.querySelectorAll('td');
+			return [
+				cols[0] ? cols[0].innerText.trim() : '',
+				cols[1] ? cols[1].innerText.trim() : '',
+				cols[2] ? cols[2].innerText.trim() : '',
+				cols[3] ? cols[3].innerText.trim() : ''
+			];
+		});
+
+	const head = [['Usuário', 'Sala', 'Data', 'Horário']];
+
 	doc.autoTable({
-		html: '#tabelaHistoricoPDF',
+		head: head,
+		body: rows,
 		startY: 25,
 		styles: { fontSize: 10, cellPadding: 3 },
 		headStyles: { fillColor: [76, 175, 80], textColor: 255, fontStyle: 'bold' },
 		alternateRowStyles: { fillColor: [245, 245, 245] }
 	});
+
 	doc.save('historico.pdf');
 }
 </script>
