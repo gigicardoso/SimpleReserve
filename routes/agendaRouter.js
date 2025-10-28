@@ -3,7 +3,7 @@ const router = express.Router();
 const agendaController = require('../controllers/agendaController');
 const Sala = require('../models/salasModel');
 const auth = require("../middlewares/auth");
-const { verificarGerenciadorAdm } = require("../middlewares/auth");
+const { verificarGerenciadorAdm, verificarPermissao } = require("../middlewares/auth");
 
 // API para buscar reservas para o calendário (somente do usuário logado)
 router.get('/api/eventos', auth, async (req, res) => {
@@ -62,7 +62,7 @@ router.post('/editar/:id', auth, agendaController.editarReserva);
 
 // Criar nova reserva
 router.post('/nova', agendaController.criarReserva);
-router.get("/reservasadm", auth, verificarGerenciadorAdm, agendaController.listarReservasAdm);
+router.get("/reservasadm", auth, verificarGerenciadorAdm, verificarPermissao('ReservaAdm'), agendaController.listarReservasAdm);
 router.post('/verificar-disponibilidade', agendaController.verificarDisponibilidade);
 
 

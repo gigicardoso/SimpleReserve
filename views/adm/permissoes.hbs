@@ -24,6 +24,7 @@
 					<th>Cadastrar Usuário</th>
 					<th>Editar Usuário</th>
 					<th>Arquivar Usuário</th>
+					<th>Ver Reservas ADM</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
@@ -39,6 +40,7 @@
 							<td>{{#if this.cadUser}}Sim{{else}}Não{{/if}}</td>
 							<td>{{#if this.edUser}}Sim{{else}}Não{{/if}}</td>
 							<td>{{#if this.arqUser}}Sim{{else}}Não{{/if}}</td>
+							<td>{{#if this.ReservaAdm}}Sim{{else}}Não{{/if}}</td>
 							<td class="actions">
 								<a href="/permissoes/editarPermissao/{{id_permissao}}" class="btn-action btn-edit">
 									<i class="bi bi-pencil"></i>
@@ -53,7 +55,7 @@
 					{{/each}}
 				{{else}}
 					<tr class="empty-message-row">
-						<td colspan="9" class="empty-message">
+						<td colspan="10" class="empty-message">
 							Nenhuma permissão cadastrada. Clique no botão <i class="bi bi-plus" style="font-size: 1.2rem;"></i> para adicionar.
 						</td>
 					</tr>
@@ -77,7 +79,7 @@
 			<ul>
 				<li><strong>Usuários:</strong> precisa de 'Cadastrar/Editar/Arquivar Usuário'</li>
 				<li><strong>Salas:</strong> precisa de 'Cadastrar/Editar/Arquivar Sala'</li>
-				<li><strong>Reservas:</strong> visível para todos com acesso ao Gerenciador ADM</li>
+				<li><strong>Reservas do ADM:</strong> visível quando 'Ver Reservas ADM' estiver marcado (ou Administrador)</li>
 			</ul>
 		</div>
 	</div>

@@ -106,12 +106,10 @@ module.exports.verificarGerenciadorAdm = async (req, res, next) => {
       const permissao = await Permissao.findByPk(usuario.id_permissao);
       if (permissao) {
         const p = permissao.get ? permissao.get({ plain: true }) : permissao;
-        // Admin sempre tem acesso
-        temAcessoAdm = !!(p.adm || p.cadSala || p.edSalas || p.arqSala || p.cadUser || p.edUser || p.arqUser);
+        // Admin sempre tem acesso; também considera ReservaAdm para quem só pode ver o módulo de reservas
+        temAcessoAdm = !!(p.adm || p.cadSala || p.edSalas || p.arqSala || p.cadUser || p.edUser || p.arqUser || p.ReservaAdm);
       }
-    }
-
-    if (!temAcessoAdm) {
+    }    if (!temAcessoAdm) {
       return res.render('error', {
         message: 'Você não tem acesso ao Gerenciador ADM.',
         layout: 'layout',

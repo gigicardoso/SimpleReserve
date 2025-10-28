@@ -107,6 +107,7 @@ exports.criarPermissao = async (req, res) => {
       arqUser: normBool(req.body.arqUser),
       arqSala: normBool(req.body.arqSala),
       edSalas: normBool(req.body.edSalas),
+      ReservaAdm: normBool(req.body.ReservaAdm),
       ...(typeof Permissao.rawAttributes?.adm !== 'undefined' ? { adm: normBool(req.body.adm) } : {})
     };
     await Permissao.create(novaPermissao);
@@ -139,6 +140,7 @@ exports.atualizarPermissao = async (req, res) => {
       arqUser: normBool(req.body.arqUser),
       arqSala: normBool(req.body.arqSala),
       edSalas: normBool(req.body.edSalas),
+      ReservaAdm: normBool(req.body.ReservaAdm),
     });
     if (typeof Permissao.rawAttributes?.adm !== 'undefined') updateData.adm = isAdmPosted;
 

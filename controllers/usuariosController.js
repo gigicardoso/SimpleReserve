@@ -235,9 +235,9 @@ exports.login = async (req, res) => {
       id_permissao: usuario.id_permissao,
     };
 
-    // Deriva "admin" e flags de sessão a partir dos campos de sala/usuário
-    const p = permissao || {};
-    const isAdm = !!p.adm || !!(p.cadSala && p.cadUser && p.edUser && p.arqUser && p.arqSala && p.edSalas);
+    // Deriva "admin" e flags de sessão a partir dos campos de permissão
+    const p = permissao && (permissao.get ? permissao.get({ plain: true }) : permissao);
+    const isAdm = !!(p && p.adm);
     req.session.usuario.isAdm = isAdm;
 
     if (isAdm) {
@@ -248,9 +248,9 @@ exports.login = async (req, res) => {
       req.session.usuario.permissaoPermissoes = true;
     } else {
       // Acesso a Tipo de Sala (gestão de salas) quando tiver qualquer permissão relacionada a salas
-      req.session.usuario.permissaoTipoSala = !!(p.cadSala || p.edSalas || p.arqSala);
+      req.session.usuario.permissaoTipoSala = !!(p && (p.cadSala || p.edSalas || p.arqSala));
       // Acesso à gestão de permissões/usuários quando tiver qualquer permissão relacionada a usuários
-      req.session.usuario.permissaoPermissoes = !!(p.cadUser || p.edUser || p.arqUser);
+      req.session.usuario.permissaoPermissoes = !!(p && (p.cadUser || p.edUser || p.arqUser));
       // Demais áreas (blocos/andares/tipo mesa) restritas para não-admin
       req.session.usuario.permissaoBlocos = false;
       req.session.usuario.permissaoAndares = false;
@@ -258,13 +258,13 @@ exports.login = async (req, res) => {
     }
 
     // Tem acesso ao Gerenciador ADM se possuir qualquer permissão relevante ou for admin
-    req.session.usuario.temAcessoAdm = !!(
-      req.session.usuario.permissaoBlocos ||
-      req.session.usuario.permissaoAndares ||
-      req.session.usuario.permissaoTipoMesa ||
-      req.session.usuario.permissaoTipoSala ||
-      req.session.usuario.permissaoPermissoes
-    );
+    // Inclui ReservaAdm para permitir acesso de quem só pode ver reservas
+    req.session.usuario.temAcessoAdm = !!(p && (
+      p.adm ||
+      p.cadSala || p.edSalas || p.arqSala ||
+      p.cadUser || p.edUser || p.arqUser ||
+      p.ReservaAdm
+    ));
 
     res.redirect("/home");
   } catch (error) {

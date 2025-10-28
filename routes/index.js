@@ -36,7 +36,7 @@ const { verificarGerenciadorAdm } = require("../middlewares/auth");
 router.get("/historico", auth, agendaController.listarHistoricoUsuario);
 
 // Rota protegida para tela de reservas (visível para todos com acesso ao Gerenciador ADM)
-router.get("/reservasadm", auth, verificarGerenciadorAdm, (req, res) => {
+router.get("/reservasadm", auth, verificarGerenciadorAdm, verificarPermissao('ReservaAdm'), (req, res) => {
   res.render("adm/reservas", {
     layout: "layout",
     showSidebar: true,
@@ -110,6 +110,7 @@ router.get("/adm", auth, verificarGerenciadorAdm, async (req, res) => {
   const isAdm = !!p.adm;
   const podeUsuarios = isAdm || !!(p.cadUser || p.edUser || p.arqUser);
   const podeSalas = isAdm || !!(p.cadSala || p.edSalas || p.arqSala);
+  const podeReservas = isAdm || !!p.ReservaAdm;
   
   res.render("adm/gerenciadorAdm", {
     layout: "layout",
@@ -123,7 +124,7 @@ router.get("/adm", auth, verificarGerenciadorAdm, async (req, res) => {
     isAdm: isAdm,
     podeUsuarios: podeUsuarios,
     podeSalas: podeSalas,
-    podeReservas: true, // Reservas liberadas para todos com acesso ao ADM
+  podeReservas: podeReservas,
     usuario: req.session.usuario
   });
 });

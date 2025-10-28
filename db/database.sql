@@ -11,6 +11,8 @@ edUser boolean not null default 0,
 arqUser boolean not null default 0,
 arqSala boolean not null default 0,
 edSalas boolean not null default 0,
+ReservaAdm boolean not null default 0,
+adm boolean not null default 0,
 primary key (id_permissao));
 
 -- TABELA BLOCOS --

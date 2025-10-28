@@ -85,6 +85,15 @@
                     <label class="form-check-label w-100" for="arqUser" style="margin-bottom:0;">Arquivar Usuário</label>
                   </div>
                 </div>
+
+                <!-- Ver Reservas ADM -->
+                <div class="col-12">
+                  <div class="form-check form-switch d-flex align-items-center" style="min-height: 48px;">
+                    <input type="hidden" name="ReservaAdm" value="0">
+                    <input class="form-check-input me-3" type="checkbox" id="ReservaAdm" name="ReservaAdm" value="1" {{#if permissao.ReservaAdm}}checked{{/if}}>
+                    <label class="form-check-label w-100" for="ReservaAdm" style="margin-bottom:0;">Ver Reservas (Gerenciador do ADM)</label>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="d-flex gap-2">

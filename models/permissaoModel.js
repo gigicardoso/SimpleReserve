@@ -36,6 +36,11 @@ const Permissao = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    // Novo: controla acesso à visualização do Gerenciador de Reservas do ADM
+    ReservaAdm: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     adm:{
       type: DataTypes.BOOLEAN,
       defaultValue: false,

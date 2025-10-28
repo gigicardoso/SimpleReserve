@@ -69,7 +69,7 @@ app.use(async (req, res, next) => {
       // Recalcula dinamicamente o temAcessoAdm com base no banco a cada request
       const pInst = await Permissao.findByPk(req.session.usuario.id_permissao);
       const p = pInst && (pInst.get ? pInst.get({ plain: true }) : pInst);
-      const temAcessoAdm = !!(p && (p.adm || p.cadSala || p.edSalas || p.arqSala || p.cadUser || p.edUser || p.arqUser));
+      const temAcessoAdm = !!(p && (p.adm || p.cadSala || p.edSalas || p.arqSala || p.cadUser || p.edUser || p.arqUser || p.ReservaAdm));
       // Atualiza também o isAdm para evitar uso de flag desatualizada em rotas que checam admin estrito
       req.session.usuario.isAdm = !!(p && p.adm);
       req.session.usuario.temAcessoAdm = temAcessoAdm;
