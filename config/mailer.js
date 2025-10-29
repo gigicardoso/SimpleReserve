@@ -54,18 +54,26 @@ async function getTransport() {
     throw err;
   }
 
-  const accessToken = await oAuth2Client.getAccessToken();
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      user: MAIL_FROM,
-      clientId: OAUTH_CLIENT_ID,
-      clientSecret: OAUTH_CLIENT_SECRET,
-      refreshToken: OAUTH_REFRESH_TOKEN,
-      accessToken: accessToken && accessToken.token ? accessToken.token : accessToken
-    }
-  });
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: MAIL_FROM,
+        clientId: OAUTH_CLIENT_ID,
+        clientSecret: OAUTH_CLIENT_SECRET,
+        refreshToken: OAUTH_REFRESH_TOKEN,
+        accessToken: accessToken && accessToken.token ? accessToken.token : accessToken
+      }
+    });
+  } catch (error) {
+    console.error('[mailer] Erro ao obter access token:', error.message);
+    const err = new Error('OAUTH_ERROR: ' + error.message);
+    err.code = 'OAUTH_ERROR';
+    err.originalError = error;
+    throw err;
+  }
 }
 
 async function sendMail({ to, subject, html }) {

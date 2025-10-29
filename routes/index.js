@@ -476,20 +476,17 @@ router.post('/recuperar-senha', async (req, res) => {
           Redefinir Senha
         </a>
       </div>
-      <p>Ou copie e cole este link no seu navegador:</p>
-      <p style="color: #666; word-break: break-all;">${link}</p>
       <p style="color: #999; font-size: 12px; margin-top: 30px;">
         Se você não solicitou esta recuperação, ignore este e-mail.
       </p>
     </div>
   `;
 
-  // Se mailer não estiver configurado, faça fallback sem tentar enviar (evita erro no log)
+  // Verifica se o mailer está configurado
   if (!isConfigured()) {
-    console.warn('[mailer] Não configurado. Enviando fallback com link.');
+    console.error('[mailer] Configuração de e-mail incompleta. Verifique as variáveis de ambiente.');
     return res.render('recuperarSenha', {
-      erro: 'Não foi possível enviar o e-mail agora. Use o link temporário abaixo para continuar.',
-      link,
+      erro: 'Serviço de e-mail não configurado. Entre em contato com o administrador.',
       layout: 'layout',
       showSidebar: false,
       showLogo: false
@@ -498,20 +495,16 @@ router.post('/recuperar-senha', async (req, res) => {
 
   try {
     await sendMail({ to: email, subject, html });
-    console.log('🔑 Link de recuperação de senha:', link);
     return res.render('recuperarSenha', {
-      sucesso: 'E-mail enviado! Verifique sua caixa de entrada.',
-      link, // Mantemos o link para facilitar testes em desenvolvimento
+      sucesso: 'E-mail enviado com sucesso! Verifique sua caixa de entrada.',
       layout: 'layout',
       showSidebar: false,
       showLogo: false
     });
   } catch (error) {
     console.error('Erro ao enviar e-mail (OAuth2):', error);
-    // Fallback: exibe o link na tela para não bloquear o fluxo do usuário
     return res.render('recuperarSenha', {
-      erro: 'Não foi possível enviar o e-mail agora. Use o link temporário abaixo para continuar.',
-      link,
+      erro: 'Erro ao enviar e-mail. Tente novamente mais tarde.',
       layout: 'layout',
       showSidebar: false,
       showLogo: false

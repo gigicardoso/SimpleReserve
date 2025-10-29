@@ -1,8 +1,28 @@
-<!-- views/resetarSenha.hbs -->
-<form method="POST" action="/resetar-senha">
-  <input type="hidden" name="email" value="{{email}}">
-  <input type="hidden" name="token" value="{{token}}">
-  <input type="password" name="senha" placeholder="Nova senha" required>
-  <button type="submit">Redefinir senha</button>
-  {{#if erro}}<div>{{erro}}</div>{{/if}}
-</form>
+<div id="bodyCadastroUsuarios">
+  <div class="login-container cadastro-container">
+    <div class="login-box">
+      <div class="logo">
+        <img src="/images/logoLogin.png" alt="Simple Reserve Logo" class="logofoto">
+      </div>
+      <br>
+      <h2 class="bemvindo">Redefinir senha</h2>
+      <form method="POST" action="/resetar-senha">
+        <input type="hidden" name="email" value="{{email}}">
+        <input type="hidden" name="token" value="{{token}}">
+        <div class="input-group">
+          <input type="password" name="senha" placeholder="Nova senha" required minlength="6">
+        </div>
+        <button type="submit" class="btn-cadastrar">Redefinir senha</button>
+        <div class="links">
+          <a href="/">Voltar ao login</a>
+        </div>
+        {{#if erro}}
+          <div class="alert alert-danger">{{erro}}</div>
+        {{/if}}
+        {{#if sucesso}}
+          <div class="alert alert-success">{{sucesso}}</div>
+        {{/if}}
+      </form>
+    </div>
+  </div>
+</div>
