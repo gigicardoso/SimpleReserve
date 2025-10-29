@@ -98,9 +98,36 @@ exports.atualizarSala = async (req, res) => {
   try {
     const sala = await Sala.findByPk(req.params.id);
     if (!sala) return res.status(404).send("Sala não encontrada");
-    if (req.file) {
+    
+    // Verifica se o usuário marcou para remover a imagem
+    if (req.body.remover_imagem === '1') {
+      req.body.imagem_sala = null;
+      // Deletar o arquivo físico do servidor
+      if (sala.imagem_sala) {
+        const fs = require('fs');
+        const path = require('path');
+        const imagePath = path.join(__dirname, '..', 'public', 'uploads', 'salas', sala.imagem_sala);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+    } else if (req.file) {
+      // Se enviou uma nova imagem, usa a nova
       req.body.imagem_sala = req.file.filename;
+      // Deletar a imagem antiga do servidor
+      if (sala.imagem_sala) {
+        const fs = require('fs');
+        const path = require('path');
+        const imagePath = path.join(__dirname, '..', 'public', 'uploads', 'salas', sala.imagem_sala);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
     }
+    
+    // Remove o campo remover_imagem antes de atualizar (não é uma coluna do banco)
+    delete req.body.remover_imagem;
+    
     await sala.update(req.body);
     res.redirect("/salas/gerenciarsalas");
   } catch (error) {

@@ -60,9 +60,15 @@
                 </div>
                 <div class="mb-3">
                   <label for="imagem_sala" class="form-label">Imagem da Sala:</label>
+                  {{#if sala.imagem_sala}}
+                    <div class="mb-2" id="current-image-preview">
+                      <img src="/uploads/salas/{{sala.imagem_sala}}" alt="Imagem atual da sala" style="max-width: 200px; border-radius: 8px; border: 2px solid #ddd;" />
+                    </div>
+                  {{/if}}
                   <input type="file" id="imagem_sala" name="imagem_sala" class="form-control" accept="image/*" />
-                  <!-- Botão para limpar o campo de upload; visível apenas quando existir um arquivo selecionado -->
-                  <div class="mt-2" id="clear-image-wrap" style="display:none;">
+                  <input type="hidden" id="remover_imagem" name="remover_imagem" value="0" />
+                  <!-- Botão para limpar o campo de upload e remover imagem atual -->
+                  <div class="mt-2" id="clear-image-wrap" style="{{#if sala.imagem_sala}}display:block;{{else}}display:none;{{/if}}">
                     <button type="button" id="btnClearImage" class="btn" style="background-color: #f5f7f0; color: #333; border-radius: 8px; border: 1px solid #ddd; padding: 6px 12px;">Limpar Campo</button>
                   </div>
                 </div>
@@ -150,16 +156,20 @@ document.getElementById('bloco').addEventListener('change', function() {
 </script>
 
 <script>
-// Mostrar/ocultar botão 'Limpar Campo' e limpar input de imagem
+// Mostrar/ocultar botão 'Limpar Campo' e limpar input de imagem + remover imagem atual
 document.addEventListener('DOMContentLoaded', function() {
   const imgInput = document.getElementById('imagem_sala');
   const clearWrap = document.getElementById('clear-image-wrap');
   const btnClear = document.getElementById('btnClearImage');
+  const removerImagem = document.getElementById('remover_imagem');
+  const currentImagePreview = document.getElementById('current-image-preview');
 
   function updateClearVisibility() {
-    if (!imgInput) return;
+    if (!imgInput || !clearWrap) return;
     const hasFile = imgInput.files && imgInput.files.length > 0;
-    if (clearWrap) clearWrap.style.display = hasFile ? 'block' : 'none';
+    const hasCurrentImage = currentImagePreview && currentImagePreview.style.display !== 'none';
+    // Mostra o botão se tiver arquivo selecionado OU imagem atual
+    clearWrap.style.display = (hasFile || hasCurrentImage) ? 'block' : 'none';
   }
 
   if (imgInput) {
@@ -170,16 +180,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (btnClear) {
     btnClear.addEventListener('click', function() {
+      // Limpa o input de arquivo
       if (imgInput) {
         try {
           imgInput.value = '';
-          // for older browsers, reset the input by replacing it
         } catch (e) {
           const newInput = imgInput.cloneNode(true);
           imgInput.parentNode.replaceChild(newInput, imgInput);
         }
-        updateClearVisibility();
       }
+      
+      // Remove a pré-visualização da imagem atual
+      if (currentImagePreview) {
+        currentImagePreview.style.display = 'none';
+      }
+      
+      // Marca para remover a imagem no servidor
+      if (removerImagem) {
+        removerImagem.value = '1';
+      }
+      
+      updateClearVisibility();
     });
   }
 });

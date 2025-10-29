@@ -289,12 +289,20 @@ exports.deletarReserva = async (req, res) => {
     await agenda.destroy();
     // Se for GET, redireciona para a listagem
     if (req.method === "GET") {
+      const origem = req.query.origem;
+      if (origem === 'reservasadm') {
+        return res.redirect("/reservas/reservasadm");
+      }
       return res.redirect("/reservasDoDia");
     }
     // Se for DELETE, responde JSON
     res.status(200).json({ sucesso: true });
   } catch (error) {
     if (req.method === "GET") {
+      const origem = req.query.origem;
+      if (origem === 'reservasadm') {
+        return res.redirect("/reservas/reservasadm?erro=Erro ao deletar reserva");
+      }
       return res.redirect("/reservasDoDia?erro=Erro ao deletar reserva");
     }
     res.status(500).json({ erro: "Erro ao deletar reserva" });
@@ -362,6 +370,7 @@ exports.formEditarReserva = async (req, res) => {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
     const salas = await Sala.findAll();
+    const origem = req.query.origem;
     res.render('novaReserva', {
       reserva: agenda,
       salas,
@@ -369,6 +378,7 @@ exports.formEditarReserva = async (req, res) => {
       showSidebar: true,
       showLogo: true,
       isEdicao: true,
+      origem: origem,
       erro: null
     });
   } catch (error) {
@@ -385,7 +395,7 @@ exports.editarReserva = async (req, res) => {
     return res.status(403).render('error', { message: 'Somente administradores podem editar reservas.' });
   }
   try {
-    const { nome_evento, id_salas, data, hora_inicio, hora_final, descricao } = req.body;
+    const { nome_evento, id_salas, data, hora_inicio, hora_final, descricao, origem } = req.body;
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
 
@@ -400,6 +410,7 @@ exports.editarReserva = async (req, res) => {
         showSidebar: true,
         showLogo: true,
         isEdicao: true,
+        origem: origem,
         erro: 'Não é possível reservar para uma data passada!'
       });
     }
@@ -414,11 +425,16 @@ exports.editarReserva = async (req, res) => {
         showSidebar: true,
         showLogo: true,
         isEdicao: true,
+        origem: origem,
         erro: 'O horário de fim deve ser maior que o horário de início!'
       });
     }
 
     await agenda.update({ nome_evento, id_salas, data, hora_inicio, hora_final, descricao });
+    
+    if (origem === 'reservasadm') {
+      return res.redirect('/reservas/reservasadm');
+    }
     res.redirect('/home');
   } catch (error) {
     console.error('Erro ao editar reserva:', error);

@@ -51,7 +51,7 @@
 				<div class="actions-flex" style="width: 100%; justify-content: center;">
 					<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
 						{{#if ../podeEditarReserva}}
-						<a href="/agenda/editar/{{this.id_agenda}}" class="btn-action btn-edit btn-underline" style="width:120px; padding:8px 18px; font-size:14px;">
+						<a href="/reservas/editar/{{this.id_agenda}}?origem=reservasadm" class="btn-action btn-edit btn-underline" style="width:120px; padding:8px 18px; font-size:14px;">
 							<i class="fa fa-edit btn-underline" style="text-decoration: underline;"></i>
 							<span class="btn-text">Editar</span>
 						</a>
@@ -61,7 +61,9 @@
 							<i class="bi bi-trash btn-underline" style="text-decoration: underline;"></i>
 							<span class="btn-text" style="text-decoration: underline;">Excluir</span>
 						</button>
-						<form id="form-excluir-{{this.id_agenda}}" action="/agenda/excluir/{{this.id_agenda}}" method="GET" style="display:none;"></form>
+						<form id="form-excluir-{{this.id_agenda}}" action="/reservas/excluir/{{this.id_agenda}}" method="GET" style="display:none;">
+							<input type="hidden" name="origem" value="reservasadm" />
+						</form>
 						{{/if}}
 					</div>
 				</div>

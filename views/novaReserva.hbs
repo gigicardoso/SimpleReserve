@@ -167,6 +167,9 @@
             </div>
           {{/if}}
           <form id="formReserva" method="POST" action="{{#if isEdicao}}/reservas/editar/{{reserva.id_agenda}}{{else}}/reservas/nova{{/if}}">
+            {{#if origem}}
+              <input type="hidden" name="origem" value="{{origem}}" />
+            {{/if}}
             <div class="mb-3">
               <label for="eventName" class="form-label">*Nome do evento</label>
               <input type="text" id="eventName" name="nome_evento" class="form-control" required

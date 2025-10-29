@@ -12,20 +12,20 @@
 		</div>
 		<!-- explanatory alert removed; content moved to modal triggered by the info button -->
 	</div>
-	<div class="user-table-container" style="margin-top: 18px;">
-		<table class="user-table">
+	<div class="user-table-container" style="margin-top: 18px; overflow-x: auto;">
+		<table class="user-table" style="table-layout: auto; width: 100%;">
 			<thead>
 				<tr>
-					<th>Nome</th>
-					<th>Administrador</th>
-					<th>Cadastrar Sala</th>
-					<th>Editar Salas</th>
-					<th>Arquivar Sala</th>
-					<th>Cadastrar Usuário</th>
-					<th>Editar Usuário</th>
-					<th>Arquivar Usuário</th>
-					<th>Ver Reservas ADM</th>
-					<th>Ações</th>
+					<th style="min-width: 120px;">Nome</th>
+					<th style="width: 80px; text-align: center;">ADM</th>
+					<th style="width: 80px; text-align: center;">Cad. Sala</th>
+					<th style="width: 80px; text-align: center;">Edit. Salas</th>
+					<th style="width: 80px; text-align: center;">Arq. Sala</th>
+					<th style="width: 80px; text-align: center;">Cad. Usuário</th>
+					<th style="width: 80px; text-align: center;">Edit. Usuário</th>
+					<th style="width: 80px; text-align: center;">Arq. Usuário</th>
+					<th style="width: 100px; text-align: center;">Ver Reservas ADM</th>
+					<th style="min-width: 180px; width: 180px;">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,20 +33,20 @@
 					{{#each permissoes}}
 						<tr>
 							<td>{{this.descricao}}</td>
-							<td>{{#if this.adm}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.cadSala}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.edSalas}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.arqSala}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.cadUser}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.edUser}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.arqUser}}Sim{{else}}Não{{/if}}</td>
-							<td>{{#if this.ReservaAdm}}Sim{{else}}Não{{/if}}</td>
-							<td class="actions">
-								<a href="/permissoes/editarPermissao/{{id_permissao}}" class="btn-action btn-edit">
+							<td style="text-align: center;">{{#if this.adm}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.cadSala}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.edSalas}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.arqSala}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.cadUser}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.edUser}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.arqUser}}Sim{{else}}Não{{/if}}</td>
+							<td style="text-align: center;">{{#if this.ReservaAdm}}Sim{{else}}Não{{/if}}</td>
+							<td class="actions" style="min-width: 180px;">
+								<a href="/permissoes/editarPermissao/{{this.id_permissao}}" class="btn-action btn-edit" style="text-decoration: none; display: inline-flex; padding: 6px 12px; font-size: 13px;">
 									<i class="bi bi-pencil"></i>
 									<span>Editar</span>
 								</a>
-								<a href="/permissoes/excluirPermissao/{{id_permissao}}" class="btn-action btn-delete">
+								<a href="/permissoes/excluirPermissao/{{this.id_permissao}}" class="btn-action btn-delete" style="text-decoration: none; display: inline-flex; padding: 6px 12px; font-size: 13px;" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">
 									<i class="bi bi-trash"></i>
 									<span>Excluir</span>
 								</a>
@@ -86,13 +86,6 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.btn-delete').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      if (!window.confirm('Tem certeza que deseja excluir esta permissão?')) {
-        e.preventDefault();
-      }
-    });
-  });
 	// Modal open/close logic for permissions info
 	const infoBtn = document.getElementById('btnPermInfo');
 	const modal = document.getElementById('permInfoModal');
