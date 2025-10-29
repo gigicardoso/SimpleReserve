@@ -182,27 +182,15 @@ if (data < hoje) {
 }
 
     // Verifica conflito de reserva para a mesma sala, data e sobreposição de horário
+    // Há conflito se: (nova_inicio < existente_fim) E (nova_fim > existente_inicio)
+    // Se uma termina exatamente quando a outra começa, NÃO há conflito
     const conflito = await Agenda.findOne({
       where: {
         id_salas,
         data,
-        [Op.or]: [
-          {
-            hora_inicio: {
-              [Op.between]: [hora_inicio, hora_final]
-            }
-          },
-          {
-            hora_final: {
-              [Op.between]: [hora_inicio, hora_final]
-            }
-          },
-          {
-            [Op.and]: [
-              { hora_inicio: { [Op.lte]: hora_inicio } },
-              { hora_final: { [Op.gte]: hora_final } }
-            ]
-          }
+        [Op.and]: [
+          { hora_inicio: { [Op.lt]: hora_final } },   // reserva existente começa ANTES da nova terminar
+          { hora_final: { [Op.gt]: hora_inicio } }     // reserva existente termina DEPOIS da nova começar
         ]
       }
     });
@@ -319,18 +307,15 @@ exports.verificarDisponibilidade = async (req, res) => {
     }
 
     // Busca TODAS as reservas que se sobrepõem ao intervalo informado
+    // Há conflito se: (nova_inicio < existente_fim) E (nova_fim > existente_inicio)
+    // Se uma termina exatamente quando a outra começa, NÃO há conflito
     const conflitos = await Agenda.findAll({
       where: {
         id_salas,
         data,
-        [Op.or]: [
-          { hora_inicio: { [Op.between]: [hora_inicio, hora_final] } },
-          { hora_final: { [Op.between]: [hora_inicio, hora_final] } },
-          { [Op.and]: [
-              { hora_inicio: { [Op.lte]: hora_inicio } },
-              { hora_final: { [Op.gte]: hora_final } }
-            ]
-          }
+        [Op.and]: [
+          { hora_inicio: { [Op.lt]: hora_final } },   // reserva existente começa ANTES da nova terminar
+          { hora_final: { [Op.gt]: hora_inicio } }     // reserva existente termina DEPOIS da nova começar
         ]
       },
       order: [['hora_inicio','ASC']]
