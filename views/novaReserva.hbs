@@ -30,11 +30,24 @@
       notificacao.innerHTML = '<strong>Horário disponível!</strong>';
     } else {
       const salaSel = document.getElementById('campusSala');
-      const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
-      const ini = payload.sobreposicao && payload.sobreposicao.inicio ? payload.sobreposicao.inicio : '';
-      const fim = payload.sobreposicao && payload.sobreposicao.fim ? payload.sobreposicao.fim : '';
+      const salaNome = payload.nomeSala || (salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala');
       notificacao.className = 'alert alert-danger mt-3';
-      notificacao.innerHTML = `<strong>${salaNome}</strong> ocupada de <strong>${ini}</strong> até <strong>${fim}</strong>. Selecione outra sala ou troque o horário!`;
+      
+      // Se houver múltiplos conflitos, lista todos
+      if (payload.conflitos && payload.conflitos.length > 1) {
+        let listaConflitos = '<strong>Horário ocupado!</strong> Existem ' + payload.conflitos.length + ' reservas neste período:<ul style="margin-top: 8px; margin-bottom: 0;">';
+        payload.conflitos.forEach(c => {
+          listaConflitos += `<li><strong>${salaNome}</strong> reservado de <strong>${c.inicio}</strong> às <strong>${c.fim}</strong> por <strong>${c.nomeUsuario}</strong></li>`;
+        });
+        listaConflitos += '</ul>';
+        notificacao.innerHTML = listaConflitos;
+      } else {
+        // Um único conflito
+        const ini = payload.sobreposicao && payload.sobreposicao.inicio ? payload.sobreposicao.inicio : '';
+        const fim = payload.sobreposicao && payload.sobreposicao.fim ? payload.sobreposicao.fim : '';
+        const usuario = payload.nomeUsuario || 'outro usuário';
+        notificacao.innerHTML = `<strong>${salaNome}</strong> reservado de <strong>${ini}</strong> até <strong>${fim}</strong> por <strong>${usuario}</strong>`;
+      }
     }
   }
 
@@ -70,10 +83,21 @@
         const result = await resp.json();
         if (result && result.disponivel === false) {
           const salaSel = document.getElementById('campusSala');
-          const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
-          const ini = result.sobreposicao?.inicio || '';
-          const fim = result.sobreposicao?.fim || '';
-          mostrarAlerta(`${salaNome} ocupada das ${ini} às ${fim}. Selecione outra sala ou troque o horário!`);
+          const salaNome = result.nomeSala || (salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala');
+          
+          // Se houver múltiplos conflitos, mostra todos
+          if (result.conflitos && result.conflitos.length > 1) {
+            let mensagem = `Horário ocupado! ${result.conflitos.length} reservas conflitantes:\n`;
+            result.conflitos.forEach((c, idx) => {
+              mensagem += `${idx + 1}. ${salaNome} das ${c.inicio} às ${c.fim} por ${c.nomeUsuario}\n`;
+            });
+            mostrarAlerta(mensagem);
+          } else {
+            const ini = result.sobreposicao?.inicio || '';
+            const fim = result.sobreposicao?.fim || '';
+            const usuario = result.nomeUsuario || 'outro usuário';
+            mostrarAlerta(`${salaNome} reservado das ${ini} às ${fim} por ${usuario}`);
+          }
         } else if (result && result.disponivel === true) {
           // Mostra também alerta positivo no topo
           mostrarAlerta('Horário disponível!', 'success');
@@ -131,11 +155,22 @@
         const result = await resp.json();
         if (result && result.disponivel === false) {
           e.preventDefault();
-          const ini = result.sobreposicao?.inicio || '';
-          const fim = result.sobreposicao?.fim || '';
           const salaSel = document.getElementById('campusSala');
-          const salaNome = salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala';
-          mostrarAlerta(`${salaNome} ocupada das ${ini} às ${fim}. Selecione outra sala ou troque o horário!`);
+          const salaNome = result.nomeSala || (salaSel && salaSel.options[salaSel.selectedIndex] ? salaSel.options[salaSel.selectedIndex].text : 'Sala');
+          
+          // Se houver múltiplos conflitos, mostra todos
+          if (result.conflitos && result.conflitos.length > 1) {
+            let mensagem = `Horário ocupado! ${result.conflitos.length} reservas conflitantes:\n`;
+            result.conflitos.forEach((c, idx) => {
+              mensagem += `${idx + 1}. ${salaNome} das ${c.inicio} às ${c.fim} por ${c.nomeUsuario}\n`;
+            });
+            mostrarAlerta(mensagem);
+          } else {
+            const ini = result.sobreposicao?.inicio || '';
+            const fim = result.sobreposicao?.fim || '';
+            const usuario = result.nomeUsuario || 'outro usuário';
+            mostrarAlerta(`${salaNome} reservado das ${ini} às ${fim} por ${usuario}`);
+          }
           return false;
         }
       } catch (err) {

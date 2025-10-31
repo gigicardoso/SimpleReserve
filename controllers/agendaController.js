@@ -192,18 +192,27 @@ if (data < hoje) {
           { hora_inicio: { [Op.lt]: hora_final } },   // reserva existente começa ANTES da nova terminar
           { hora_final: { [Op.gt]: hora_inicio } }     // reserva existente termina DEPOIS da nova começar
         ]
-      }
+      },
+      include: [
+        { model: Sala, as: 'sala' },
+        { model: Usuario, as: 'usuario' }
+      ]
     });
     if (conflito) {
       const Sala = require("../models/salasModel");
       const salas = await Sala.findAll();
+      const nomeSala = conflito.sala ? conflito.sala.nome_salas : 'Sala';
+      const nomeUsuario = conflito.usuario ? conflito.usuario.nome : 'outro usuário';
+      const horaInicioConflito = conflito.hora_inicio ? conflito.hora_inicio.slice(0, 5) : '';
+      const horaFimConflito = conflito.hora_final ? conflito.hora_final.slice(0, 5) : '';
+      
       return res.render("novaReserva", {
         salas,
         layout: "layout",
         showSidebar: true,
         showLogo: true,
         isNovaReserva: true,
-        erro: "Já existe uma reserva para esta sala neste horário!",
+        erro: `${nomeSala} reservado das ${horaInicioConflito} às ${horaFimConflito} por ${nomeUsuario}`,
         valores: { id_salas, data, hora_inicio, hora_final, nome_evento, descricao }
       });
     }
@@ -320,6 +329,10 @@ exports.verificarDisponibilidade = async (req, res) => {
           { hora_final: { [Op.gt]: hora_inicio } }     // reserva existente termina DEPOIS da nova começar
         ]
       },
+      include: [
+        { model: Sala, as: 'sala' },
+        { model: Usuario, as: 'usuario' }
+      ],
       order: [['hora_inicio','ASC']]
     });
 
@@ -334,10 +347,13 @@ exports.verificarDisponibilidade = async (req, res) => {
 
     return res.json({
       disponivel: false,
+      nomeSala: c.sala ? c.sala.nome_salas : 'Sala',
+      nomeUsuario: c.usuario ? c.usuario.nome : 'outro usuário',
       conflitos: conflitos.map(r => ({
         id_agenda: r.id_agenda,
         inicio: r.hora_inicio ? r.hora_inicio.slice(0,5) : '',
-        fim: r.hora_final ? r.hora_final.slice(0,5) : ''
+        fim: r.hora_final ? r.hora_final.slice(0,5) : '',
+        nomeUsuario: r.usuario ? r.usuario.nome : 'outro usuário'
       })),
       sobreposicao: { inicio: overlapInicio, fim: overlapFim }
     });
