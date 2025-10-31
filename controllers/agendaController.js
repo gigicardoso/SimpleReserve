@@ -258,22 +258,24 @@ exports.atualizarReserva = async (req, res) => {
 exports.deletarReserva = async (req, res) => {
   const u = req.session && req.session.usuario;
   const isAdm = !!(u && u.isAdm);
-  if (!isAdm) {
-    if (req.method === 'GET') {
-      return res.status(403).render('error', { message: 'Somente administradores podem excluir reservas.' });
-    }
-    return res.status(403).json({ erro: 'Somente administradores podem excluir reservas.' });
-  }
+  
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) {
-      // Para GET, pode redirecionar para uma página de erro
       if (req.method === "GET") {
-        //return res.redirect("/reservasDoDia?erro=Reserva não encontrada");
+        return res.status(404).render('error', { message: 'Reserva não encontrada' });
       }
-      // Para DELETE, responde JSON
       return res.status(404).json({ erro: "Reserva não encontrada" });
     }
+
+    // Verifica se o usuário pode excluir: ou é admin ou é o dono da reserva
+    if (!isAdm && agenda.id_user !== u.id_user) {
+      if (req.method === 'GET') {
+        return res.status(403).render('error', { message: 'Você não tem permissão para excluir esta reserva.' });
+      }
+      return res.status(403).json({ erro: 'Você não tem permissão para excluir esta reserva.' });
+    }
+
     await agenda.destroy();
     // Se for GET, redireciona para a listagem
     if (req.method === "GET") {
@@ -348,12 +350,16 @@ exports.verificarDisponibilidade = async (req, res) => {
 exports.formEditarReserva = async (req, res) => {
   const u = req.session && req.session.usuario;
   const isAdm = !!(u && u.isAdm);
-  if (!isAdm) {
-    return res.status(403).render('error', { message: 'Somente administradores podem editar reservas.' });
-  }
+  
   try {
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
+    
+    // Verifica se o usuário pode editar: ou é admin ou é o dono da reserva
+    if (!isAdm && agenda.id_user !== u.id_user) {
+      return res.status(403).render('error', { message: 'Você não tem permissão para editar esta reserva.' });
+    }
+    
     const salas = await Sala.findAll();
     const origem = req.query.origem;
     res.render('novaReserva', {
@@ -376,13 +382,16 @@ exports.formEditarReserva = async (req, res) => {
 exports.editarReserva = async (req, res) => {
   const u = req.session && req.session.usuario;
   const isAdm = !!(u && u.isAdm);
-  if (!isAdm) {
-    return res.status(403).render('error', { message: 'Somente administradores podem editar reservas.' });
-  }
+  
   try {
     const { nome_evento, id_salas, data, hora_inicio, hora_final, descricao, origem } = req.body;
     const agenda = await Agenda.findByPk(req.params.id);
     if (!agenda) return res.status(404).render('error', { message: 'Reserva não encontrada' });
+
+    // Verifica se o usuário pode editar: ou é admin ou é o dono da reserva
+    if (!isAdm && agenda.id_user !== u.id_user) {
+      return res.status(403).render('error', { message: 'Você não tem permissão para editar esta reserva.' });
+    }
 
     // Validação: não permitir reserva no passado
     const hoje = new Date().toISOString().slice(0, 10);

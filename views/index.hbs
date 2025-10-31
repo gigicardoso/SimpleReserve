@@ -325,24 +325,32 @@
             document.getElementById('modal-event-date').textContent = event.start ? event.start.toLocaleDateString('pt-BR') : '-';
             document.getElementById('modal-event-time').textContent = event.start && event.end ? `${event.start.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})} - ${event.end.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}` : '-';
             document.getElementById('modal-event-desc').textContent = event.extendedProps.descricao || '-';
-            // Botões de ação
-            document.getElementById('modal-delete-btn').onclick = function() {
-              if(confirm('Tem certeza que deseja deletar este evento?')) {
-                fetch(`/reservas/${event.id}`, { method: 'DELETE' })
-                  .then(res => {
-                    if(res.ok) {
-                      calendar.refetchEvents();
-                      var modal = bootstrap.Modal.getInstance(document.getElementById('eventDetailsModal'));
-                      modal.hide();
-                    } else {
-                      alert('Erro ao deletar evento.');
-                    }
-                  });
-              }
-            };
-            document.getElementById('modal-edit-btn').onclick = function() {
-              window.location.href = `/reservas/editar/${event.id}`;
-            };
+            // Botões de ação (só atribui se existirem — previne erros quando o usuário não tem permissão)
+            const deleteBtn = document.getElementById('modal-delete-btn');
+            if (deleteBtn) {
+              deleteBtn.onclick = function() {
+                if (confirm('Tem certeza que deseja deletar este evento?')) {
+                  fetch(`/reservas/${event.id}`, { method: 'DELETE' })
+                    .then(res => {
+                      if (res.ok) {
+                        calendar.refetchEvents();
+                        // Fecha o modal de forma segura, criando/obtendo a instância se necessário
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('eventDetailsModal')).hide();
+                      } else {
+                        alert('Erro ao deletar evento.');
+                      }
+                    })
+                    .catch(() => alert('Erro ao deletar evento.'));
+                }
+              };
+            }
+
+            const editBtn = document.getElementById('modal-edit-btn');
+            if (editBtn) {
+              editBtn.onclick = function() {
+                window.location.href = `/reservas/editar/${event.id}`;
+              };
+            }
             // Exibe o modal
             var modal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
             modal.show();

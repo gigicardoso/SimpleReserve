@@ -14,18 +14,14 @@
         <div class="mb-2"><strong>Descrição:</strong> <span id="modal-event-desc"></span></div>
       </div>
       <div class="modal-footer actions-flex" style="width: 100%; justify-content: center;">
-        {{#if podeExcluirReserva}}
         <button type="button" class="btn-action btn-delete btn-underline" id="modal-delete-btn">
           <i class="fa fa-trash-alt"></i>
           <span class="btn-text">Excluir</span>
         </button>
-        {{/if}}
-        {{#if podeEditarReserva}}
         <button type="button" class="btn-action btn-edit btn-underline" id="modal-edit-btn">
           <i class="fa fa-edit"></i>
           <span class="btn-text">Editar</span>
         </button>
-        {{/if}}
       </div>
       <style>
         .actions-flex {
@@ -78,22 +74,16 @@
         .btn-underline .btn-text {
           text-decoration: underline;
         }
-        /* Remove qualquer customização do btn-close */
+        /* Ajusta o btn-close para manter a aparência padrão do Bootstrap */
         .btn-close {
-          transition: none !important;
-          background: transparent !important;
-          box-shadow: none !important;
+          opacity: 0.8 !important;
+        }
+        .btn-close:hover {
           opacity: 1 !important;
-          filter: none !important;
-        }
-        .btn-close::after, .btn-close::before {
-          color: #333 !important;
-        }
-        .btn-close svg, .btn-close:before {
-          color: #333 !important;
         }
         .btn-close:focus {
           outline: 2px solid #84925b;
+          box-shadow: 0 0 0 0.25rem rgba(132, 146, 91, 0.25);
         }
       </style>
     </div>

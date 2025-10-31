@@ -195,6 +195,10 @@ function applyFilters() {
 	const startFilter = (startInput && startInput.value) || '';
 	const endFilter = (endInput && endInput.value) || '';
 
+	console.log('=== Filtros aplicados ===');
+	console.log('Horário Início:', startFilter);
+	console.log('Horário Fim:', endFilter);
+
 	const rows = document.querySelectorAll('.user-table tbody tr');
 	rows.forEach(r => {
 		// Skip rows that are not data rows
@@ -204,19 +208,45 @@ function applyFilters() {
 		const rowStart = r.getAttribute('data-start') || '';
 		const rowEnd = r.getAttribute('data-end') || '';
 
+		console.log('Linha:', {
+			user: rowUser,
+			sala: rowSala,
+			date: rowDate,
+			start: rowStart,
+			end: rowEnd
+		});
+
 		let show = true;
 		if (u && rowUser.indexOf(u.toLowerCase()) === -1) show = false;
 		if (s && rowSala.indexOf(s.toLowerCase()) === -1) show = false;
 		if (d && rowDate !== d) show = false;
 
-		// Time overlap check: hide if reservation ends before startFilter OR starts after endFilter
+		// Time filter: exact match, not overlap
 		const rowStartMin = timeToMinutes(rowStart);
 		const rowEndMin = timeToMinutes(rowEnd);
 		const filterStartMin = timeToMinutes(startFilter);
 		const filterEndMin = timeToMinutes(endFilter);
 
-		if (startFilter && rowEndMin !== null && filterStartMin !== null && rowEndMin < filterStartMin) show = false;
-		if (endFilter && rowStartMin !== null && filterEndMin !== null && rowStartMin > filterEndMin) show = false;
+		console.log('Conversão minutos:', {
+			rowStart: rowStartMin,
+			rowEnd: rowEndMin,
+			filterStart: filterStartMin,
+			filterEnd: filterEndMin
+		});
+
+		// If startFilter is set, reservation must START at or after the filter start time
+		if (filterStartMin !== null && rowStartMin !== null && rowStartMin < filterStartMin) {
+			console.log('❌ Escondendo: reserva começa antes do horário inicial filtrado');
+			show = false;
+		}
+		// If endFilter is set, reservation must END at or before the filter end time
+		if (filterEndMin !== null && rowEndMin !== null && rowEndMin > filterEndMin) {
+			console.log('❌ Escondendo: reserva termina depois do horário final filtrado');
+			show = false;
+		}
+
+		console.log('Mostrar linha?', show);
+		console.log('---');
 
 		r.style.display = show ? '' : 'none';
 	});
