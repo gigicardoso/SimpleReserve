@@ -225,6 +225,16 @@
           font-size: 1.2rem;
         }
       }
+      
+      /* Estilo para slots passados - vermelho claro e cursor bloqueado */
+      .fc-timegrid-slot.past-slot {
+        background-color: #ffcdd2 !important;
+        cursor: not-allowed !important;
+        opacity: 0.85;
+      }
+      .fc-timegrid-col.past-day {
+        background-color: rgba(255, 205, 210, 0.5) !important;
+      }
     </style>
   </head>
   <body>
@@ -285,16 +295,17 @@
           events: '/agenda/api/eventos',
           selectable: true,
           selectMirror: true,
+          selectConstraint: {
+            start: new Date().toISOString().split('T')[0], // Apenas datas a partir de hoje
+            end: '2100-01-01'
+          },
           selectAllow: function(selectInfo) {
-            return true;
+            // Bloqueia seleções que começam no passado
+            const agora = new Date();
+            return selectInfo.start >= agora;
           },
           select: function(info) {
-            const agora = new Date();
-            const dataSelecionada = info.start;
-            if (dataSelecionada < agora) {
-              alert('Não é possível reservar para datas ou horários passados!');
-              return;
-            }
+            // Navegação direta sem alert (já bloqueado pelo selectAllow)
             const data = info.startStr.split('T')[0];
             const horaInicio = info.startStr.split('T')[1]?.slice(0,5);
             let horaFim = info.endStr.split('T')[1]?.slice(0,5);
@@ -357,6 +368,82 @@
           }
         });
         calendar.render();
+
+        // Função para marcar apenas slots passados
+        function markPastSlots() {
+          const now = new Date();
+          
+          // Remove marcações antigas
+          document.querySelectorAll('.past-slot, .past-day').forEach(el => {
+            el.classList.remove('past-slot', 'past-day');
+          });
+          
+          // Pega a view atual do calendário
+          const view = calendar.view;
+          const viewStart = view.activeStart;
+          const viewEnd = view.activeEnd;
+          
+          // Itera sobre cada coluna de dia
+          document.querySelectorAll('.fc-timegrid-col').forEach(col => {
+            const dateStr = col.getAttribute('data-date');
+            if (!dateStr) return;
+            
+            const colDate = new Date(dateStr + 'T00:00:00');
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            // Se a coluna é de um dia completamente passado
+            if (colDate < today) {
+              col.classList.add('past-day');
+            } else if (colDate.getTime() === today.getTime()) {
+              // É hoje - marca apenas slots passados dentro desta coluna
+              // Não faz nada aqui, vamos marcar os slots individualmente abaixo
+            }
+          });
+          
+          // Marca slots individuais (linhas de horário) que já passaram
+          const slotMinTime = calendar.getOption('slotMinTime') || '00:00:00';
+          const slotDuration = calendar.getOption('slotDuration') || '00:15:00';
+          
+          // Converte slotMinTime para minutos
+          const [startHours, startMinutes] = slotMinTime.split(':').map(Number);
+          const startTotalMinutes = startHours * 60 + startMinutes;
+          
+          // Converte slotDuration para minutos  
+          const [durHours, durMinutes] = slotDuration.split(':').map(Number);
+          const durationMinutes = durHours * 60 + durMinutes;
+          
+          // Para cada slot de horário
+          document.querySelectorAll('.fc-timegrid-slot').forEach((slot, index) => {
+            // Calcula o horário deste slot baseado no índice
+            const slotMinutes = startTotalMinutes + (Math.floor(index / 7) * durationMinutes); // 7 colunas (dias)
+            const slotHours = Math.floor(slotMinutes / 60);
+            const slotMins = slotMinutes % 60;
+            
+            // Pega a coluna (dia) deste slot
+            const parent = slot.closest('.fc-timegrid-col');
+            if (!parent) return;
+            
+            const dateStr = parent.getAttribute('data-date');
+            if (!dateStr) return;
+            
+            // Cria a data/hora completa do slot
+            const slotDateTime = new Date(dateStr);
+            slotDateTime.setHours(slotHours, slotMins, 0, 0);
+            
+            // Marca se já passou
+            if (slotDateTime < now) {
+              slot.classList.add('past-slot');
+            }
+          });
+        }
+
+        // Marca slots passados após renderizar
+        calendar.on('datesSet', function() {
+          setTimeout(markPastSlots, 100);
+        });
+        
+        // Atualiza a cada minuto
+        setInterval(markPastSlots, 60000);
 
         // Função para atualizar estatísticas do rodapé
         function updateFooterStats(events) {
