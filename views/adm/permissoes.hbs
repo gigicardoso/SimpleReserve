@@ -42,11 +42,11 @@
 							<td style="text-align: center;">{{#if this.arqUser}}Sim{{else}}Não{{/if}}</td>
 							<td style="text-align: center;">{{#if this.ReservaAdm}}Sim{{else}}Não{{/if}}</td>
 							<td class="actions" style="min-width: 180px;">
-								<a href="/permissoes/editarPermissao/{{this.id_permissao}}" class="btn-action btn-edit" style="text-decoration: none; display: inline-flex; padding: 6px 12px; font-size: 13px;">
+								<a href="/permissoes/editarPermissao/{{this.id_permissao}}" class="btn-action btn-edit">
 									<i class="bi bi-pencil"></i>
 									<span>Editar</span>
 								</a>
-								<a href="/permissoes/excluirPermissao/{{this.id_permissao}}" class="btn-action btn-delete" style="text-decoration: none; display: inline-flex; padding: 6px 12px; font-size: 13px;" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">
+								<a href="/permissoes/excluirPermissao/{{this.id_permissao}}" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">
 									<i class="bi bi-trash"></i>
 									<span>Excluir</span>
 								</a>

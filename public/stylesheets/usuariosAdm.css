@@ -2,7 +2,7 @@
     --primary-color: #84925b;
     --primary-dark: #6a774a;
     --primary-light: #a3af7b;
-    --secondary-color: #f5f7f0;
+    --secondary-color: #f4f6ee;
     --text-color: #333333;
     --text-light: #5a5a5a;
     --white: #ffffff;
@@ -142,7 +142,9 @@ h1 {
     background: var(--white);
     border: 1.5px solid var(--primary-light);
     outline: none;
+    text-decoration: none; /* garante âncoras sem sublinhado */
 }
+.btn-action:hover { text-decoration: none; }
 .btn-action i {
     font-size: 15px;
     margin-right: 4px;

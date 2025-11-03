@@ -227,16 +227,6 @@
         }
       }
       
-      /* Estilo para slots passados - vermelho claro e cursor bloqueado */
-      .fc-timegrid-slot.past-slot {
-        background-color: #ffcdd2 !important;
-        cursor: not-allowed !important;
-        opacity: 0.85;
-      }
-      .fc-timegrid-col.past-day {
-        background-color: rgba(255, 205, 210, 0.5) !important;
-      }
-      
       /* RODAPÉ COM LOGO */
       .footer-simple {
         background-color: #84925b;
@@ -389,10 +379,6 @@
             if (horaFim) url += '&hora_fim=' + encodeURIComponent(horaFim);
             window.location.href = url;
           },
-          selectConstraint: {
-            backgroundColor: '#84925b',
-            borderColor: '#84925b'
-          },
           eventClick: function(info) {
             const event = info.event;
             document.getElementById('modal-event-title').textContent = event.title;
@@ -432,61 +418,7 @@
         });
         calendar.render();
 
-        function markPastSlots() {
-          const now = new Date();
-          
-          document.querySelectorAll('.past-slot, .past-day').forEach(el => {
-            el.classList.remove('past-slot', 'past-day');
-          });
-          
-          const view = calendar.view;
-          
-          document.querySelectorAll('.fc-timegrid-col').forEach(col => {
-            const dateStr = col.getAttribute('data-date');
-            if (!dateStr) return;
-            
-            const colDate = new Date(dateStr + 'T00:00:00');
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            
-            if (colDate < today) {
-              col.classList.add('past-day');
-            }
-          });
-          
-          const slotMinTime = calendar.getOption('slotMinTime') || '00:00:00';
-          const slotDuration = calendar.getOption('slotDuration') || '00:15:00';
-          
-          const [startHours, startMinutes] = slotMinTime.split(':').map(Number);
-          const startTotalMinutes = startHours * 60 + startMinutes;
-          
-          const [durHours, durMinutes] = slotDuration.split(':').map(Number);
-          const durationMinutes = durHours * 60 + durMinutes;
-          
-          document.querySelectorAll('.fc-timegrid-slot').forEach((slot, index) => {
-            const slotMinutes = startTotalMinutes + (Math.floor(index / 7) * durationMinutes);
-            const slotHours = Math.floor(slotMinutes / 60);
-            const slotMins = slotMinutes % 60;
-            
-            const parent = slot.closest('.fc-timegrid-col');
-            if (!parent) return;
-            
-            const dateStr = parent.getAttribute('data-date');
-            if (!dateStr) return;
-            
-            const slotDateTime = new Date(dateStr);
-            slotDateTime.setHours(slotHours, slotMins, 0, 0);
-            
-            if (slotDateTime < now) {
-              slot.classList.add('past-slot');
-            }
-          });
-        }
-
-        calendar.on('datesSet', function() {
-          setTimeout(markPastSlots, 100);
-        });
-        
-        setInterval(markPastSlots, 60000);
+        // Removido o destaque vermelho do fundo; mantemos apenas o bloqueio de seleção para horários passados
 
         function updateFooterStats(events) {
           const view = calendar.view;
