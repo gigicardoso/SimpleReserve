@@ -1,0 +1,77 @@
+{{#if alertaExclusao}}
+<div class="modal fade show" id="alertaExclusaoModal" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 12px;">
+      <div class="modal-header" style="background-color: #ff9800; color: white; border-radius: 12px 12px 0 0;">
+        <h5 class="modal-title">
+          <i class="fas fa-exclamation-triangle"></i> Atenção ao Excluir
+        </h5>
+      </div>
+      <div class="modal-body" style="padding: 24px;">
+        <p style="font-size: 16px; margin-bottom: 16px;">
+          <strong>{{alertaExclusao.tipo}}: "{{alertaExclusao.nome}}"</strong>
+        </p>
+        {{#if alertaExclusao.andares}}
+        <p style="margin-bottom: 12px;">
+          <i class="fas fa-info-circle" style="color: #2196F3;"></i>
+          Este bloco possui <strong>{{alertaExclusao.andares}} andar(es)</strong> cadastrado(s).
+        </p>
+        {{/if}}
+        {{#if alertaExclusao.salas}}
+        <p style="margin-bottom: 12px;">
+          <i class="fas fa-door-open" style="color: #4CAF50;"></i>
+          {{#if alertaExclusao.andares}}
+          Esses andares possuem
+          {{else}}
+          Este {{alertaExclusao.tipo}} possui
+          {{/if}}
+          <strong>{{alertaExclusao.salas}} sala(s)</strong> cadastrada(s).
+        </p>
+        {{/if}}
+        <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 16px 0; border-radius: 4px;">
+          <p style="margin: 0; color: #856404;">
+            <i class="fas fa-exclamation-circle"></i>
+            <strong>Ao confirmar a exclusão:</strong>
+          </p>
+          <ul style="margin: 8px 0 0 24px; color: #856404;">
+            {{#if alertaExclusao.andares}}
+            <li>Os <strong>{{alertaExclusao.andares}} andar(es)</strong> serão excluídos</li>
+            {{/if}}
+            {{#if alertaExclusao.salas}}
+            <li>Nas <strong>{{alertaExclusao.salas}} sala(s)</strong> afetadas, o campo aparecerá como "{{#if (eq alertaExclusao.tipo 'bloco')}}Bloco Excluído{{else if (eq alertaExclusao.tipo 'andar')}}Andar Excluído{{else if (eq alertaExclusao.tipo 'tipo de mesa')}}Tipo de Mesa Excluído{{else}}Tipo de Sala Excluído{{/if}}"</li>
+            {{/if}}
+          </ul>
+        </div>
+        <p style="font-size: 15px; font-weight: 500; color: #d32f2f; margin-top: 16px;">
+          Deseja realmente continuar com a exclusão?
+        </p>
+      </div>
+      <div class="modal-footer" style="border-top: 1px solid #dee2e6; padding: 16px 24px;">
+        <button type="button" class="btn btn-secondary" onclick="fecharAlerta()" style="padding: 8px 20px; border-radius: 6px;">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <a href="{{#if (eq alertaExclusao.tipo 'bloco')}}/excluirBloco/{{alertaExclusao.id}}?force=true{{else if (eq alertaExclusao.tipo 'andar')}}/excluirAndar/{{alertaExclusao.id}}?force=true{{else if (eq alertaExclusao.tipo 'tipo de mesa')}}/excluirMesa/{{alertaExclusao.id}}?force=true{{else}}/excluirTipoSala/{{alertaExclusao.id}}?force=true{{/if}}" 
+           class="btn btn-danger" 
+           style="padding: 8px 20px; border-radius: 6px; background-color: #f44336; border-color: #f44336;">
+          <i class="fas fa-trash-alt"></i> Confirmar Exclusão
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fecharAlerta() {
+  document.getElementById('alertaExclusaoModal').style.display = 'none';
+  {{#if (eq alertaExclusao.tipo 'bloco')}}
+    window.location.href = '/bloco';
+  {{else if (eq alertaExclusao.tipo 'andar')}}
+    window.location.href = '/andares';
+  {{else if (eq alertaExclusao.tipo 'tipo de mesa')}}
+    window.location.href = '/tipoMesa';
+  {{else}}
+    window.location.href = '/tipoSala';
+  {{/if}}
+}
+</script>
+{{/if}}

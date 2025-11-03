@@ -149,9 +149,38 @@ exports.deletarTipoSala = async (req, res) => {
   try {
     const tipoSala = await TipoSala.findByPk(req.params.id);
     if (!tipoSala) return res.status(404).send("Tipo de Sala não encontrada");
+    
+    // Verifica se há salas usando este tipo de sala
+    const Sala = require("../models/salasModel");
+    const salasUsando = await Sala.count({ where: { id_tipo: req.params.id } });
+    
+    // Se force=true, deleta mesmo com dependências
+    if (req.query.force !== 'true' && salasUsando > 0) {
+      const tipoSalas = await TipoSala.findAll();
+      return res.render('adm/tipoSala', {
+        tipoSalas,
+        layout: 'layout',
+        showSidebar: true,
+        showLogo: true,
+        isGerenciador: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Gerenciador de tipo de sala', path: '/tipoSala' }
+        ],
+        ...permsCtx(req),
+        alertaExclusao: {
+          tipo: 'tipo de sala',
+          nome: tipoSala.descricao,
+          id: tipoSala.id_tipo,
+          salas: salasUsando
+        }
+      });
+    }
+    
     await tipoSala.destroy();
     res.redirect("/tipoSala");
   } catch (error) {
+    console.error("Erro ao deletar tipo de Sala:", error);
     res.status(500).send("Erro ao deletar tipo de Sala");
   }
 };

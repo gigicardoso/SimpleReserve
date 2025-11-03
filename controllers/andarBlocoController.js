@@ -150,9 +150,39 @@ exports.deletarAndar = async (req, res) => {
   try {
     const andar = await Andar.findByPk(req.params.id);
     if (!andar) return res.status(404).send("Andar não encontrado");
+    
+    // Verifica se há salas usando este andar
+    const Sala = require("../models/salasModel");
+    const salasUsando = await Sala.count({ where: { id_andar: req.params.id } });
+    
+    // Se force=true, deleta mesmo com dependências
+    if (req.query.force !== 'true' && salasUsando > 0) {
+      const andares = await Andar.findAll({
+        include: [{ model: Bloco, as: "blocoAndar" }],
+      });
+      const blocos = await Bloco.findAll();
+      
+      return res.render("adm/andar", {
+        layout: "layout",
+        showSidebar: true,
+        showLogo: true,
+        isGerenciador: true,
+        andares: andares,
+        blocos,
+        ...permsCtx(req),
+        alertaExclusao: {
+          tipo: 'andar',
+          nome: andar.descricao,
+          id: andar.id_andar,
+          salas: salasUsando
+        }
+      });
+    }
+    
     await andar.destroy();
     res.redirect("/andares");
   } catch (error) {
+    console.error("Erro ao deletar andar:", error);
     res.status(500).send("Erro ao deletar andar");
   }
 };

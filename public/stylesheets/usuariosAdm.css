@@ -94,6 +94,34 @@ h1 {
     border-bottom: 1px solid var(--gray-light);
     vertical-align: middle;
 }
+
+/* Ajustes específicos para tabela de permissões */
+.user-table th {
+    white-space: nowrap;
+    padding: 12px 6px;
+    font-size: 11px;
+}
+
+.user-table td {
+    padding: 12px 6px;
+    font-size: 13px;
+}
+
+.user-table .actions {
+    gap: 6px;
+}
+
+.user-table .btn-action {
+    padding: 5px 8px;
+    font-size: 11.5px;
+    gap: 4px;
+}
+
+.user-table .btn-action i {
+    font-size: 11.5px;
+}
+
+
 .user-table th, .bloco-table th, .andar-table th, .mesa-table th, .tipo-sala-table th {
     background-color: var(--primary-color);
     color: var(--white);
@@ -101,6 +129,7 @@ h1 {
     text-transform: uppercase;
     font-size: 13px;
     letter-spacing: 0.5px;
+    font-family: 'Poppins', sans-serif !important;
 }
 .user-table tr:last-child td,
 .bloco-table tr:last-child td,
@@ -294,6 +323,9 @@ h1 {
     .user-table th, .user-table td {
         padding: 12px 15px;
     }
+    .user-table .btn-action span {
+        display: none;
+    }
     .actions {
         justify-content: center;
     }
@@ -302,7 +334,7 @@ h1 {
         font-size: 12px;
     }
     .btn-action i {
-        display: none;
+        display: inline;
     }
 }
 @media (max-width: 600px) {

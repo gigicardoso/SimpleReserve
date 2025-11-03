@@ -2,13 +2,16 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.btn-delete').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
+      {{#unless alertaExclusao}}
       if (!window.confirm('Tem certeza que quer excluir?')) {
         e.preventDefault();
       }
+      {{/unless}}
     });
   });
 });
 </script>
+{{> alertaExclusao}}
 <nav class="breadcrumb-nav">
   <ol class="breadcrumb-list">
     <li class="breadcrumb-item"><a href="/adm">Gerenciador ADM</a></li>

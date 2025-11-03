@@ -260,9 +260,27 @@
                         {{#each salas}}
                         <tr>
                             <td><strong>{{nome_salas}}</strong></td>
-                            <td>{{andarSala.blocoAndar.descricao}}</td>
-                            <td>{{andarSala.descricao}}</td>
-                            <td>{{tipoSala.descricao}}</td>
+                            <td>
+                                {{#if andarSala.blocoAndar}}
+                                    {{andarSala.blocoAndar.descricao}}
+                                {{else}}
+                                    <em style="color: #999;">Bloco Excluído</em>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if andarSala}}
+                                    {{andarSala.descricao}}
+                                {{else}}
+                                    <em style="color: #999;">Andar Excluído</em>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if tipoSala}}
+                                    {{tipoSala.descricao}}
+                                {{else}}
+                                    <em style="color: #999;">Tipo de Sala Excluído</em>
+                                {{/if}}
+                            </td>
                             <td>{{capacidade}}</td>
                             <td class="actions">
                                 <button class="btn-action btn-details" data-id="{{id_salas}}">
@@ -325,16 +343,24 @@
                 fetch(`/salas/detalhes/${idSala}`)
                     .then(res => res.json())
                     .then(sala => {
+                        const bloco = sala.andarSala?.blocoAndar?.descricao || '<em style="color: #999;">Bloco Excluído</em>';
+                        const andar = sala.andarSala?.descricao || '<em style="color: #999;">Andar Excluído</em>';
+                        const tipo = sala.tipoSala?.descricao || '<em style="color: #999;">Tipo de Sala Excluído</em>';
+                        const mesa = sala.mesaSala?.descricao || '<em style="color: #999;">Tipo de Mesa Excluído</em>';
+                        
                         const detalhesContent = `
-                            <p><strong>Mesa:</strong> ${sala.mesaSala?.descricao || '-'}</p>
-                            <p><strong>Canhoto:</strong> ${sala.mesa_canhoto}</p>
+                            <p><strong>Bloco:</strong> ${bloco}</p>
+                            <p><strong>Andar:</strong> ${andar}</p>
+                            <p><strong>Tipo de Sala:</strong> ${tipo}</p>
+                            <p><strong>Tipo de Mesa:</strong> ${mesa}</p>
+                            <p><strong>Canhoto:</strong> ${sala.mesa_canhoto || 0}</p>
                             <p><strong>Projetor:</strong> ${sala.projetor ? 'Sim' : 'Não'}</p>
                             <p><strong>Ar Cond:</strong> ${sala.ar_cond ? 'Sim' : 'Não'}</p>
                             <p><strong>Quadro:</strong> ${sala.quadro ? 'Sim' : 'Não'}</p>
-                            <p><strong>Computador:</strong> ${sala.computador}</p>
+                            <p><strong>Computador:</strong> ${sala.computador || 0}</p>
                             <p><strong>Acessível:</strong> ${sala.acess ? 'Sim' : 'Não'}</p>
-                            <p><strong>Mesas Acess:</strong> ${sala.mesa_acess}</p>
-                            <p><strong>Descrição:</strong> ${sala.descricao}</p>
+                            <p><strong>Mesas Acess:</strong> ${sala.mesa_acess || 0}</p>
+                            <p><strong>Descrição:</strong> ${sala.descricao || '-'}</p>
                             <p><strong>Imagem da Sala:</strong> ${sala.imagem_sala ? `<img src="/uploads/salas/${sala.imagem_sala}" alt="Imagem da Sala" style="max-width: 100%; height: auto; border-radius: 8px;">` : 'Nenhuma imagem disponível'}</p>
                         `;
                         document.getElementById('detalhesSalaContent').innerHTML = detalhesContent;

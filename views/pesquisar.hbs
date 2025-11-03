@@ -21,7 +21,7 @@
       <select class="filter-select" id="floor-filter">
         <option value="">Todos os andares</option>
         {{#each andares}}
-          <option value="{{this}}">{{this}}º</option>
+          <option value="{{this}}">{{this}}</option>
         {{/each}}
       </select>
       <select class="filter-select" id="block-filter">
@@ -148,7 +148,7 @@
           <div class="room-info">
             <h3 class="room-name">${room.nome}</h3>
             <div class="room-details">
-              <span>${room.andar}º</span>
+              <span>${room.andar}</span>
               <span>${room.bloco}</span>
             </div>
             <div class="room-features">
@@ -166,7 +166,7 @@
   document.getElementById('modal-room-name').textContent = room.nome;
   document.getElementById('modal-room-image').src = room.imagem_url || '/images/logo.png';
   document.getElementById('modal-type').textContent = room.tipo_sala;
-  document.getElementById('modal-floor').textContent = `${room.andar}º`;
+  document.getElementById('modal-floor').textContent = `${room.andar}`;
   document.getElementById('modal-block').textContent = `${room.bloco}`;
   document.getElementById('modal-capacity').textContent = `${room.capacidade} pessoas`;
   document.getElementById('modal-table').textContent = room.tipo_mesa;

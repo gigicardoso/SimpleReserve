@@ -42,10 +42,11 @@ exports.listarSalas = async (req, res) => {
         {
           model: AndarBloco,
           as: "andarSala",
-          include: [{ model: Bloco, as: "blocoAndar" }],
+          required: false,
+          include: [{ model: Bloco, as: "blocoAndar", required: false }],
         },
-        { model: Mesa, as: "mesaSala" },
-        { model: SalaTipo, as: "tipoSala" },
+        { model: Mesa, as: "mesaSala", required: false },
+        { model: SalaTipo, as: "tipoSala", required: false },
       ],
     });
     res.render("gerenciarSalas", {
@@ -230,15 +231,20 @@ exports.detalhesSala = async (req, res) => {
   try {
     const sala = await Sala.findByPk(req.params.id, {
       include: [
-        { model: AndarBloco, as: "andarSala" },
-        { model: Mesa, as: "mesaSala" },
-
-        { model: SalaTipo, as: "tipoSala" },
+        { 
+          model: AndarBloco, 
+          as: "andarSala",
+          required: false,
+          include: [{ model: Bloco, as: "blocoAndar", required: false }]
+        },
+        { model: Mesa, as: "mesaSala", required: false },
+        { model: SalaTipo, as: "tipoSala", required: false },
       ],
     });
     if (!sala) return res.status(404).send("Sala não encontrada");
     res.json(sala);
   } catch (error) {
+    console.error("Erro ao carregar detalhes da sala:", error);
     res.status(500).send("Erro ao carregar detalhes da sala");
   }
 };

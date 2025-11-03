@@ -23,6 +23,10 @@ hbs.registerHelper('ifeq', function(a, b, options) {
   return (a == b) ? options.fn(this) : options.inverse(this);
 });
 
+hbs.registerHelper('eq', function(a, b) {
+  return a === b;
+});
+
 hbs.registerHelper('formatarData', function(data) {
   if (!data) return '';
   if (typeof data === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data)) {

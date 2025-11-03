@@ -93,9 +93,37 @@ exports.deletarMesa = async (req, res) => {
   try {
     const mesa = await Mesa.findByPk(req.params.id);
     if (!mesa) return res.status(404).send("Mesa não encontrada");
+    
+    // Verifica se há salas usando este tipo de mesa
+    const Sala = require("../models/salasModel");
+    const salasUsando = await Sala.count({ where: { id_mesa: req.params.id } });
+    
+    // Se force=true, deleta mesmo com dependências
+    if (req.query.force !== 'true' && salasUsando > 0) {
+      const mesas = await Mesa.findAll();
+      return res.render('adm/tipoMesa', {
+        mesas,
+        layout: 'layout',
+        showSidebar: true,
+        showLogo: true,
+        isGerenciador: true,
+        breadcrumb: [
+          { title: 'Gerenciador ADM', path: '/adm' },
+          { title: 'Gerenciador de tipo de mesa', path: '/tipoMesa' }
+        ],
+        alertaExclusao: {
+          tipo: 'tipo de mesa',
+          nome: mesa.descricao,
+          id: mesa.id_mesa,
+          salas: salasUsando
+        }
+      });
+    }
+    
     await mesa.destroy();
     res.redirect("/tipoMesa");
   } catch (error) {
+    console.error("Erro ao deletar mesa:", error);
     res.status(500).send("Erro ao deletar mesa");
   }
 };

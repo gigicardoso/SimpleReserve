@@ -2,13 +2,16 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.btn-delete').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
+      {{#unless alertaExclusao}}
       if (!window.confirm('Tem certeza que quer excluir?')) {
         e.preventDefault();
       }
+      {{/unless}}
     });
   });
 });
 </script>
+{{> alertaExclusao}}
 <div class="container">
   <div class="header">
     <div class="title-container">
