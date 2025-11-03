@@ -52,13 +52,13 @@
 					<div class="actions" style="display: flex; gap: 8px; justify-content: flex-end;">
 						{{#if ../podeEditarReserva}}
 						<a href="/reservas/editar/{{this.id_agenda}}?origem=reservasadm" class="btn-action btn-edit">
-							<i class="fa fa-edit"></i>
+							<i class="fas fa-edit"></i>
 							<span class="btn-text">Editar</span>
 						</a>
 						{{/if}}
 						{{#if ../podeExcluirReserva}}
 						<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete" onclick="return confirm('Deseja apagar esta reserva?')">
-							<i class="bi bi-trash"></i>
+							<i class="fas fa-trash-alt"></i>
 							<span class="btn-text">Excluir</span>
 						</button>
 						<form id="form-excluir-{{this.id_agenda}}" action="/reservas/excluir/{{this.id_agenda}}" method="GET" style="display:none;">
@@ -105,6 +105,7 @@
 
 <link rel="stylesheet" href="/stylesheets/usuariosAdm.css">
 <link rel="stylesheet" href="/stylesheets/pesquisarSalas.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script>
