@@ -1,12 +1,13 @@
 <!-- Modal de Detalhes do Evento -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="eventDetailsModalLabel" style="color: #84925b;">Detalhes do Evento</h5>
+        <h5 class="modal-title" id="eventDetailsModalLabel" style="color: #84925b; font-family: 'Poppins', sans-serif;">Detalhes do Evento</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="font-family: 'Poppins', sans-serif;">
         <div class="mb-2"><strong>Nome do Evento:</strong> <span id="modal-event-title"></span></div>
         <div class="mb-2"><strong>Sala:</strong> <span id="modal-event-sala"></span></div>
         <div class="mb-2"><strong>Data:</strong> <span id="modal-event-date"></span></div>
@@ -31,22 +32,24 @@
           justify-content: center;
           width: 100%;
         }
+        .actions-flex .btn-action {
+          width: 110px;
+          justify-content: center;
+        }
         .btn-action {
-          padding: 8px 18px;
-          border: none;
-          border-radius: 8px;
+          padding: 6px 12px;
+          border-radius: 6px;
           cursor: pointer;
-          font-size: 14px;
-          font-weight: 600;
+          font-size: 13px;
+          font-weight: 500;
+          font-family: 'Poppins', sans-serif;
           transition: all 0.2s;
           display: flex;
           align-items: center;
-          gap: 8px;
-          box-shadow: 0 2px 8px rgba(132,146,91,0.08);
-          background: var(--white, #fff);
-          border: 1.5px solid var(--primary-light, #a3b075);
-          outline: none;
+          gap: 6px;
           text-decoration: none !important;
+          outline: none;
+          border: none;
         }
         .btn-action:hover,
         .btn-action:focus,
@@ -57,28 +60,25 @@
         }
         .btn-action .btn-text { text-decoration: none !important; }
         .btn-action i {
-          font-size: 15px;
-          margin-right: 4px;
+          font-size: 13px;
         }
         .btn-edit {
+          background-color: rgba(255, 152, 0, 0.1);
           color: var(--warning-color, #ff9800);
-          border-color: var(--warning-color, #ff9800);
-          background: rgba(255,152,0,0.08);
+          border: 1px solid rgba(255, 152, 0, 0.3);
         }
         .btn-edit:hover {
-          background: var(--warning-color, #ff9800);
-          color: var(--white, #fff);
-          border-color: var(--warning-color, #ff9800);
+          background-color: rgba(255, 152, 0, 0.2);
+          color: var(--warning-color, #ff9800);
         }
         .btn-delete {
+          background-color: rgba(244, 67, 54, 0.1);
           color: var(--error-color, #f44336);
-          border-color: var(--error-color, #f44336);
-          background: rgba(244,67,54,0.08);
+          border: 1px solid rgba(244, 67, 54, 0.3);
         }
         .btn-delete:hover {
-          background: var(--error-color, #f44336);
-          color: var(--white, #fff);
-          border-color: var(--error-color, #f44336);
+          background-color: rgba(244, 67, 54, 0.2);
+          color: var(--error-color, #f44336);
         }
         /* Ajusta o btn-close para manter a aparência padrão do Bootstrap */
         .btn-close {

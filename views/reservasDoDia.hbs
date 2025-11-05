@@ -15,45 +15,53 @@
     justify-content: center;
     width: 100%;
 }
+.actions-flex .btn-action {
+	width: 90px;
+	justify-content: center;
+}
 .btn-action {
-	padding: 9px 20px;
-	border: none;
-	border-radius: 8px;
+	padding: 6px 12px;
+	border-radius: 6px;
 	cursor: pointer;
-	font-size: 16px;
-	font-weight: 600;
+	font-size: 13px;
+	font-weight: 500;
 	transition: all 0.2s;
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	box-shadow: 0 2px 8px rgba(132,146,91,0.08);
-	background: var(--white);
-	border: 1.5px solid var(--primary-light);
+	gap: 6px;
+	text-decoration: none;
 	outline: none;
+	border: none;
+}
+.btn-action:hover { 
+	text-decoration: none;
+}
+.btn-action:focus {
+	text-decoration: none;
+}
+.btn-action span {
+	text-decoration: none;
 }
 .btn-action i {
-	font-size: 17px;
-	margin-right: 4px;
+	font-size: 13px;
 }
 .btn-edit {
-    color: var(--warning-color);
-    border-color: var(--warning-color);
-    background: rgba(255,152,0,0.08);
+	background-color: rgba(255, 152, 0, 0.1);
+	color: var(--warning-color);
+	border: 1px solid rgba(255, 152, 0, 0.3);
 }
 .btn-edit:hover {
-    background: var(--warning-color);
-    color: var(--white);
-    border-color: var(--warning-color);
+	background-color: rgba(255, 152, 0, 0.2);
+	color: var(--warning-color);
 }
 .btn-delete {
-    color: var(--error-color);
-    border-color: var(--error-color);
-    background: rgba(244,67,54,0.08);
+	background-color: rgba(244, 67, 54, 0.1);
+	color: var(--error-color);
+	border: 1px solid rgba(244, 67, 54, 0.3);
 }
 .btn-delete:hover {
-    background: var(--error-color);
-    color: var(--white);
-    border-color: var(--error-color);
+	background-color: rgba(244, 67, 54, 0.2);
+	color: var(--error-color);
 }
 @media (max-width: 768px) {
 	.btn-action {
