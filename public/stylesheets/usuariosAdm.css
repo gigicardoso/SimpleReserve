@@ -95,16 +95,25 @@ h1 {
     vertical-align: middle;
 }
 
+/* Tamanho de fonte padrão para todas as tabelas administrativas */
+.user-table td,
+.bloco-table td,
+.andar-table td,
+.mesa-table td,
+.tipo-sala-table td {
+    font-size: 15px;
+}
+
 /* Ajustes específicos para tabela de permissões */
 .user-table th {
     white-space: nowrap;
     padding: 12px 6px;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .user-table td {
     padding: 12px 6px;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .user-table .actions {
@@ -112,13 +121,13 @@ h1 {
 }
 
 .user-table .btn-action {
-    padding: 5px 8px;
-    font-size: 11.5px;
-    gap: 4px;
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
 }
 
 .user-table .btn-action i {
-    font-size: 11.5px;
+    font-size: 13px;
 }
 
 
@@ -127,7 +136,7 @@ h1 {
     color: var(--white);
     font-weight: 500;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0.5px;
     font-family: 'Poppins', sans-serif !important;
 }
@@ -171,7 +180,13 @@ h1 {
     outline: none;
 }
 .btn-action:hover { 
-    text-decoration: none; 
+    text-decoration: none;
+}
+.btn-action:focus {
+    text-decoration: none;
+}
+.btn-action span {
+    text-decoration: none;
 }
 .btn-action i {
     font-size: 13px;

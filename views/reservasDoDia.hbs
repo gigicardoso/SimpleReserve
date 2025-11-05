@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+.user-table thead th { 
+	font-family: 'Poppins', sans-serif !important; 
+	font-size: 14px;
+}
+.user-table tbody td {
+	font-size: 15px;
+}
 .actions-flex {
     display: flex;
     gap: 12px;
@@ -8,24 +16,24 @@
     width: 100%;
 }
 .btn-action {
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 2px 8px rgba(132,146,91,0.08);
-    background: var(--white);
-    border: 1.5px solid var(--primary-light);
-    outline: none;
+	padding: 9px 20px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	transition: all 0.2s;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	box-shadow: 0 2px 8px rgba(132,146,91,0.08);
+	background: var(--white);
+	border: 1.5px solid var(--primary-light);
+	outline: none;
 }
 .btn-action i {
-    font-size: 15px;
-    margin-right: 4px;
+	font-size: 17px;
+	margin-right: 4px;
 }
 .btn-edit {
     color: var(--warning-color);
@@ -47,14 +55,11 @@
     color: var(--white);
     border-color: var(--error-color);
 }
-.btn-underline .btn-text {
-    text-decoration: underline;
-}
 @media (max-width: 768px) {
-    .btn-action {
-        padding: 6px 8px;
-        font-size: 12px;
-    }
+	.btn-action {
+		padding: 6px 10px;
+		font-size: 13px;
+	}
     .btn-action i {
         display: none;
     }
@@ -86,11 +91,11 @@
 						<td>{{formatarHora this.hora_inicio}} - {{formatarHora this.hora_final}}</td>
 						<td>
 							<div class="actions-flex" style="width: 100%; justify-content: center;">
-								<a href="/reservas/editar/{{this.id_agenda}}" class="btn-action btn-edit btn-underline">
+								<a href="/reservas/editar/{{this.id_agenda}}" class="btn-action btn-edit">
 									<i class="fa fa-edit"></i>
 									<span class="btn-text">Editar</span>
 								</a>
-								<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete btn-underline" onclick="return confirm('Deseja apagar esta reserva?')">
+								<button type="submit" form="form-excluir-{{this.id_agenda}}" class="btn-action btn-delete" onclick="return confirm('Deseja apagar esta reserva?')">
 									<i class="fa fa-trash-alt"></i>
 									<span class="btn-text">Excluir</span>
 								</button>

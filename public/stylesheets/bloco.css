@@ -237,6 +237,14 @@ h1 {
     background: var(--white);
     border: 1.5px solid var(--primary-light);
     outline: none;
+    text-decoration: none;
+  }
+  .btn-action:hover,
+  .btn-action:focus {
+    text-decoration: none;
+  }
+  .btn-action span {
+    text-decoration: none;
 }
 .btn-action i {
     font-size: 13px;

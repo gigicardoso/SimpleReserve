@@ -9,14 +9,35 @@ const crypto = require('crypto');
 router.get("/pesquisar", async (req, res) => {
   // Busca blocos e andares cadastrados
   const blocos = await Bloco.findAll();
-  const andares = await AndarBloco.findAll();
+  const andares = await AndarBloco.findAll({ attributes: ["descricao"] });
+  // Monta lista única de andares (independente do bloco)
+  const andaresUnicos = Array.from(
+    new Set(
+      andares
+        .map((a) => (a.descricao || "").trim())
+        .filter((s) => s && s.length > 0)
+    )
+  );
+  // Ordena Térreo -> 1º, 2º, 3º ... (fallback alfabético)
+  const parseNivel = (s) => {
+    const low = s.toLowerCase();
+    if (low.includes("térreo") || low.includes("terreo")) return -1;
+    const m = s.match(/\d+/);
+    return m ? parseInt(m[0], 10) : 9999;
+  };
+  const andaresOrdenados = andaresUnicos.sort((a, b) => {
+    const na = parseNivel(a);
+    const nb = parseNivel(b);
+    if (na !== nb) return na - nb;
+    return a.localeCompare(b, "pt-BR");
+  });
   res.render("pesquisar", {
     layout: "layout",
     showSidebar: true,
     showLogo: true,
     isPesquisar: true,
-    blocos: blocos.map(b => b.descricao),
-    andares: andares.map(a => a.descricao)
+    blocos: blocos.map((b) => b.descricao),
+    andares: andaresOrdenados,
   });
 });
 const path = require("path");
