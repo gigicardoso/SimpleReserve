@@ -622,11 +622,23 @@ input[type="checkbox"] {
 
 .btn-cadastrar {
   border-radius: 10px !important;
-  /*padding-left: 32px;*/
-  padding-right: 155px;
+  padding-left: 20px;
+  padding-right: 20px;
+  white-space: nowrap;
+  text-align: center;  
+}
+.btn-cadastrar-rec-senha {
+  border-radius: 10px !important;
+  padding-left: 10px;
+  padding-right: 150px;
   white-space: nowrap;
 }
-
+.btn-cadastrar-resetar-senha {
+  border-radius: 10px !important;
+  padding-left: 12px;
+  padding-right: 135px;
+  white-space: nowrap;
+}
 /* ----------- Painel de Controle (gerenciadorAdm) ----------- */
 .dashboard {
     width: 100%;
