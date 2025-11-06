@@ -68,8 +68,22 @@ async function getTransport() {
       }
     });
   } catch (error) {
-    console.error('[mailer] Erro ao obter access token:', error.message);
-    const err = new Error('OAUTH_ERROR: ' + error.message);
+    // Log mais detalhado para facilitar depuração do erro retornado pela API do Google
+    console.error('[mailer] Erro ao obter access token:', error && error.message ? error.message : error);
+    // Se houver resposta da API (axios/gaxios), exiba o body para ver detalhes (ex.: { error: 'invalid_grant' })
+    try {
+      if (error && error.response && error.response.data) {
+        console.error('[mailer] Detalhes da resposta do provedor OAuth:', JSON.stringify(error.response.data, null, 2));
+      } else if (error && error.originalError && error.originalError.response && error.originalError.response.data) {
+        console.error('[mailer] Detalhes (originalError):', JSON.stringify(error.originalError.response.data, null, 2));
+      } else {
+        console.error('[mailer] Erro completo:', error);
+      }
+    } catch (logErr) {
+      console.error('[mailer] Falha ao tentar fazer log detalhado do erro:', logErr);
+    }
+
+    const err = new Error('OAUTH_ERROR: ' + (error && error.message ? error.message : 'unknown'));
     err.code = 'OAUTH_ERROR';
     err.originalError = error;
     throw err;

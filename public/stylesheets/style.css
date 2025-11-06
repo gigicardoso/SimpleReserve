@@ -622,8 +622,9 @@ input[type="checkbox"] {
 
 .btn-cadastrar {
   border-radius: 10px !important;
-  padding-left: 32px;
-  padding-right: 32px;
+  /*padding-left: 32px;*/
+  padding-right: 155px;
+  white-space: nowrap;
 }
 
 /* ----------- Painel de Controle (gerenciadorAdm) ----------- */
